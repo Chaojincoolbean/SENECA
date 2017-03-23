@@ -11,6 +11,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 
 	public const string SCROLLWHEEL = "Mouse ScrollWheel";		//	Name reference to the scroll wheel axis
 	public const string ASTRID = "Astrid";
+	public const string HARTO_CANVAS = "HARTOCanvas";
 
 	public KeyCode toggleHARTO = KeyCode.Tab;
 	public bool canUseHARTO;
@@ -52,7 +53,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 		isHARTOActive = false;
 		alphaChannelHARTO = 0;
 
-		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		canvas = GameObject.Find(HARTO_CANVAS).GetComponent<Canvas>();
 		topicSelected = false;
 		selectionArea = GameObject.Find("SelectionArea").GetComponent<Image>();
 		selectionAreaWidth = selectionArea.sprite.bounds.extents.x * 1.5f;
