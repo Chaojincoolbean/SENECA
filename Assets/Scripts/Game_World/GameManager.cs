@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Mom = Instantiate(Resources.Load("Prefabs/Mom", typeof(GameObject))) as GameObject;
+		Mom = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
 
 		Mom.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
 

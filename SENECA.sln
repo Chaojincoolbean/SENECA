@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SENECA", "Assembly-CSharp-firstpass.csproj", "{55A3B2AB-3C79-AA28-DF84-321C9B0C6DFB}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SENECA", "Assembly-CSharp.csproj", "{FE3AC86D-C501-E42B-93A0-D349EB1057BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SENECA", "Assembly-CSharp-Editor-firstpass.csproj", "{2EE8ABF7-FFC6-C51A-F421-4BCBE56DAA24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55A3B2AB-3C79-AA28-DF84-321C9B0C6DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A3B2AB-3C79-AA28-DF84-321C9B0C6DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A3B2AB-3C79-AA28-DF84-321C9B0C6DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A3B2AB-3C79-AA28-DF84-321C9B0C6DFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE3AC86D-C501-E42B-93A0-D349EB1057BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE3AC86D-C501-E42B-93A0-D349EB1057BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE3AC86D-C501-E42B-93A0-D349EB1057BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE3AC86D-C501-E42B-93A0-D349EB1057BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE8ABF7-FFC6-C51A-F421-4BCBE56DAA24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE8ABF7-FFC6-C51A-F421-4BCBE56DAA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE8ABF7-FFC6-C51A-F421-4BCBE56DAA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE8ABF7-FFC6-C51A-F421-4BCBE56DAA24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

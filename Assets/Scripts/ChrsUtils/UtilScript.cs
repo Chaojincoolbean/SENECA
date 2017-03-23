@@ -2,12 +2,13 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
-using SimpleJSON;
+//using SimpleJSON;
 
 //UtilScript uses a collection of static functions
 //to make programming more convinent in Unity.
 //You can think of it as a very basic version of a
 //library, like UnityEngine or System.
+/* 
 public class UtilScript : MonoBehaviour {
 
 	/// <summary>
@@ -86,3 +87,4 @@ public class UtilScript : MonoBehaviour {
 			vec.z + zMod);
 	}
 }
+*/

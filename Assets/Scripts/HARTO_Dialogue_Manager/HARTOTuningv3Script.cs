@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GameEventManager;
-using GameEvents;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using ChrsUtils.ChrsEventSystem.GameEvents;
+using SenecaEvents;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class HARTOTuningv3Script : MonoBehaviour {
@@ -213,7 +214,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 			{
 				isHARTOActive = !isHARTOActive;
 				topicSelected = false;
-				GameEventManager.GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
+				GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			}
 
 			if (isHARTOActive) 

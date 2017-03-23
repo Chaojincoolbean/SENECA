@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameEvents;
-using GameEventManager;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using SenecaEvents;
 
 public class EventScript : MonoBehaviour 
 {
@@ -197,7 +197,8 @@ public class EventScript : MonoBehaviour
 			}
 			
 		}
-		GameEventManager.GameEventsManager.Instance.Fire(new EndDialogueEvent());
+
+		GameEventsManager.Instance.Fire(new EndDialogueEvent());
 		yield return null;
 	}
 }

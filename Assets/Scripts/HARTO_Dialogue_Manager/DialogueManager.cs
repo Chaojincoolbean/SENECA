@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameEventManager;
-using GameEvents;
+using SenecaEvents;
+using ChrsUtils.ChrsEventSystem.GameEvents;
+using ChrsUtils.ChrsEventSystem.EventsManager;
 
 public class DialogueManager : MonoBehaviour {
 
@@ -22,7 +23,7 @@ public class DialogueManager : MonoBehaviour {
 	public const string NPC_MOM = "NPC_Mom";
 	public const string NPC_MALI = "NPC_Mali";
 
-	private EmotionSelectedEvent.Handler onTopicSelected;
+	private TopicSelectedEvent.Handler onTopicSelected;
 
 	// Use this for initialization
 	void Start () 

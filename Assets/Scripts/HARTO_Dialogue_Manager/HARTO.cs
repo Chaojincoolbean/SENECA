@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameEventManager;
-using GameEvents;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using ChrsUtils.ChrsEventSystem.GameEvents;
+using SenecaEvents;
 
 
 public  enum  Emotions
