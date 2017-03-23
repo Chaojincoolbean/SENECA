@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviour {
 		x = Mom.gameObject.transform.position.x;
 		y = Mom.gameObject.transform.position.y;
 		Debug.Log ("x:"+x+"y"+y);
-
-
 	}
 	
 	// Update is called once per frame
