@@ -81,7 +81,6 @@
 -define:UNITY_EDITOR_OSX
 -define:CROSS_PLATFORM_INPUT
 'Assets/Scripts/Buffer_Shuffle/AudioController.cs'
-'Assets/Scripts/Buffer_Shuffle/AudioManager_prototype.cs'
 'Assets/Scripts/Buffer_Shuffle/BufferShuffler.cs'
 'Assets/Scripts/ChrsUtils/Camera/CameraFollow2D.cs'
 'Assets/Scripts/ChrsUtils/Camera/CameraShake.cs'
@@ -107,6 +106,7 @@
 'Assets/Scripts/HARTO_Dialogue_Manager/ResponseScript.cs'
 'Assets/Scripts/HARTO_Dialogue_Manager/VoiceOverLine.cs'
 'Assets/Scripts/Player/Player.cs'
+'Assets/Scripts/UTAN_Puzzle/AudioManager_prototype.cs'
 'Assets/Scripts/UTAN_Puzzle/DrawLine.cs'
 'Assets/Scripts/UTAN_Puzzle/HARTONode.cs'
 'Assets/Scripts/UTAN_Puzzle/dotsCircuit.cs'

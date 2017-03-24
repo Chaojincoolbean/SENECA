@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Buffer_Shuffle\AudioController.cs" />
-     <Compile Include="Assets\Scripts\Buffer_Shuffle\AudioManager_prototype.cs" />
      <Compile Include="Assets\Scripts\Buffer_Shuffle\BufferShuffler.cs" />
      <Compile Include="Assets\Scripts\ChrsUtils\Camera\CameraFollow2D.cs" />
      <Compile Include="Assets\Scripts\ChrsUtils\Camera\CameraShake.cs" />
@@ -73,6 +72,7 @@
      <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\ResponseScript.cs" />
      <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\VoiceOverLine.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Scripts\UTAN_Puzzle\AudioManager_prototype.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\DrawLine.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\HARTONode.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\dotsCircuit.cs" />

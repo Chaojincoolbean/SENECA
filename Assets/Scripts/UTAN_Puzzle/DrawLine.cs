@@ -27,7 +27,7 @@ public class DrawLine : MonoBehaviour
 	public bool drawingLine;									//	Returns true if you are drawing a line
 	public Vector3 origin;										//	Origin point for the line
 	public Vector3 destination;									//	Where the line ends up
-	public GameObject thisLine;									//	Literally this line
+	public GameObject thisLine;									//	Literally this line. Assign "DrawLine" component to this in the inspector
 	//public GameObject newLine;									//	The next line to be drawn
 
 	//	Private Variables
@@ -121,6 +121,7 @@ public class DrawLine : MonoBehaviour
 
 			if (puzzleToggle) { //color
 				//	Connects mose position on screen to game screen
+
 				hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
 				//	If the mouse ray collides with something go into this if-statement
