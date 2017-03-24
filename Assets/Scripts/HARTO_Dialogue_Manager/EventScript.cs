@@ -61,7 +61,6 @@ public class EventScript : MonoBehaviour
 			{
 				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == PLAYER_ASTRID + "_" + GIBBERISH)
 				{
-					Debug.Log("Hit! " + myCharacters[i].name);
 					totalResponses += myCharacters[i].transform.childCount;
 				}
 			}

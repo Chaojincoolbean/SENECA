@@ -19,6 +19,7 @@ public class VoiceOverLine : MonoBehaviour
 	{
 		if (Resources.Load<AudioClip>("Audio/VO/" + npcName + "/" + dialogueType + "/" + filename + "_" + dialogueType + "_" + emotionalResponse) == null)
 		{
+			// Play empty audio here
 			Debug.Log("Resource Not Found Error: " + "Audio/VO/" + npcName + "/" + dialogueType + "/" + filename + "_" + dialogueType + "_" + emotionalResponse + " not found!");
 		}
 

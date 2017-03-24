@@ -9,9 +9,9 @@ namespace SenecaEvents
     public class TopicSelectedEvent : GameEvent
     {
         public readonly HARTOTuningv3Script hartoTopic;
-        public readonly FirstPersonController player;
+        public readonly Player player;
 
-        public TopicSelectedEvent(HARTOTuningv3Script hartoTopic, FirstPersonController player) 
+        public TopicSelectedEvent(HARTOTuningv3Script hartoTopic, Player player) 
 	    {
             this.hartoTopic = hartoTopic;
             this.player = player;

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Seneca/Forest1.unity
+- path: Assets/Scenes/Prototype/LineDrawPrototype.unity
   isLoaded: 1
   isActive: 1

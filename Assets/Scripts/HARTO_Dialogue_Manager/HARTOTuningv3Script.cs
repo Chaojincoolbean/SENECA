@@ -39,7 +39,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	float rotateHARTO;
 
 	[SerializeField]
-	private FirstPersonController player;
+	private Player player;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onEndDialogueEvent;
 	public Color transparent = new Color(1.0f, 1.0f, 1.0f);
@@ -77,7 +77,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 		onEndDialogueEvent = new EndDialogueEvent.Handler(OnEndDialogueEvent);
 		GameEventsManager.Instance.Register<EndDialogueEvent>(onEndDialogueEvent);
 
-		player = GameObject.Find(ASTRID).GetComponent<FirstPersonController>();
+		player = GameObject.Find(ASTRID).GetComponent<Player>();
 	}
 
 

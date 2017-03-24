@@ -31,8 +31,8 @@ public class DrawLine : MonoBehaviour
 	//public GameObject newLine;									//	The next line to be drawn
 
 	//	Private Variables
-	private RaycastHit hit;										//	For cursour detection on HARTONODES
-	private Ray ray;											//	For cursor detection on HARTONODES
+	private RaycastHit2D hit;										//	For cursour detection on HARTONODES
+	private Ray2D ray;											//	For cursor detection on HARTONODES
 	private LineRenderer lineRenderer;							//	Reference to Line Renderer
 
 	private List<GameObject> lines; //list that holds the GameObjects with LineRenderer
@@ -121,10 +121,10 @@ public class DrawLine : MonoBehaviour
 
 			if (puzzleToggle) { //color
 				//	Connects mose position on screen to game screen
-				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
 				//	If the mouse ray collides with something go into this if-statement
-				if (Physics.Raycast (ray, out hit)) {
+				if (hit.collider != null) {
 					//	If it collides with a HARTONODE go into this if-statement
 					//	Waits for player to left click [INITIAL]
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
@@ -143,7 +143,7 @@ public class DrawLine : MonoBehaviour
 
 				//	Keep left mouse button down to keep drawing. 
 				if (Input.GetKey (KeyCode.Mouse0) && drawingLine) {			
-					if (Physics.Raycast (ray, out hit)) {
+					if (hit.collider != null) {
 						if (hit.collider.tag == HARTO_NODE) {
 							if (hit.collider.transform.gameObject.GetInstanceID () != usedNodes [usedNodes.Count - 1].GetInstanceID ()) {
 
@@ -177,10 +177,10 @@ public class DrawLine : MonoBehaviour
 				}
 			} else { //music puzzle
 				//	Connects mose position on screen to game screen
-				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
 				//	If the mouse ray collides with something go into this if-statement
-				if (Physics.Raycast (ray, out hit)) {
+				if (hit.collider != null) {
 					if (hit.collider.tag == HARTO_NODE) {
 						if (Input.GetKeyDown (KeyCode.Mouse0)) {
 							
@@ -218,7 +218,7 @@ public class DrawLine : MonoBehaviour
 
 				//	Keep left mouse button down to keep drawing. 
 				if (Input.GetKey (KeyCode.Mouse0) && drawingLine) {			
-					if (Physics.Raycast (ray, out hit)) {
+					if (hit.collider != null) {
 						if (hit.collider.tag == HARTO_NODE) {
 							if (!usedNodes.Contains (hit.collider.transform.gameObject)) {
 								usedNodes.Add (hit.collider.transform.gameObject);

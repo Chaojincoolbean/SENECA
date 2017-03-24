@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+	public const string NPC = "NPC";
+	public Collider2D npcAstridIsTalkingTo;
 	float x;
 	float y;
 
@@ -33,5 +35,14 @@ public class Player : MonoBehaviour {
 		}
 
 		this.gameObject.transform.position = new Vector3 (x, y, 0);
+	}
+
+	void OnTriggerEnter2D(Collider2D other) {
+
+		if (other.gameObject.tag.Contains(NPC))
+		{
+			npcAstridIsTalkingTo = other;
+		}
+		
 	}
 }
