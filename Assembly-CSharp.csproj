@@ -71,6 +71,8 @@
      <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\PrototypeScript.cs" />
      <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\ResponseScript.cs" />
      <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\VoiceOverLine.cs" />
+     <Compile Include="Assets\Scripts\HARTO_Recording_Manager\RecordingManager.cs" />
+     <Compile Include="Assets\Scripts\HARTO_Recording_Manager\RecordingScript.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\AudioManager_prototype.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\DrawLine.cs" />

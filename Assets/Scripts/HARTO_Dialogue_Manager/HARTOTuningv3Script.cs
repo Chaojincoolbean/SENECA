@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
-using UnityStandardAssets.Characters.FirstPerson;
 
 public class HARTOTuningv3Script : MonoBehaviour {
 
@@ -14,9 +13,12 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	public const string HARTO_CANVAS = "HARTOCanvas";
 
 	public KeyCode toggleHARTO = KeyCode.Tab;
+	public KeyCode toggleRecordMode = KeyCode.BackQuote;
 	public bool canUseHARTO;
 	public bool isHARTOActive;
 	public bool topicSelected;
+	public bool recordingModeActive;
+	public bool recordingFolderSelected;
 	public float alphaChannelHARTO;
 	public float deltaAlpha = 2.0f;							//	How much we increment/decrement the alpha channel of HARTO GameObject
 
@@ -25,6 +27,8 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	public Image uiHARTO;
 	public GameObject topicWheel;
 	public GameObject emotionWheel;
+	public GameObject recordingsWheel;
+	public GameObject myRecordings;
 	
 	public bool inConversation;
 	public Canvas canvas;
@@ -32,16 +36,28 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	public Icon currentTopic;
 	public Icon[] emotionWheelIcons;
 	public Icon[] topicWheelIcons;
+	public Icon[] recordingsWheelIcons;
+	public Icon[] myRecordingsWheelIcons;
 	public EmotionIcon[] emotionIcons;
 	public Image selectionArea;
 	public Image displayImage;
 	public Image displayIcon;
 	float rotateHARTO;
 
+	public string recordingFolder;
+
 	[SerializeField]
 	private Player player;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onEndDialogueEvent;
+
+	private delegate void RotateUI(float rotation);
+	private delegate void SelectIcon();
+
+	RotateUI CurrentUI;
+	SelectIcon Select;
+
+	private RecordingModeToggledEvent.Handler onRecordingModeToggled;
 	public Color transparent = new Color(1.0f, 1.0f, 1.0f);
 	public Color selectionAreaColor;
 	// Use this for initialization
@@ -71,13 +87,25 @@ public class HARTOTuningv3Script : MonoBehaviour {
 		emotionWheelIcons = emotionWheel.GetComponentsInChildren<Icon>();
 		emotionIcons = emotionWheel.GetComponentsInChildren<EmotionIcon>();
 
+		recordingsWheel = GameObject.Find("RecordingsWheelUI");
+		recordingsWheelIcons = recordingsWheel.GetComponentsInChildren<Icon>();
+
+		myRecordings = GameObject.Find("MyRecordingsWheel");
+		myRecordingsWheelIcons = myRecordings.GetComponentsInChildren<Icon>();
+
 		onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
 		GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
 
 		onEndDialogueEvent = new EndDialogueEvent.Handler(OnEndDialogueEvent);
 		GameEventsManager.Instance.Register<EndDialogueEvent>(onEndDialogueEvent);
 
+		onRecordingModeToggled = new RecordingModeToggledEvent.Handler(OnRecordingModeToggled);
+		GameEventsManager.Instance.Register<RecordingModeToggledEvent>(onRecordingModeToggled);
+
 		player = GameObject.Find(ASTRID).GetComponent<Player>();
+
+		CurrentUI = RotateRecordingsWheel;
+		Select = SelectRecordingIcon;
 	}
 
 
@@ -89,6 +117,22 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	private void OnEndDialogueEvent(GameEvent e)
 	{
 		inConversation = false;
+	}
+
+	private void OnRecordingModeToggled(GameEvent e)
+	{
+		recordingModeActive = !recordingModeActive;
+		//	Some UI change here
+		if (recordingModeActive)
+		{
+			CurrentUI = RotateRecordingsWheel;
+			Select = SelectRecordingIcon;
+		}
+		else
+		{
+			CurrentUI = RotateDialogueWheel;
+			Select = SelectDialougeIcon;
+		}
 	}
 
 	void FadeHARTO(float alpha)
@@ -106,7 +150,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 																alpha * Icon.alphaLimit);
 			}
 
-			if (!topicSelected)
+			if (!topicSelected || recordingModeActive)
 			{
 				emotionWheelIcons[i].myIcon.color =  new Color(emotionWheelIcons[i].myIcon.color.r,
 																emotionWheelIcons[i].myIcon.color.g,
@@ -122,11 +166,48 @@ public class HARTOTuningv3Script : MonoBehaviour {
 													 		topicWheelIcons[i].myIcon.color.g,
 															topicWheelIcons[i].myIcon.color.b,
 															alpha * Icon.alphaLimit);
-			if (topicSelected)
+			if (topicSelected || recordingModeActive)
 			{
 				topicWheelIcons[i].myIcon.color = new Color(topicWheelIcons[i].myIcon.color.r,
 													 		topicWheelIcons[i].myIcon.color.g,
 															topicWheelIcons[i].myIcon.color.b,
+															alpha * 0);
+			}
+
+
+		}
+
+		for (int i = 0; i < myRecordingsWheelIcons.Length; i++)
+		{
+			if (!myRecordingsWheelIcons[i].selected)
+			{
+				myRecordingsWheelIcons[i].myIcon.color =  new Color(myRecordingsWheelIcons[i].myIcon.color.r,
+																myRecordingsWheelIcons[i].myIcon.color.g,
+																myRecordingsWheelIcons[i].myIcon.color.b,
+																alpha * Icon.alphaLimit);
+			}
+
+			if (!recordingFolderSelected || !recordingModeActive)
+			{
+				myRecordingsWheelIcons[i].myIcon.color =  new Color(myRecordingsWheelIcons[i].myIcon.color.r,
+																myRecordingsWheelIcons[i].myIcon.color.g,
+																myRecordingsWheelIcons[i].myIcon.color.b,
+																0 * Icon.alphaLimit);
+			}
+		}
+
+		for (int i = 0; i < recordingsWheelIcons.Length; i++)
+		{
+	
+			recordingsWheelIcons[i].myIcon.color = new Color(recordingsWheelIcons[i].myIcon.color.r,
+													 		recordingsWheelIcons[i].myIcon.color.g,
+															recordingsWheelIcons[i].myIcon.color.b,
+															alpha * Icon.alphaLimit);
+			if (recordingFolderSelected || !recordingModeActive)
+			{
+				recordingsWheelIcons[i].myIcon.color = new Color(recordingsWheelIcons[i].myIcon.color.r,
+													 		recordingsWheelIcons[i].myIcon.color.g,
+															recordingsWheelIcons[i].myIcon.color.b,
 															alpha * 0);
 			}
 
@@ -148,10 +229,10 @@ public class HARTOTuningv3Script : MonoBehaviour {
     /*		param: float z - the value taken from the scroll wheel input					*/
 	/*																						*/
     /*--------------------------------------------------------------------------------------*/
-	void RotateEmotionWheel(float z, bool topicHasBeenSelected)
+	void RotateDialogueWheel(float z)
 	{
 		//	Where the rotation magic happens
-		if (!topicHasBeenSelected)
+		if (!topicSelected)
 		{
 			topicWheel.transform.rotation = Quaternion.Euler(topicWheel.transform.rotation.x, topicWheel.transform.rotation.y, z * rotationSpeed);
 		}
@@ -161,10 +242,23 @@ public class HARTOTuningv3Script : MonoBehaviour {
 		}
 	}
 
-	void SelectIcon(bool topicHasBeenSelected)
+	void RotateRecordingsWheel(float z)
+	{
+		//	Where the rotation magic happens
+		if (!recordingFolderSelected)
+		{
+			recordingsWheel.transform.rotation = Quaternion.Euler(recordingsWheel.transform.rotation.x, recordingsWheel.transform.rotation.y, z * rotationSpeed);
+		}
+		else
+		{
+			myRecordings.transform.rotation = Quaternion.Euler(myRecordings.transform.rotation.x, myRecordings.transform.rotation.y, z * rotationSpeed);
+		}
+	}
+
+	void SelectDialougeIcon()
 	{
 		Icon[] myIconArray;
-		if (topicHasBeenSelected)
+		if (topicSelected)
 		{
 			
 			myIconArray = emotionIcons;
@@ -180,9 +274,10 @@ public class HARTOTuningv3Script : MonoBehaviour {
 				myIconArray[i].transform.position.x > selectionArea.transform.position.x - selectionAreaWidth)
 			{
 				displayIcon.sprite = myIconArray[i].myIcon.sprite;
+				//	Replace these if statements with Events and delegates!!!
 				if(Input.GetKeyDown(KeyCode.Mouse0))
 				{
-					if (topicHasBeenSelected)
+					if (topicSelected)
 					{
 						currentEmotion = ((EmotionIcon)myIconArray[i]).emotion;
 						myIconArray[i].selected = true;
@@ -206,24 +301,77 @@ public class HARTOTuningv3Script : MonoBehaviour {
 		}
 	}
 
+	void SelectRecordingIcon()
+	{
+		Icon[] myIconArray;
+		if (recordingFolderSelected)
+		{
+			
+			myIconArray = myRecordingsWheelIcons;
+		}
+		else
+		{
+			myIconArray = recordingsWheelIcons;
+		}
+
+		for (int i = 0; i < myIconArray.Length; i++)
+		{		
+			if (myIconArray[i].transform.position.x < selectionArea.transform.position.x + selectionAreaWidth &&
+				myIconArray[i].transform.position.x > selectionArea.transform.position.x - selectionAreaWidth)
+			{
+				displayIcon.sprite = myIconArray[i].myIcon.sprite;
+				//	Replace these if statements with Events and delegates!!!
+				if(Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					if (recordingFolderSelected)
+					{
+						currentTopic = myIconArray[i];
+						myIconArray[i].selected = true;
+						//GameEventsManager.Instance.Fire(new RecordingFolderSelectedEvent(currentTopic.name));
+						recordingFolder = currentTopic.name;
+					}
+					else
+					{
+						currentTopic = myIconArray[i];
+						myIconArray[i].selected = true;
+						recordingFolderSelected = true;
+						GameEventsManager.Instance.Fire(new RecordingSelectedEvent(recordingFolder, currentTopic.name));
+					}
+				}
+			}
+			else
+			{
+				displayIcon.color = transparent;
+				myIconArray[i].myIcon.color = Icon.inactiveColor;
+				myIconArray[i].selected = false;
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
+		if(Input.GetKeyDown(toggleRecordMode))
+		{
+			GameEventsManager.Instance.Fire(new RecordingModeToggledEvent());
+		}
+
 		if (canUseHARTO)
 		{
 			if (Input.GetKeyDown(toggleHARTO) && !inConversation)
 			{
 				isHARTOActive = !isHARTOActive;
 				topicSelected = false;
+				recordingFolderSelected = false;
 				GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			}
 
 			if (isHARTOActive) 
 			{
-				SelectIcon(topicSelected);
+				Select();
 
 				rotateHARTO = rotateHARTO +  Input.GetAxis (SCROLLWHEEL) * Time.deltaTime;
-				RotateEmotionWheel(rotateHARTO, topicSelected);
+				CurrentUI(rotateHARTO);
 
 				alphaChannelHARTO += deltaAlpha * Time.deltaTime;
 				if (alphaChannelHARTO > 1.0f) 

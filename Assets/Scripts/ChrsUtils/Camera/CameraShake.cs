@@ -8,8 +8,13 @@ namespace ChrsUtils
 		/*--------------------------------------------------------------------------------------*/
 		/*																						*/
 		/*	CameraShake: Shakes the camera.														*/
-		/*			NOTE: Attached to GameMaster												*/
+		/*			HOW TO SET UP:																*/
+		/*				+	Create an empty GameObject.											*/
+		/*				+	Tag the newly created empty GameObject with "Camera"				*/
+		/*				+	Set MainCamera to be a child of the newly created GameObject		*/
 		/*																						*/
+		/*			HOW TO USE:																	*/
+		/*				+	CameraShake.CameraShakeEffect.Shake(0.1f, 0.25f);					*/
 		/*																						*/
 		/*		Functions:																		*/
 		/*			Start ()																	*/
@@ -30,8 +35,6 @@ namespace ChrsUtils
 
 			//	Public Variables
 			public Camera mainCamera; 									//	Refernce to Main camera
-			public GameObject target;									//	Reference to target
-			public const string TAG_TARGET = "Player";					//	Target Taget
 			public float shakeAmount = 0;								//	How violent the shake is
 
 			/*--------------------------------------------------------------------------------------*/
@@ -50,8 +53,6 @@ namespace ChrsUtils
 				{
 					CameraShakeEffect = GameObject.FindGameObjectWithTag ("Camera").GetComponent<CameraShake> ();
 				}
-
-				target = GameObject.FindGameObjectWithTag(TAG_TARGET);
 			}
 
 			/*--------------------------------------------------------------------------------------*/
@@ -96,7 +97,6 @@ namespace ChrsUtils
 			{
 				CancelInvoke ("DoShake");
 				mainCamera.transform.localPosition = new Vector3(EndShakePosition.x, EndShakePosition.y, EndShakePosition.z);
-
 			}		
 		}
 	}

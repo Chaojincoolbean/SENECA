@@ -50,4 +50,32 @@ namespace SenecaEvents
             this.hartoEmotion = hartoEmotion;
         }
     }
+
+    public class RecordingModeToggledEvent : GameEvent
+    {
+        public RecordingModeToggledEvent()
+        {
+
+        }
+    }
+
+    public class RecordingFolderSelectedEvent : GameEvent
+    {
+        public readonly string folder;
+        public RecordingFolderSelectedEvent(string selectedFolder)
+        {
+            folder = selectedFolder;
+        }
+    }
+
+    public class RecordingSelectedEvent : GameEvent
+    {
+        public readonly string folder;
+        public readonly string recording;
+        public RecordingSelectedEvent(string character, string thisRecording)
+        {
+            folder = character;
+            recording = thisRecording;
+        }
+    }
 }
