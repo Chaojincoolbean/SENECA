@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/TestScenes/DialougeTestScene.unity
+- path: Assets/Scenes/Seneca/Forest2.unity
   isLoaded: 1
   isActive: 1
