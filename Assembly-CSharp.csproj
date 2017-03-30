@@ -90,6 +90,7 @@
      <Compile Include="Assets\Scripts\UTAN_Puzzle\dotsCircuit.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\lineDrawer.cs" />
      <Compile Include="Assets\witchlightmanager.cs" />
+     <Compile Include="Assets\witchlightmanager1.cs" />
      <None Include="Assets\Resources\Audio\Music\empty.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

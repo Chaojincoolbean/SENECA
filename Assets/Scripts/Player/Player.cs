@@ -43,6 +43,12 @@ public class Player : MonoBehaviour {
 		{
 			npcAstridIsTalkingTo = other;
 		}
+
+		if (other.gameObject.name == "witchlight") {
+			Debug.Log ("touch");
+		}
 		
 	}
+
+
 }
