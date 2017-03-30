@@ -127,6 +127,7 @@ public class EventScript : MonoBehaviour
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO);
 				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 				waitingForEmotionalInput = false;
+				astridHARTO.CurrentEmotion = Emotions.None;
 			}
 			else
 			{

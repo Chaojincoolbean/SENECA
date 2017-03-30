@@ -281,14 +281,14 @@ public class HARTOTuningv3Script : MonoBehaviour {
 					{
 						currentEmotion = ((EmotionIcon)myIconArray[i]).emotion;
 						myIconArray[i].selected = true;
-						GameEventsManager.Instance.Fire(new EmotionSelectedEvent(this));
+						//GameEventsManager.Instance.Fire(new EmotionSelectedEvent(this));
 					}
 					else
 					{
 						currentTopic = myIconArray[i];
 						myIconArray[i].selected = true;
 						topicSelected = true;
-						GameEventsManager.Instance.Fire(new TopicSelectedEvent(this, player));
+						//GameEventsManager.Instance.Fire(new TopicSelectedEvent(this, player));
 					}
 				}
 			}
@@ -327,7 +327,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 					{
 						currentTopic = myIconArray[i];
 						myIconArray[i].selected = true;
-						//GameEventsManager.Instance.Fire(new RecordingFolderSelectedEvent(currentTopic.name));
+						GameEventsManager.Instance.Fire(new RecordingFolderSelectedEvent(currentTopic.name));
 						recordingFolder = currentTopic.name;
 					}
 					else
@@ -335,7 +335,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 						currentTopic = myIconArray[i];
 						myIconArray[i].selected = true;
 						recordingFolderSelected = true;
-						GameEventsManager.Instance.Fire(new RecordingSelectedEvent(recordingFolder, currentTopic.name));
+						//GameEventsManager.Instance.Fire(new RecordingSelectedEvent(recordingFolder, currentTopic.name));
 					}
 				}
 			}

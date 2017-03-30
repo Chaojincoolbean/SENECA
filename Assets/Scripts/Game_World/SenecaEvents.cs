@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ChrsUtils.ChrsEventSystem.GameEvents;
-using UnityStandardAssets.Characters.FirstPerson;
 
 namespace SenecaEvents
 {
     public class TopicSelectedEvent : GameEvent
     {
         public readonly HARTOTuningv3Script hartoTopic;
+        public readonly string topicName;
         public readonly Player player;
 
-        public TopicSelectedEvent(HARTOTuningv3Script hartoTopic, Player player) 
+        public TopicSelectedEvent(string hartoTopic, Player player) 
 	    {
-            this.hartoTopic = hartoTopic;
+            topicName = hartoTopic;
             this.player = player;
         }
     }
@@ -44,10 +44,12 @@ namespace SenecaEvents
     public class EmotionSelectedEvent : GameEvent
     {
         public readonly HARTOTuningv3Script hartoEmotion;
+        public readonly Emotions emotion;
 
-        public EmotionSelectedEvent(HARTOTuningv3Script hartoEmotion) 
+        public EmotionSelectedEvent(Emotions currentEmotion) 
 	    {
-            this.hartoEmotion = hartoEmotion;
+            //this.hartoEmotion = hartoEmotion;
+            emotion = currentEmotion;
         }
     }
 
@@ -70,11 +72,9 @@ namespace SenecaEvents
 
     public class RecordingSelectedEvent : GameEvent
     {
-        public readonly string folder;
         public readonly string recording;
-        public RecordingSelectedEvent(string character, string thisRecording)
+        public RecordingSelectedEvent(string thisRecording)
         {
-            folder = character;
             recording = thisRecording;
         }
     }

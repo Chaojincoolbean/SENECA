@@ -23,6 +23,10 @@ public class HARTO : MonoBehaviour
 		{
 			return emotion;
 		}
+		set
+		{
+			emotion = value;
+		}
 	}
 
 	private EmotionSelectedEvent.Handler onEmotionSelected;
@@ -35,7 +39,7 @@ public class HARTO : MonoBehaviour
 	
 	void OnEmotionSelected(GameEvent e)
 	{
-		 emotion = ((EmotionSelectedEvent)e).hartoEmotion.currentEmotion;
+		 emotion = ((EmotionSelectedEvent)e).emotion;
 	}
 	
 	// Update is called once per frame

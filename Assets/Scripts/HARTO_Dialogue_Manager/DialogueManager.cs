@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour {
 	
 	public HARTO astridHARTO;
 	public EventScript[] Events;
-	private int RelationLevel;
+	private int RelationLevel; 
 
 	public const string EVENT_PREFIX = "Event_";
 	public const string EVENT_ASTRID_TALKS_FIRST = "@";
@@ -24,16 +24,14 @@ public class DialogueManager : MonoBehaviour {
 	public const string NPC_MALI = "NPC_Mali";
 
 	private TopicSelectedEvent.Handler onTopicSelected;
-	private RecordingSelectedEvent.Handler onRecordingSelected;
 
 	// Use this for initialization
 	void Start () 
 	{
 		onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
-		onRecordingSelected = new RecordingSelectedEvent.Handler(OnRecordingSelected);
 
 		GameEventsManager.Instance.Register<TopicSelectedEvent>(onTopicSelected);
-		GameEventsManager.Instance.Register<RecordingSelectedEvent>(onRecordingSelected);
+
 	}
 
 	void OnTopicSelected(GameEvent e)
@@ -65,24 +63,5 @@ public class DialogueManager : MonoBehaviour {
 			EventScript thisEvent = GameObject.Find(topic).GetComponent<EventScript>();
 			thisEvent.InitResponseScriptWith(npcName);
 		}
-	}
-
-	void OnRecordingSelected(GameEvent e)
-	{
-		string folder = ((RecordingSelectedEvent)e).folder;
-		string recording = ((RecordingSelectedEvent)e).recording;
-
-		InitPlayRecordingEvent(folder, recording);
-	}
-
-	void InitPlayRecordingEvent (string recordingFolder, string recordingName)
-	{
-		//	After folder has been selected and recording pick play the recording
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
 	}
 }
