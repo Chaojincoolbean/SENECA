@@ -36,7 +36,7 @@ public class RadialMenu : MonoBehaviour
 		emptyAreaSprite = selectionArea.sprite;
 	}
 
-	public void SpawnIcons (Interactable obj, bool topicSelected) 
+	public void SpawnIcons (HARTO_UI_Interface obj, bool topicSelected) 
 	{
 		RadialIcon newRadialIcon;
 		for (int i = 0 ; i < obj.options.Length; i++)

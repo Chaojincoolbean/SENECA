@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class ToggleDialogueMode : MonoBehaviour 
 {
-	public Interactable ui;
+	public HARTO_UI_Interface ui;
 	public Button thisButton;
 	// Use this for initialization
 	void Start () 
 	{
-		ui = GameObject.Find("HARTO_UI_Interface").GetComponent<Interactable>();
+		ui = GameObject.Find("HARTO_UI_Interface").GetComponent<HARTO_UI_Interface>();
 		thisButton = GetComponent<Button>();
 		thisButton.onClick.AddListener(TaskOnClick);	
 	}
