@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public static GameManager instance;
+
+	public const string RECORDING_MANAGER = "RecordingManager";
+
+	public RecordingManager recordingManager;
 	public GameObject Player;
 	public GameObject Mom;
 	float x;
@@ -12,6 +17,18 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		if (instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(this.gameObject);
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+
+		recordingManager = GameObject.Find(RECORDING_MANAGER).GetComponent<RecordingManager>();
 		
 		Mom = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
 
@@ -23,6 +40,8 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		
 
 //		if (x < Player.gameObject.transform.position.x - 1f) {
 //

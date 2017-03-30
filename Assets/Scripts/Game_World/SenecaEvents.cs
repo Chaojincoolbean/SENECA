@@ -78,4 +78,12 @@ namespace SenecaEvents
             recording = thisRecording;
         }
     }
+
+    public class RecordingIsOverEvent : GameEvent
+    {
+        public RecordingIsOverEvent()
+        {
+            
+        }
+    }
 }
