@@ -58,7 +58,7 @@ public class BufferShuffler : MonoBehaviour
         AudioSettings.GetDSPBufferSize(out _dspSize, out _qSize);
         _outputSampleRate = AudioSettings.outputSampleRate;
         LoadNewClip(ClipToShuffle);
-		//StartCoroutine (PlaySound ());
+		StartCoroutine (PlaySound ());
     }
 
     public void SetSecondsPerShuffle(float secondsPerShuffle)
@@ -151,6 +151,11 @@ public class BufferShuffler : MonoBehaviour
             _currentShuffleBuffer = _buffersPerShuffle;
             _shuffleCounter = 0;
             int maxEndIndex = (_clipLengthSamples-((_bufferSize*_currentShuffleBuffer) + _crossFadeSamples))/_clipChannels;
+            Debug.Log("Max End Index: " + maxEndIndex);
+            Debug.Log("BufferSize: " + _bufferSize);
+            Debug.Log("Current Shuffle Buffer: " + _currentShuffleBuffer);
+            Debug.Log("Clip Length Samples: " + _clipLengthSamples);
+            Debug.Log("Cross Fade Samples: " + _crossFadeSamples);
             _startIndex = _randomGenerator.Next(_crossFadeSamples, maxEndIndex-1);
             _startIndex = _startIndex - _crossFadeSamples;
             _firstShuffle = true;
