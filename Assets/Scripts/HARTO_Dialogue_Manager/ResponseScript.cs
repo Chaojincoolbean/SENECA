@@ -17,27 +17,28 @@ public class ResponseScript : MonoBehaviour {
 
 	protected const string HARTO = "HARTO";
 	protected const string GIBBERISH = "Gibberish";
+	private const string BROCA_PARTICLES = "BrocaParticles";
 
 	// Use this for initialization
 	protected void Start () 
 	{
-		characterAudioSource = transform.parent.parent.GetComponent<AudioSource>();
-		gibberishAudioSource = GetComponentInParent<AudioSource>();
-		characterName = transform.parent.parent.name;
+		characterAudioSource = transform.parent.GetComponent<AudioSource>();
+		gibberishAudioSource = GameObject.Find(BROCA_PARTICLES).GetComponentInParent<AudioSource>();
+		characterName = transform.parent.name;
 		myLine = GetComponentInChildren<VoiceOverLine>();
 	}
 
-	virtual public void PlayLine(string dialogueType)
+	virtual public void PlayLine(string dialogueType, string scene, string topic)
 	{
 		if (dialogueType == HARTO)
 		{
-			characterAudioSource.PlayOneShot(myLine.LoadAudioClip(characterName, dialogueType, transform.name), volume);
-			elapsedHARTOSeconds = myLine.LoadAudioClip(characterName, dialogueType, transform.name).length;
+			characterAudioSource.PlayOneShot(myLine.LoadAudioClip(characterName, scene, topic, transform.name), volume);
+			elapsedHARTOSeconds = myLine.LoadAudioClip(characterName, scene, topic,transform.name).length;
 		}
 		else if (dialogueType == GIBBERISH)
 		{
-			gibberishAudioSource.PlayOneShot(myLine.LoadGibberishAudio(characterName, dialogueType, transform.name), volume);
-			elapsedGibberishSeconds = myLine.LoadGibberishAudio(characterName, dialogueType, transform.name).length;
+			gibberishAudioSource.PlayOneShot(myLine.LoadGibberishAudio(characterName, scene, topic, transform.name), volume);
+			elapsedGibberishSeconds = myLine.LoadGibberishAudio(characterName, scene, topic, transform.name).length;
 		}
 	}
 

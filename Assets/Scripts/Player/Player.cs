@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	public const string NPC = "NPC";
-	public Collider2D npcAstridIsTalkingTo;
+	public string npcAstridIsTalkingTo;
 	float x;
 	float y;
 
@@ -39,9 +39,9 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 
-		if (other.gameObject.tag.Contains(NPC))
+		if (other.gameObject.tag == NPC)
 		{
-			npcAstridIsTalkingTo = other;
+			npcAstridIsTalkingTo = other.gameObject.name;
 		}
 
 		if (other.gameObject.name == "witchlight") {

@@ -7,14 +7,13 @@ namespace SenecaEvents
 {
     public class TopicSelectedEvent : GameEvent
     {
-        public readonly HARTOTuningv3Script hartoTopic;
         public readonly string topicName;
-        public readonly Player player;
+        public readonly string npcName;
 
-        public TopicSelectedEvent(string hartoTopic, Player player) 
+        public TopicSelectedEvent(string hartoTopic, string npc) 
 	    {
             topicName = hartoTopic;
-            this.player = player;
+            npcName = npc;
         }
     }
 

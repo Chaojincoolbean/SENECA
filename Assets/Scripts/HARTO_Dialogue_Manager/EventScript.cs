@@ -10,12 +10,15 @@ public class EventScript : MonoBehaviour
 	public bool canAcess;
 	public bool waitingForEmotionalInput;
 
-	public const string PLAYER_ASTRID = "Player_Astrid";
-	public const string VO = " VO";
+	public const string ASTRID = "Astrid";
+	public const string VO = "VO";
 	public const string ASTRID_TALKS_FIRST = "@";
 	public const string NO_EMOTION_SELECTED = "None";
 	public const string HARTO = "HARTO";
 	public const string GIBBERISH = "Gibberish";
+	public const string BROCA_PARTICLES = "BrocaParticles";
+	public string scene;
+	public string topicName;
 	public string characterSearchKey;
 	public int totalResponses;
 	public int astridLines;
@@ -24,7 +27,7 @@ public class EventScript : MonoBehaviour
 	public ResponseScript response;
 	public GameObject thisResponse;
 	public List<AudioSource> myCharacters;	
-
+	public AudioController gibberishPlayer;
 	public AudioSource[] thisEventsAudioSources;
 	private HARTO astridHARTO;
 	// Use this for initialization
@@ -33,15 +36,15 @@ public class EventScript : MonoBehaviour
 		thisEventsAudioSources = GetComponentsInChildren<AudioSource>();
 		for(int i = 0; i < thisEventsAudioSources.Length; i++)
 		{
-			if (thisEventsAudioSources[i].name.Contains(GIBBERISH))
-			{
-				myCharacters.Add(thisEventsAudioSources[i]);
-			}
+			myCharacters.Add(thisEventsAudioSources[i]);
 		}
 
 		astridHARTO = GameObject.FindGameObjectWithTag("HARTO").GetComponent<HARTO>();
 
-		
+		scene = transform.parent.name;
+		topicName = transform.name.Replace("Event_", "");
+
+		gibberishPlayer = GameObject.Find(BROCA_PARTICLES).GetComponent<AudioController>();
 	
 	}
 
@@ -53,13 +56,13 @@ public class EventScript : MonoBehaviour
 		astridLines = 1;
 		npcLines = 1;
 
-		characterSearchKey = characterName + "_" + GIBBERISH;
+		characterSearchKey = characterName;
 
-		if (GameObject.Find(characterSearchKey))
+		if (transform.FindChild(characterSearchKey))
 		{
 			for (int i = 0; i < myCharacters.Count; i++)
 			{
-				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == PLAYER_ASTRID + "_" + GIBBERISH)
+				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == ASTRID)
 				{
 					totalResponses += myCharacters[i].transform.childCount;
 				}
@@ -68,7 +71,7 @@ public class EventScript : MonoBehaviour
 
 			if (transform.name.Contains(ASTRID_TALKS_FIRST))
 			{
-				GameObject firstResponse = GameObject.Find("Astrid VO" + astridLines).gameObject;
+				GameObject firstResponse = GameObject.Find("Astrid_VO_" + astridLines+ "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
 					response = firstResponse.GetComponent<EmotionalResponseScript>();
@@ -82,9 +85,10 @@ public class EventScript : MonoBehaviour
 			}
 			else
 			{
-				GameObject firstResponse = GameObject.Find(characterName + VO + npcLines).gameObject;
+				GameObject firstResponse = GameObject.Find(characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
+					Debug.Log("NO!");
 					response = firstResponse.GetComponent<EmotionalResponseScript>();
 					waitingForEmotionalInput = true;
 				}
@@ -119,24 +123,26 @@ public class EventScript : MonoBehaviour
 				yield return new WaitForFixedUpdate();
 			}
 
+			gibberishPlayer.confirm = true;
 			//	Redundant check
 			if (response.transform.childCount > 1)
 			{
-				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH);
+				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, "scene", "topic");
 				yield return new WaitForSeconds(0.4f);
-				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO);
+				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, "scene", "topic");
 				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 				waitingForEmotionalInput = false;
 				astridHARTO.CurrentEmotion = Emotions.None;
 			}
 			else
 			{
-				response.PlayLine(GIBBERISH);
+				
+				response.PlayLine(GIBBERISH, scene, topicName);
 				yield return new WaitForSeconds(0.4f);
-				response.PlayLine(HARTO);
-				//
+				response.PlayLine(HARTO, scene, topicName);
 				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 			}
+			gibberishPlayer.confirm = false;
 
 			//	Another way to wait until the line is done.
 			// float t = 0;
@@ -152,11 +158,11 @@ public class EventScript : MonoBehaviour
 			}
 
 			//	Checks who spoke last. If it was Astrid, play NPC dialouge.
-			if (response.characterName == PLAYER_ASTRID)
+			if (response.characterName == ASTRID)
 			{
 				try
 				{
-					thisResponse = GameObject.Find(characterName + VO + npcLines).gameObject;
+					thisResponse = GameObject.Find(characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName).gameObject;
 					if (thisResponse.transform.childCount > 1)
 					{
 						response = thisResponse.GetComponent<EmotionalResponseScript>();
@@ -169,7 +175,7 @@ public class EventScript : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Debug.Log ("Could not find " + characterName + VO + npcLines);
+					Debug.Log ("Could not find " + characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName);
 				}
 				
 			}
@@ -177,7 +183,7 @@ public class EventScript : MonoBehaviour
 			{
 				try 
 				{
-					thisResponse = GameObject.Find("Astrid VO" + astridLines).gameObject;
+					thisResponse = GameObject.Find("Astrid_VO_" + astridLines + "_" + scene + "_" + topicName).gameObject;
 
 					if (thisResponse.transform.childCount > 1)
 					{
@@ -192,7 +198,7 @@ public class EventScript : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Debug.Log ("Could not find " + "Astrid VO" + astridLines);
+					Debug.Log ("Could not find " + "Astrid VO_" +  astridLines + "_" + scene + "_" + topicName);
 				}
 			}
 			

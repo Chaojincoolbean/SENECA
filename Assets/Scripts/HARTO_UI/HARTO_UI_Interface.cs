@@ -21,8 +21,11 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public bool recordingFolderSelected;
 	public bool topicSelected;
 	public bool dialogueModeActive;
+	private const string PLAYER_TAG = "Astrid";
 	public KeyCode toggleHARTO = KeyCode.Tab;
 	public KeyCode toggleDialogueMode = KeyCode.BackQuote;
+
+	public Player player;
 
 	public Action[] options;
 
@@ -34,6 +37,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public Action[] recordings_Ruth;
 	public Action[] recordings_ABC;
 	public Action[] recordings_Note;
+
 
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
 	private TopicSelectedEvent.Handler onTopicSelecetd;
@@ -47,6 +51,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 		dialogueModeActive = false;
 		recordingFolderSelected = false;
 		topicSelected = false;
+
+		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
 
 		options = recordingFolders;
 
@@ -68,7 +74,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		RadialMenuSpawner.instance.DestroyMenu();
 		options = newOptions;
-		RadialMenuSpawner.instance.SpawnMenu(this, dialogueModeActive, topicSelected);
+		RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 	}
 
 	public void ToggleDialogueMode()
@@ -150,7 +156,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 			isHARTOActive = !isHARTOActive;
 			if(isHARTOActive)
 			{
-				RadialMenuSpawner.instance.SpawnMenu(this, dialogueModeActive, topicSelected);
+				RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 			}
 			else
 			{

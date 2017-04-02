@@ -6,28 +6,57 @@ using SenecaEvents;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 
-public class DialogueManager : MonoBehaviour {
+public class DialogueManager : MonoBehaviour 
+{
 
-	
+	public static DialogueManager instance;	
 	public HARTO astridHARTO;
 	public EventScript[] Events;
-	private int RelationLevel; 
 
+	
+	private int RelationLevel; 
+	private int _scene;
+	public int SceneNumber
+	{
+		get {	return _scene;	}
+		set {	_scene = value;	}
+	}
+
+	public const string SCENE = "SCENE_";
+	public const string TOPIC_PREFIX = "Topic_";
 	public const string EVENT_PREFIX = "Event_";
 	public const string EVENT_ASTRID_TALKS_FIRST = "@";
-	public const string EVENT_MEETING_ASTRID_STARTS = "Event_Meeting@";
+	public const string EVENT_MEETING_TUTORIAL = "Event_Tutorial";
+	public const string EVENT_MEETING_STARTS = "Event_Meeting";
+	public const string EVENT_BROCA_STARTS = "Event_BrocaParticles";
+	public const string EVENT_RUTH_STARTS = "Event_Ruth";
+	public const string EVENT_EXIT_STARTS = "Event_Ruth";
+	
 	public const string EVENT_UTAN_ASTRID_STARTS = "Event_Utan@";
-	public const string PLAYER_ASTRID = "Player_Astrid";
+	public const string PLAYER_ASTRID = "Astrid";
 
 	public const string NPC_TAG = "NPC_";
-	public const string NPC_MOM = "NPC_Mom";
-	public const string NPC_MALI = "NPC_Mali";
+	public const string NPC_PRIYA = "Priya";
+	public const string NPC_MALI = "Mali";
 
 	private TopicSelectedEvent.Handler onTopicSelected;
 
 	// Use this for initialization
 	void Start () 
 	{
+		if(instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+
+		astridHARTO = GameObject.FindGameObjectWithTag("HARTO").GetComponent<HARTO>();
+
+		SceneNumber = 1;
 		onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
 
 		GameEventsManager.Instance.Register<TopicSelectedEvent>(onTopicSelected);
@@ -36,12 +65,8 @@ public class DialogueManager : MonoBehaviour {
 
 	void OnTopicSelected(GameEvent e)
 	{
-		string selectedEvent = EVENT_UTAN_ASTRID_STARTS;//EVENT_PREFIX + ((TopicSelectedEvent)e).hartoTopic.currentTopic.name + EVENT_ASTRID_TALKS_FIRST;
-
-		if (selectedEvent == EVENT_UTAN_ASTRID_STARTS)
-		{
-		}
-		InitDialogueEvent(selectedEvent, ((TopicSelectedEvent)e).player.npcAstridIsTalkingTo.name);
+		string selectedEvent = EVENT_PREFIX + ((TopicSelectedEvent)e).topicName.Replace(TOPIC_PREFIX, "");
+		InitDialogueEvent(selectedEvent, SceneNumber,((TopicSelectedEvent)e).npcName);
 		
 		try
 		{
@@ -56,12 +81,25 @@ public class DialogueManager : MonoBehaviour {
 
 
 
-	void InitDialogueEvent(string topic, string npcName)
+	void InitDialogueEvent(string topic, int sceneNumber ,string npcName)
 	{
-		if (GameObject.Find(topic))
+		GameObject sceneFolder = GameObject.Find(SCENE + SceneNumber);
+
+		if (sceneFolder != null)
 		{
-			EventScript thisEvent = GameObject.Find(topic).GetComponent<EventScript>();
-			thisEvent.InitResponseScriptWith(npcName);
+			EventScript thisEvent = sceneFolder.transform.FindChild(topic).GetComponent<EventScript>();
+			if (thisEvent != null)
+			{
+				thisEvent.InitResponseScriptWith(npcName);
+			}
+			else
+			{
+				Debug.Log("Error: " + topic + "'s EventScript Component not found");
+			}
+		}
+		else
+		{
+			Debug.Log("Error: " + SCENE + SceneNumber + " not found");
 		}
 	}
 }

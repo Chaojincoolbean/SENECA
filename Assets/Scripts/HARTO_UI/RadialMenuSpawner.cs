@@ -19,11 +19,11 @@ public class RadialMenuSpawner : MonoBehaviour
 		}
 	}
 
-	public void SpawnMenu(HARTO_UI_Interface obj, bool dialogueModeActive, bool topicSelected)
+	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
 		newMenu = Instantiate(menuPrefab) as RadialMenu;
 		newMenu.transform.SetParent(transform, false);
-		newMenu.Init();
+		newMenu.Init(player);
 		newMenu.SpawnIcons(obj, topicSelected);
 		// Courtine to fade in image here!
 	}

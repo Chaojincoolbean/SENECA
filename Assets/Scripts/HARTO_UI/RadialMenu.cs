@@ -23,16 +23,18 @@ public class RadialMenu : MonoBehaviour
 	private float rotateSelectionWheel;
 	public Player _player;
 	private const string SCROLLWHEEL = "Mouse ScrollWheel";
+	private const string PLAYER_TAG = "Player";
 	private const string TOPIC_TAG = "Topic_";
 	private const string EMOTION_TAG = "Emotion_";
 	private const string AFFIRM_TAG = "Affirm_";
 	private const string FOLDER_TAG = "Folder_";
 	private const string RECORDING_TAG = "Recording_";
 
-	public void Init()
+
+	public void Init(Player player)
 	{
 		canSelect = true;
-		_player = GameObject.Find("Astrid").GetComponent<Player>();
+		_player = player;
 		emptyAreaSprite = selectionArea.sprite;
 	}
 
@@ -120,7 +122,6 @@ public class RadialMenu : MonoBehaviour
 				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
 				if(Input.GetKeyDown(KeyCode.Mouse0))
 				{
-					Debug.Log(iconList[i].title);
 					DetermineEvent(iconList[i]);
 				}	
 			}
@@ -131,11 +132,10 @@ public class RadialMenu : MonoBehaviour
 	{
 		if(icon.title.Contains(TOPIC_TAG))
 		{
-			GameEventsManager.Instance.Fire(new TopicSelectedEvent(icon.title, _player));
+			GameEventsManager.Instance.Fire(new TopicSelectedEvent(icon.title, _player.npcAstridIsTalkingTo));
 		}
 		else if (icon.title.Contains(EMOTION_TAG))
 		{
-			
 			GameEventsManager.Instance.Fire(new EmotionSelectedEvent(((RadialEmotionIcon)icon).emotion));
 		}
 		else if (icon.title.Contains(FOLDER_TAG))
