@@ -123,7 +123,7 @@ public class EventScript : MonoBehaviour
 				yield return new WaitForFixedUpdate();
 			}
 
-			gibberishPlayer.confirm = true;
+			gibberishPlayer.confirm = false;
 			//	Redundant check
 			if (response.transform.childCount > 1)
 			{
@@ -142,7 +142,7 @@ public class EventScript : MonoBehaviour
 				response.PlayLine(HARTO, scene, topicName);
 				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 			}
-			gibberishPlayer.confirm = false;
+			gibberishPlayer.confirm = true;
 
 			//	Another way to wait until the line is done.
 			// float t = 0;

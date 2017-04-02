@@ -13,7 +13,7 @@ public class AudioController : MonoBehaviour
 	void Start ()
 	{
 		shuffler = GetComponent<BufferShuffler>();
-		shuffler.SetSecondsPerShuffle (0.50f);
+		shuffler.SetSecondsPerShuffle (0.15f);
 	}
 	
 	// Update is called once per frame

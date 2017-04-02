@@ -45,12 +45,13 @@ public class BufferShuffler : MonoBehaviour
     private System.Random _randomGenerator;
 
 	void Awake(){
+
 		maxClipLength = ((float)Mathf.RoundToInt (ClipToShuffle.length * 10f)) / 10f - SecondsPerCrossfade * 2f;
 		SecondsPerCrossfade = 0.05f;
 		SecondsPerShuffle = maxClipLength;
 	}
 
-    void Start()
+    public void Start()
     {
 		_bufferShufflerAudioSource = GetComponent<AudioSource> ();
 
