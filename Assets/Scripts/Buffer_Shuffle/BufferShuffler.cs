@@ -48,7 +48,7 @@ public class BufferShuffler : MonoBehaviour
 
 		maxClipLength = ((float)Mathf.RoundToInt (ClipToShuffle.length * 10f)) / 10f - SecondsPerCrossfade * 2f;
 		SecondsPerCrossfade = 0.05f;
-		SecondsPerShuffle = maxClipLength;
+		SecondsPerShuffle = maxClipLength * 0.9f;
 	}
 
     public void Start()
@@ -152,11 +152,6 @@ public class BufferShuffler : MonoBehaviour
             _currentShuffleBuffer = _buffersPerShuffle;
             _shuffleCounter = 0;
             int maxEndIndex = (_clipLengthSamples-((_bufferSize*_currentShuffleBuffer) + _crossFadeSamples))/_clipChannels;
-            Debug.Log("Max End Index: " + maxEndIndex);
-            Debug.Log("BufferSize: " + _bufferSize);
-            Debug.Log("Current Shuffle Buffer: " + _currentShuffleBuffer);
-            Debug.Log("Clip Length Samples: " + _clipLengthSamples);
-            Debug.Log("Cross Fade Samples: " + _crossFadeSamples);
             _startIndex = _randomGenerator.Next(_crossFadeSamples, maxEndIndex-1);
             _startIndex = _startIndex - _crossFadeSamples;
             _firstShuffle = true;
