@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Mom.cs" />
      <Compile Include="Assets\Scripts\Buffer_Shuffle\AudioController.cs" />
      <Compile Include="Assets\Scripts\Buffer_Shuffle\BufferShuffler.cs" />
      <Compile Include="Assets\Scripts\ChrsUtils\Camera\CameraFollow2D.cs" />
@@ -63,33 +62,34 @@
      <Compile Include="Assets\Scripts\Game_World\ExitUtan1.cs" />
      <Compile Include="Assets\Scripts\Game_World\GameManager.cs" />
      <Compile Include="Assets\Scripts\Game_World\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Game_World\Mom.cs" />
      <Compile Include="Assets\Scripts\Game_World\SenecaEvents.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\DialogueManager.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\EmotionIcon.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\EmotionalResponseScript.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\EventScript.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\HARTO.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\HARTOTuningv3Script.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\Icon.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\PrototypeScript.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\ResponseScript.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Dialogue_Manager\VoiceOverLine.cs" />
-     <Compile Include="Assets\Scripts\HARTO_Recording_Manager\RecordingManager.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\DisplayArea.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\HARTO_UI_Interface.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\RadialEmotionIcon.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\RadialIcon.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\RadialMenu.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\RadialMenuSpawner.cs" />
-     <Compile Include="Assets\Scripts\HARTO_UI\ToggleDialogueMode.cs" />
+     <Compile Include="Assets\Scripts\Game_World\witchlightmanager.cs" />
+     <Compile Include="Assets\Scripts\Game_World\witchlightmanager1.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\DialogueManager.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\EmotionIcon.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\EmotionalResponseScript.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\EventScript.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\HARTO.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\HARTOTuningv3Script.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\Icon.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\PrototypeScript.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\ResponseScript.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Dialogue_Manager\VoiceOverLine.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_Recording_Manager\RecordingManager.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\DisplayArea.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\HARTO_UI_Interface.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\RadialEmotionIcon.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\RadialIcon.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\RadialMenu.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\RadialMenuSpawner.cs" />
+     <Compile Include="Assets\Scripts\HARTO\HARTO_UI\ToggleDialogueMode.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\AudioManager_prototype.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\DrawLine.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\HARTONode.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\dotsCircuit.cs" />
      <Compile Include="Assets\Scripts\UTAN_Puzzle\lineDrawer.cs" />
-     <Compile Include="Assets\witchlightmanager.cs" />
-     <Compile Include="Assets\witchlightmanager1.cs" />
      <None Include="Assets\Resources\Audio\Music\empty.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

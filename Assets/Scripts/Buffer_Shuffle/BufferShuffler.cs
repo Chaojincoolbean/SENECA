@@ -43,14 +43,21 @@ public class BufferShuffler : MonoBehaviour
     private int _clipSampleRate;
 
     private System.Random _randomGenerator;
+    private const string EMPTY_AUDIO_FILE = "Audio/Vo/Empty";
 
-	void Awake(){
+	void Awake()
+    {
+        if (ClipToShuffle == null)
+        {
+            ClipToShuffle = Resources.Load(EMPTY_AUDIO_FILE) as AudioClip;
+        }
+
 		maxClipLength = ((float)Mathf.RoundToInt (ClipToShuffle.length * 10f)) / 10f - SecondsPerCrossfade * 2f;
 		SecondsPerCrossfade = 0.05f;
-		SecondsPerShuffle = maxClipLength;
+		SecondsPerShuffle = maxClipLength * 0.9f;
 	}
 
-    void Start()
+    public void Start()
     {
 		_bufferShufflerAudioSource = GetComponent<AudioSource> ();
 
@@ -58,7 +65,7 @@ public class BufferShuffler : MonoBehaviour
         AudioSettings.GetDSPBufferSize(out _dspSize, out _qSize);
         _outputSampleRate = AudioSettings.outputSampleRate;
         LoadNewClip(ClipToShuffle);
-		//StartCoroutine (PlaySound ());
+		StartCoroutine (PlaySound ());
     }
 
     public void SetSecondsPerShuffle(float secondsPerShuffle)
