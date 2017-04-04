@@ -6,18 +6,32 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
-	public const string RECORDING_MANAGER = "RecordingManager";
+	
 
+	public HARTO astridHARTO;
+	public DialogueManager dialogueManager;
+	public HARTO_UI_Interface HARTOInterface;
 	public RecordingManager recordingManager;
-	public GameObject Player;
-	public GameObject Mom;
-	float x;
-	float y;
 
+	public Player player_Astrid;
+	public GameObject npc_Priya;
+	[SerializeField]
+	private int _sceneNumber;
+	public int CurrentSceneNumber
+	{
+		get {	return _sceneNumber;	}
+		private set {	}
+	}
 
+	private const string RECORDING_MANAGER_TAG = "RecordingManager";
+	private const string DIALOUGE_MANAGER_TAG = "DialogueManager";
+	private const string HARTO_TAG = "HARTO";
+	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
+	private const string ASTRID = "Player";
 	// Use this for initialization
-	void Start () {
-
+	void Start () 
+	{
+		CurrentSceneNumber = 1;
 		if (instance == null)
 		{
 			instance = this;
@@ -28,34 +42,22 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		recordingManager = GameObject.Find(RECORDING_MANAGER).GetComponent<RecordingManager>();
-		
-		Mom = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+		astridHARTO = GameObject.FindGameObjectWithTag(HARTO_TAG).GetComponent<HARTO>();
+		dialogueManager = GameObject.FindGameObjectWithTag(DIALOUGE_MANAGER_TAG).GetComponent<DialogueManager>();
+		recordingManager = GameObject.FindGameObjectWithTag(RECORDING_MANAGER_TAG).GetComponent<RecordingManager>();
+		HARTOInterface = GameObject.FindGameObjectWithTag(HARTO_UI_INTERFACE_TAG).GetComponent<HARTO_UI_Interface>();
 
-		Mom.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+		player_Astrid = GameObject.FindGameObjectWithTag(ASTRID).GetComponent<Player>();
 
-		x = Mom.gameObject.transform.position.x;
-		y = Mom.gameObject.transform.position.y;
+		npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+
+		npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		
-
-//		if (x < Player.gameObject.transform.position.x - 1f) {
-//
-//			x = x + 0.05f;
-//
-//			Mom.gameObject.transform.position = new Vector3 (x, -3.5f, 0);
-//
-//			Debug.Log (Mom.gameObject.transform.position);
-//		}
-
+	void Update () 
+	{
 
 
 	}
-
-
-
 }

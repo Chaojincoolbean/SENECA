@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/TestScenes/BufferShufflerTest.unity
+- path: Assets/Scenes/TestScenes/DialougeTestScene.unity
   isLoaded: 1
   isActive: 1

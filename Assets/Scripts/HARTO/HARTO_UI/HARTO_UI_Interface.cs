@@ -21,7 +21,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public bool recordingFolderSelected;
 	public bool topicSelected;
 	public bool dialogueModeActive;
-	private const string PLAYER_TAG = "Astrid";
+	private const string PLAYER_TAG = "Player";
 	public KeyCode toggleHARTO = KeyCode.Tab;
 	public KeyCode toggleDialogueMode = KeyCode.BackQuote;
 

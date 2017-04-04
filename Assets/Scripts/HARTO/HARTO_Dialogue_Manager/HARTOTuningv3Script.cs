@@ -47,7 +47,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	public string recordingFolder;
 
 	[SerializeField]
-	private Player player;
+//	private Player player;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onEndDialogueEvent;
 
@@ -102,7 +102,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 		onRecordingModeToggled = new RecordingModeToggledEvent.Handler(OnRecordingModeToggled);
 		GameEventsManager.Instance.Register<RecordingModeToggledEvent>(onRecordingModeToggled);
 
-		player = GameObject.Find(ASTRID).GetComponent<Player>();
+		//player = GameObject.Find(ASTRID).GetComponent<Player>();
 
 		CurrentUI = RotateRecordingsWheel;
 		Select = SelectRecordingIcon;

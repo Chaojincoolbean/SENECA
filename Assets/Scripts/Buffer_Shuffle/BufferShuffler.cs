@@ -43,8 +43,14 @@ public class BufferShuffler : MonoBehaviour
     private int _clipSampleRate;
 
     private System.Random _randomGenerator;
+    private const string EMPTY_AUDIO_FILE = "Audio/Vo/Empty";
 
-	void Awake(){
+	void Awake()
+    {
+        if (ClipToShuffle == null)
+        {
+            ClipToShuffle = Resources.Load(EMPTY_AUDIO_FILE) as AudioClip;
+        }
 
 		maxClipLength = ((float)Mathf.RoundToInt (ClipToShuffle.length * 10f)) / 10f - SecondsPerCrossfade * 2f;
 		SecondsPerCrossfade = 0.05f;
