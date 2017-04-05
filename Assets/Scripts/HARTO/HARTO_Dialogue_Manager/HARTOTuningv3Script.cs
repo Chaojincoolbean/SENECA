@@ -111,28 +111,28 @@ public class HARTOTuningv3Script : MonoBehaviour {
 
 	private void OnBeginDialogueEvent(GameEvent e)
 	{
-		inConversation = true;
+		//inConversation = true;
 	}
 
 	private void OnEndDialogueEvent(GameEvent e)
 	{
-		inConversation = false;
+		//inConversation = false;
 	}
 
 	private void OnRecordingModeToggled(GameEvent e)
 	{
-		recordingModeActive = !recordingModeActive;
-		//	Some UI change here
-		if (recordingModeActive)
-		{
-			CurrentUI = RotateRecordingsWheel;
-			Select = SelectRecordingIcon;
-		}
-		else
-		{
-			CurrentUI = RotateDialogueWheel;
-			Select = SelectDialougeIcon;
-		}
+		// recordingModeActive = !recordingModeActive;
+		// //	Some UI change here
+		// if (recordingModeActive)
+		// {
+		// 	CurrentUI = RotateRecordingsWheel;
+		// 	Select = SelectRecordingIcon;
+		// }
+		// else
+		// {
+		// 	CurrentUI = RotateDialogueWheel;
+		// 	Select = SelectDialougeIcon;
+		// }
 	}
 
 	void FadeHARTO(float alpha)
@@ -327,7 +327,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 					{
 						currentTopic = myIconArray[i];
 						myIconArray[i].selected = true;
-						GameEventsManager.Instance.Fire(new RecordingFolderSelectedEvent(currentTopic.name));
+						//GameEventsManager.Instance.Fire(new RecordingFolderSelectedEvent(currentTopic.name));
 						recordingFolder = currentTopic.name;
 					}
 					else
@@ -353,7 +353,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 	{
 		if(Input.GetKeyDown(toggleRecordMode))
 		{
-			GameEventsManager.Instance.Fire(new RecordingModeToggledEvent());
+			//GameEventsManager.Instance.Fire(new RecordingModeToggledEvent());
 		}
 
 		if (canUseHARTO)
@@ -363,7 +363,7 @@ public class HARTOTuningv3Script : MonoBehaviour {
 				isHARTOActive = !isHARTOActive;
 				topicSelected = false;
 				recordingFolderSelected = false;
-				GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
+				//GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			}
 
 			if (isHARTOActive) 

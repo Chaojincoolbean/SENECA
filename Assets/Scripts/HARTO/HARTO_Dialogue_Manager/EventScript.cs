@@ -48,9 +48,12 @@ public class EventScript : MonoBehaviour
 	
 	}
 
-	public void InitResponseScriptWith(string characterName)
+	public void InitResponseScriptWith(string characterName, bool astridTalksFirst)
 	{
-		GameEventsManager.Instance.Fire(new BeginDialogueEvent());
+		if(!topicName.Contains("Start_Game"))
+		{
+			GameEventsManager.Instance.Fire(new BeginDialogueEvent());
+		}
 
 		totalLines = 0;
 		astridLines = 1;
@@ -69,8 +72,9 @@ public class EventScript : MonoBehaviour
 			}
 
 
-			if (transform.name.Contains(ASTRID_TALKS_FIRST))
+			if (astridTalksFirst)
 			{
+				//topicName = topicName.Replace(ASTRID_TALKS_FIRST, "");
 				GameObject firstResponse = GameObject.Find("Astrid_VO_" + astridLines+ "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
@@ -99,7 +103,6 @@ public class EventScript : MonoBehaviour
 				
 				npcLines++;
 			}
-
 			StartCoroutine(PlayEventDialogue(characterName));
 		}
 	}
@@ -113,6 +116,7 @@ public class EventScript : MonoBehaviour
 			//	Redundant check (the first time)
 			if (response.transform.childCount > 1)
 			{
+				Debug.Log(response.transform.name);
 				//	If I am waiting for emotional input, I keep waiting unitl i get it.
 				waitingForEmotionalInput = true;
 			}
@@ -127,12 +131,11 @@ public class EventScript : MonoBehaviour
 			//	Redundant check
 			if (response.transform.childCount > 1)
 			{
-				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, "scene", "topic");
+				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, scene, topicName);
 				yield return new WaitForSeconds(0.4f);
-				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, "scene", "topic");
+				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, scene, topicName);
 				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 				waitingForEmotionalInput = false;
-				astridHARTO.CurrentEmotion = Emotions.None;
 			}
 			else
 			{
@@ -144,18 +147,8 @@ public class EventScript : MonoBehaviour
 			}
 			gibberishPlayer.confirm = true;
 
-			//	Another way to wait until the line is done.
-			// float t = 0;
-			// while (t < response.elapsedSeconds * 40.0f)
-			// {
-			// 		t += Time.deltaTime;
-			// }
-
 			//	Breaks out of while loop when we finished all the reponses.			
-			if (astridLines == totalResponses || npcLines == totalResponses)
-			{
-				break;
-			}
+			
 
 			//	Checks who spoke last. If it was Astrid, play NPC dialouge.
 			if (response.characterName == ASTRID)
@@ -172,6 +165,7 @@ public class EventScript : MonoBehaviour
 						response = thisResponse.GetComponent<ResponseScript>();
 					}
 					npcLines++;
+					
 				}
 				catch (Exception e)
 				{
@@ -194,6 +188,7 @@ public class EventScript : MonoBehaviour
 					{
 						response = thisResponse.GetComponent<ResponseScript>();
 					}
+					astridHARTO.CurrentEmotion = Emotions.None;
 					astridLines++;
 				}
 				catch (Exception e)
@@ -203,8 +198,11 @@ public class EventScript : MonoBehaviour
 			}
 			
 		}
-
-		GameEventsManager.Instance.Fire(new EndDialogueEvent());
+		Debug.Log("Exit");
+		if(!topicName.Contains("Start_Game"))
+		{
+			GameEventsManager.Instance.Fire(new EndDialogueEvent());
+		}
 		yield return null;
 	}
 }

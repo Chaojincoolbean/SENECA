@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SenecaEvents;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using ChrsUtils.ChrsEventSystem.GameEvents;
 
 public class Player : MonoBehaviour 
 {
@@ -8,6 +11,7 @@ public class Player : MonoBehaviour
 	public const string HORIZONTAL_AXIS = "Horizontal";
 	public const string VERICLE_AXIS = "Vertical";
 
+	public bool diableMovement;
 	public bool facingLeft;
 	public string npcAstridIsTalkingTo;
 	public KeyCode upKey = KeyCode.W;
@@ -18,12 +22,20 @@ public class Player : MonoBehaviour
 	public float moveSpeed;
 
 	private Rigidbody2D _rigidBody2D;
+	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
 
 
 	// Use this for initialization
 	void Start () 
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
+		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
+		GameEventsManager.Instance.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
+	}
+
+	void OnToggleDisableMovement(GameEvent e)
+	{
+		diableMovement = ((DisablePlayerMovementEvent)e).disableMovement;
 	}
 
 	/*--------------------------------------------------------------------------------------*/
@@ -75,7 +87,10 @@ public class Player : MonoBehaviour
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
 
-		Move(x, y);
+		if(!diableMovement)
+		{
+			Move(x, y);
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) 

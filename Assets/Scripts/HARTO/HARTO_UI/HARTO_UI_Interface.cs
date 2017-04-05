@@ -50,11 +50,11 @@ public class HARTO_UI_Interface : MonoBehaviour
 		isHARTOActive = false;
 		dialogueModeActive = false;
 		recordingFolderSelected = false;
-		topicSelected = false;
+		topicSelected = true;
 
 		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
 
-		options = recordingFolders;
+		options = emotions;
 
 		onRecordingFolderSelecetd = new RecordingFolderSelectedEvent.Handler(OnRecordingFolderSelected);
 		onTopicSelecetd = new TopicSelectedEvent.Handler(OnTopicSelected);

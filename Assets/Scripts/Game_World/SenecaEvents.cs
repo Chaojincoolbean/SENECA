@@ -32,11 +32,20 @@ namespace SenecaEvents
         }
     }
 
-     public class EndDialogueEvent : GameEvent
+    public class EndDialogueEvent : GameEvent
     {
         public EndDialogueEvent ()
         {
             
+        }
+    }
+
+    public class DisablePlayerMovementEvent : GameEvent
+    {
+        public readonly bool disableMovement;
+        public DisablePlayerMovementEvent(bool b)
+        {
+            disableMovement = b;
         }
     }
 
@@ -49,6 +58,30 @@ namespace SenecaEvents
 	    {
             //this.hartoEmotion = hartoEmotion;
             emotion = currentEmotion;
+        }
+    }
+
+    public class MoveMomEvent : GameEvent
+    {
+        public MoveMomEvent()
+        {
+
+        }
+    }
+
+    public class BeginTutorialEvent : GameEvent
+    {
+        public BeginTutorialEvent()
+        {
+            
+        }
+    }
+
+    public class BeginGameEvent :GameEvent
+    {
+        public BeginGameEvent()
+        {
+
         }
     }
 

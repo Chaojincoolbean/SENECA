@@ -47,4 +47,16 @@ public class RecordingManager : MonoBehaviour
 		audioRecording = Resources.Load<AudioClip>("Audio/Recordings/" + filename);
 		return audioRecording;
 	}
+
+	public AudioClip LoadHARTOVO(string filename)
+	{
+		if (Resources.Load<AudioClip>("Audio/VO/HARTO/" + filename) == null)
+		{
+			// Play empty audio here
+			Debug.Log("Resource Not Found Error: " + "Audio/VO/HARTO/" + filename + " not found!");
+		}
+
+		audioRecording = Resources.Load<AudioClip>("Audio/VO/HARTO/" + filename);
+		return audioRecording;
+	}
 }
