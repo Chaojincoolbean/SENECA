@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 	public const string NPC = "NPC";
 	public const string HORIZONTAL_AXIS = "Horizontal";
 	public const string VERICLE_AXIS = "Vertical";
+	public const string WALL = "Wall";
+	public const string WITCHLIGHT = "Witchlight";
 
 	public bool diableMovement;
 	public bool facingLeft;
@@ -101,9 +103,10 @@ public class Player : MonoBehaviour
 			npcAstridIsTalkingTo = other.gameObject.name;
 		}
 
-		if (other.gameObject.name == "witchlight") 
+		if (other.gameObject.name == WITCHLIGHT) 
 		{
 			Debug.Log ("touch");
 		}
+			
 	}
 }
