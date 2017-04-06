@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
 	public EventScript[] Events;
 
 	
+	
 	private int RelationLevel; 
 	private int _scene;
 	public int SceneNumber
@@ -29,10 +30,10 @@ public class DialogueManager : MonoBehaviour
 
 	public const string EVENT_START_GAME = "Event_Start_Game";
 	public const string EVENT_MEETING_TUTORIAL = "Event_Tutorial";
+	public const string EVENT_EXIT = "Event_Exit";
 	public const string EVENT_MEETING_STARTS = "Event_Meeting";
 	public const string EVENT_BROCA_STARTS = "Event_BrocaParticles";
 	public const string EVENT_RUTH_STARTS = "Event_Ruth";
-	public const string EVENT_EXIT_STARTS = "Event_Ruth";
 	
 	public const string EVENT_UTAN_ASTRID_STARTS = "Event_Utan";
 	public const string PLAYER_ASTRID = "Astrid";
@@ -44,6 +45,7 @@ public class DialogueManager : MonoBehaviour
 	private BeginGameEvent.Handler onBeginGame;
 	private BeginTutorialEvent.Handler onBeginTutorial;
 	private TopicSelectedEvent.Handler onTopicSelected;
+	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
 	
 
 	// Use this for initialization
@@ -65,10 +67,12 @@ public class DialogueManager : MonoBehaviour
 		onBeginGame = new BeginGameEvent.Handler(OnBeginGame);
 		onBeginTutorial = new BeginTutorialEvent.Handler(OnBeginTutorial);
 		onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
+		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
 		GameEventsManager.Instance.Register<BeginGameEvent>(onBeginGame);
 		GameEventsManager.Instance.Register<BeginTutorialEvent>(onBeginTutorial);
 		GameEventsManager.Instance.Register<TopicSelectedEvent>(onTopicSelected);
+		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 
 	}
 
@@ -80,6 +84,11 @@ public class DialogueManager : MonoBehaviour
 	void OnBeginTutorial(GameEvent e)
 	{
 		InitDialogueEvent(EVENT_MEETING_TUTORIAL, 1, NPC_PRIYA, false);
+	}
+
+	void OnClosingHARTOForTheFirstTime(GameEvent e)
+	{
+		InitDialogueEvent(EVENT_EXIT, 1, NPC_PRIYA, true);
 	}
 
 	void OnTopicSelected(GameEvent e)

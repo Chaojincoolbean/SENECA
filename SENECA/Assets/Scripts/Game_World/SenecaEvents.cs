@@ -24,6 +24,15 @@ namespace SenecaEvents
             
         }
     }
+
+    public class ClosingHARTOForTheFirstTimeEvent : GameEvent
+    {
+        public ClosingHARTOForTheFirstTimeEvent()
+        {
+            
+        }
+    }
+
     public class BeginDialogueEvent : GameEvent
     {
         public BeginDialogueEvent ()

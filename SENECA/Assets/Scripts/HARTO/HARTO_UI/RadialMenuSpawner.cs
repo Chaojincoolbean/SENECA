@@ -6,6 +6,9 @@ using SenecaEvents;
 
 public class RadialMenuSpawner : MonoBehaviour 
 {
+
+	public AudioClip clip;
+	public AudioSource audioSource;
 	public static RadialMenuSpawner instance;
 
 	public RadialMenu menuPrefab;
@@ -20,10 +23,19 @@ public class RadialMenuSpawner : MonoBehaviour
 		{
 			instance = this;
 		}
+
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
+
+		clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/R2D2/R2D2_Low_0014") as AudioClip;
+
+		if(!audioSource.isPlaying)
+		{
+			audioSource.PlayOneShot(clip);
+		}
 		newMenu = Instantiate(menuPrefab) as RadialMenu;
 		newMenu.transform.SetParent(transform, false);
 		newMenu.Init(player);

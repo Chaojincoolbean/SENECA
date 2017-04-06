@@ -8,6 +8,7 @@ using SenecaEvents;
 
 public class RadialMenu : MonoBehaviour 
 {
+	public bool clipHasBeenPlayed;
 	public bool canSelect;
 	public float rotationSpeed = 5.0f;
 	public DisplayArea displayAreaPrefab;
@@ -18,6 +19,8 @@ public class RadialMenu : MonoBehaviour
 	public Image selectionArea;
 	public Sprite defaultDisplay;
 	public Sprite emptyAreaSprite;
+	public AudioClip clip;
+	public AudioSource audioSource;
 
 	public List<RadialIcon> iconList;
 	private float rotateSelectionWheel;
@@ -36,6 +39,8 @@ public class RadialMenu : MonoBehaviour
 		canSelect = true;
 		_player = player;
 		emptyAreaSprite = selectionArea.sprite;
+		clipHasBeenPlayed = false;
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	public void SpawnIcons (HARTO_UI_Interface obj, bool topicSelected) 
@@ -104,6 +109,7 @@ public class RadialMenu : MonoBehaviour
 
 	void RotateIconWheel(float scrollWheel)
 	{	
+
 		for (int i = 0; i < iconList.Count; i++)
 		{
 			float theta = (2 * Mathf.PI / iconList.Count) * i;
@@ -119,9 +125,29 @@ public class RadialMenu : MonoBehaviour
 		{	
 			if(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position) < 10)
 			{
+
+				if (displayAreaPrefab.displayIcon.sprite != iconList[i].icon.sprite)
+				{
+					clipHasBeenPlayed = false;
+				}
+				
 				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
+				clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/Simple_Beeps/SIMPLE_Short_Harsh_0004") as AudioClip;
+
+				if(!audioSource.isPlaying && !clipHasBeenPlayed)
+				{
+					audioSource.PlayOneShot(clip);
+					clipHasBeenPlayed = true;
+				}
+
 				if(Input.GetKeyDown(KeyCode.Mouse0))
 				{
+					clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/Repeating_Beeps/REPEAT_Fast_0036") as AudioClip;
+					if(!audioSource.isPlaying)
+					{
+						audioSource.PlayOneShot(clip);
+					}
+
 					DetermineEvent(iconList[i]);
 				}	
 			}
@@ -151,7 +177,9 @@ public class RadialMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		rotateSelectionWheel = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;	
+		float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
+		rotateSelectionWheel = 	rotate;
+
 		
 		RotateIconWheel(rotateSelectionWheel);
 		if(selectionArea == null)

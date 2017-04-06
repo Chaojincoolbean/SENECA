@@ -25,6 +25,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public KeyCode toggleHARTO = KeyCode.Tab;
 	public KeyCode toggleDialogueMode = KeyCode.BackQuote;
 
+	public AudioClip clip;
+	public AudioSource audioSource;
 	public Player player;
 
 	public Action[] options;
@@ -39,6 +41,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public Action[] recordings_Note;
 
 
+	//	If closing HARTo for the first time, wait until Exit dialouge event finishes.
+	private bool closingHARTOForFirstTime;
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
 	private TopicSelectedEvent.Handler onTopicSelecetd;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
@@ -47,10 +51,13 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void Start()
 	{
+		closingHARTOForFirstTime = true;
 		isHARTOActive = false;
-		dialogueModeActive = false;
+		dialogueModeActive = true;
 		recordingFolderSelected = false;
 		topicSelected = true;
+
+		audioSource = GetComponent<AudioSource>();
 
 		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
 
@@ -81,6 +88,13 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		if (isHARTOActive)
 		{
+			clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/R2D2/R2D2_Low_0004") as AudioClip;
+
+			if(!audioSource.isPlaying)
+			{
+				audioSource.PlayOneShot(clip);
+			}
+
 			dialogueModeActive = !dialogueModeActive;
 			if(dialogueModeActive)
 			{
@@ -146,6 +160,12 @@ public class HARTO_UI_Interface : MonoBehaviour
 		ReloadMenu(recordingFolders);
 	}
 
+	IEnumerator WaitForExitScript()
+	{
+		yield return new WaitForSeconds(14.0f);
+		RadialMenuSpawner.instance.DestroyMenu();
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -153,6 +173,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation)
 		{
+
 			isHARTOActive = !isHARTOActive;
 			if(isHARTOActive)
 			{
@@ -160,8 +181,17 @@ public class HARTO_UI_Interface : MonoBehaviour
 			}
 			else
 			{
-				recordingFolderSelected = false;
-				RadialMenuSpawner.instance.DestroyMenu();
+				if (closingHARTOForFirstTime)
+				{
+					GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
+					closingHARTOForFirstTime = false;
+					StartCoroutine(WaitForExitScript());
+				}
+				else
+				{
+					recordingFolderSelected = false;
+					RadialMenuSpawner.instance.DestroyMenu();
+				}
 			}
 		}
 

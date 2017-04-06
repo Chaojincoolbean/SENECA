@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 /*
 		When ever you click doubles of the audio is played.
 		Why?
+
+		Play sfx when toggling modes
  */
 
 	public static GameManager instance;
@@ -53,7 +55,10 @@ public class GameManager : MonoBehaviour {
 		whoTalksFirst = new Dictionary<string, bool>();
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
 		whoTalksFirst.Add("Event_Tutorial1Priya", false);
+		whoTalksFirst.Add("Event_Exit1Priya", true);
 		whoTalksFirst.Add("Event_Meeting1Priya", true);
+		whoTalksFirst.Add("Event_Broca1Priya", true);
+		whoTalksFirst.Add("Event_Ruth1Priya", true);
 
 		astridHARTO = GameObject.FindGameObjectWithTag(HARTO_TAG).GetComponent<HARTO>();
 		dialogueManager = GameObject.FindGameObjectWithTag(DIALOUGE_MANAGER_TAG).GetComponent<DialogueManager>();
@@ -67,7 +72,6 @@ public class GameManager : MonoBehaviour {
 		npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
 
 		npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
-
 
 
 		GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
