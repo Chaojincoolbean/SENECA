@@ -33,6 +33,14 @@ namespace SenecaEvents
         }
     }
 
+    public class TABUIButtonAppearEvent : GameEvent
+    {
+        public TABUIButtonAppearEvent ()
+        {
+            
+        }
+    }
+
     public class BeginDialogueEvent : GameEvent
     {
         public BeginDialogueEvent ()
@@ -81,6 +89,22 @@ namespace SenecaEvents
     public class BeginTutorialEvent : GameEvent
     {
         public BeginTutorialEvent()
+        {
+            
+        }
+    }
+
+    public class WaitingForEmotionalInputEvent : GameEvent
+    {
+        public WaitingForEmotionalInputEvent()
+        {
+
+        }
+    }
+
+    public class EmotionalInputReceived : GameEvent
+    {
+        public EmotionalInputReceived()
         {
             
         }

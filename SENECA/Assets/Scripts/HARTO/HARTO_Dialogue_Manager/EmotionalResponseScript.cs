@@ -28,6 +28,7 @@ public class EmotionalResponseScript : ResponseScript {
 		{
 			if (possibleLines[i].name.Contains(emotion.ToString()))
 			{	
+				Debug.Log(emotion.ToString());
 				if (dialogueType == HARTO)
 				{
 					characterAudioSource.PlayOneShot(possibleLines[i].LoadAudioClip(characterName, scene, topic, transform.name, emotion.ToString()), volume);
@@ -35,7 +36,7 @@ public class EmotionalResponseScript : ResponseScript {
 				}
 				else if (dialogueType == GIBBERISH)
 				{
-					gibberishAudioSource.PlayOneShot(possibleLines[i].LoadGibberishAudio(characterName, scene, topic, transform.name, emotion.ToString()), volume);
+					possibleLines[i].LoadGibberishAudio(characterName, scene, topic, transform.name, emotion.ToString());
 					elapsedGibberishSeconds = possibleLines[i].LoadGibberishAudio(characterName, scene, topic, transform.name, emotion.ToString()).length;
 				}
 				

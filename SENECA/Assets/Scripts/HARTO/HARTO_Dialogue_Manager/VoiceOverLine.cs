@@ -14,6 +14,7 @@ public class VoiceOverLine : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		
 		gibberishGenerator = GameObject.Find(BROCA_PARTICLES).GetComponent<BufferShuffler>();
 	}
 
@@ -62,11 +63,5 @@ public class VoiceOverLine : MonoBehaviour
 
 		voiceOverHARTO = Resources.Load<AudioClip>("Audio/VO/" + characterName + "/" + scene + "/" + topic + "/" + filename);
 		return voiceOverHARTO;
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
 	}
 }

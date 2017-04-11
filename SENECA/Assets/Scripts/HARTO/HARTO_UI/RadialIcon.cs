@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class RadialIcon : MonoBehaviour 
 {
+	public bool alreadySelected;
 	public string title;
 	public Image color;
 	public Image icon;

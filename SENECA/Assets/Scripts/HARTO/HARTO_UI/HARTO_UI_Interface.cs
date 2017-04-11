@@ -11,6 +11,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	[System.Serializable]
 	public class Action
 	{
+		public bool alreadySelected;
 		public Color color;
 		public Sprite sprite;
 		public string title;
@@ -23,8 +24,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public bool dialogueModeActive;
 	private const string PLAYER_TAG = "Player";
 	public KeyCode toggleHARTO = KeyCode.Tab;
-	public KeyCode toggleDialogueMode = KeyCode.BackQuote;
-
 	public AudioClip clip;
 	public AudioSource audioSource;
 	public Player player;
@@ -41,8 +40,10 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public Action[] recordings_Note;
 
 
-	//	If closing HARTo for the first time, wait until Exit dialouge event finishes.
+	//	If closing HARTO for the first time, wait until Exit dialouge event finishes.
 	private bool closingHARTOForFirstTime;
+	private bool closedTutorialUsingRecordingSwitch;
+	public string currentNPC;
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
 	private TopicSelectedEvent.Handler onTopicSelecetd;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
@@ -56,7 +57,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		dialogueModeActive = true;
 		recordingFolderSelected = false;
 		topicSelected = true;
-
+		closedTutorialUsingRecordingSwitch = false;
 		audioSource = GetComponent<AudioSource>();
 
 		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
@@ -88,17 +89,33 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		if (isHARTOActive)
 		{
-			clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/R2D2/R2D2_Low_0004") as AudioClip;
+			clip = Resources.Load("Audio/SFX/HARTO_SFX/Technology Electronic Joystick Stick Moving 21") as AudioClip;
 
 			if(!audioSource.isPlaying)
 			{
 				audioSource.PlayOneShot(clip);
 			}
 
+			if(closingHARTOForFirstTime)
+			{
+
+				GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
+				closingHARTOForFirstTime = false;
+				closedTutorialUsingRecordingSwitch = true;
+				// freeze mouse clicks here
+			}
 			dialogueModeActive = !dialogueModeActive;
 			if(dialogueModeActive)
 			{
-				ReloadMenu(topics);
+				if (!topicSelected)
+				{
+					ReloadMenu(topics);
+				}
+				else
+				{
+					ReloadMenu(emotions);
+				}
+					
 			}
 			else
 			{
@@ -136,22 +153,57 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void OnTopicSelected(GameEvent e)
 	{
-		topicSelected = true;
-		ReloadMenu(emotions);
+		Debug.Log(((TopicSelectedEvent)e).topicName);
+		Debug.Log("!" + topics[2].title);
+	
+
+		if (currentNPC != ((TopicSelectedEvent)e).npcName)
+		{
+			currentNPC = ((TopicSelectedEvent)e).npcName;
+			for(int i = 0; i < topics.Length; i++)
+			{
+				topics[i].alreadySelected = false;
+				topics[i].color = Color.white;
+			}
+			topicSelected = true;
+			ReloadMenu(emotions);
+		}
+
+			for (int i = 0; i < topics.Length; i++)
+		{
+			if (((TopicSelectedEvent)e).topicName == topics[i].title)
+			{
+				topics[i].alreadySelected = true;
+				topics[i].color = new Color (0.5f, 0.5f,0.5f, 1.0f);
+				topicSelected = true;
+				GameManager.instance.completedOneTopic = true;
+				ReloadMenu(emotions);
+				break;
+			}
+		}
 		
 	}
 
 	void OnBeginDialogueEvent(GameEvent e)
 	{
 		inConversation = true;
+		GameManager.instance.inConversation = inConversation;
 	}
 
 	void OnDialogueEnded(GameEvent e)
 	{
-		ReloadMenu(topics);
+		if(closedTutorialUsingRecordingSwitch)
+		{
+			ReloadMenu(recordingFolders);
+			closedTutorialUsingRecordingSwitch = false;
+		}
+		else
+		{
+			ReloadMenu(topics);
+		}
 		topicSelected = false;
 		inConversation = false;
-		
+		GameManager.instance.inConversation = inConversation;
 	}
 
 	void OnRecordingEnded(GameEvent e)
@@ -173,7 +225,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation)
 		{
-
+			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
 			if(isHARTOActive)
 			{
@@ -195,17 +247,24 @@ public class HARTO_UI_Interface : MonoBehaviour
 			}
 		}
 
-		if(Input.GetKeyDown(toggleDialogueMode) && isHARTOActive)
-		{
-			dialogueModeActive = !dialogueModeActive;
-			if(!dialogueModeActive)
-			{
-				ReloadMenu(recordingFolders);
-			}
-			else
-			{
-				ReloadMenu(topics);
-			}
-		}
+		// if(isHARTOActive)
+		// {
+		// 	//	dialogueModeActive = !dialogueModeActive;
+		// 	if(!dialogueModeActive)
+		// 	{
+		// 		ReloadMenu(recordingFolders);
+		// 	}
+		// 	else
+		// 	{
+		// 		if(!topicSelected)
+		// 		{
+		// 			ReloadMenu(topics);
+		// 		}
+		// 		else
+		// 		{
+		// 			ReloadMenu(emotions);
+		// 		}
+		// 	}
+		// }
 	}
 }
