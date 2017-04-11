@@ -7,6 +7,7 @@ public class witchlightmanager1 : MonoBehaviour {
 
 	public float x, y;
 	public GameObject player;
+	public Camera mainCamera;
 
 	// Use this for initialization
 	void Start () {
@@ -41,6 +42,8 @@ public class witchlightmanager1 : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
+
+
 			SceneManager.LoadScene (3);
 
 		}

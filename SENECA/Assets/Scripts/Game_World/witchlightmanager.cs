@@ -4,27 +4,36 @@ using UnityEngine;
 
 public class witchlightmanager : MonoBehaviour {
 
-	public float x;
-	public GameObject player;
+	public float x,y;
 
 	// Use this for initialization
 	void Start () {
 		x = this.gameObject.transform.position.x;
+		y = this.gameObject.transform.position.y;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (x - player.gameObject.transform.position.x < 2f) {
 
-			x = x + 0.05f;
+		x = x + 0.05f;
 
-			this.gameObject.transform.position = new Vector3 (x, this.gameObject.transform.position.y, 0);
+			
+
+		if (x >= 0f) {
+
+			x = x + 0.02f;
+
+			y = y - 0.03f;
 		}
 
-		if (player.gameObject.transform.position.x - x > 0f ){
-
-			x = player.gameObject.transform.position.x + 2f;
+		if (x >= 2f) {
+			x = x + 0.01f;
+			y = y - 0.03f;
 		}
+
+		this.gameObject.transform.position = new Vector3 (x, y, 0);
+
+
 	}
 }
