@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class witchlightmanager1 : MonoBehaviour {
 
@@ -35,6 +36,13 @@ public class witchlightmanager1 : MonoBehaviour {
 			y = 0.8f;
 
 			this.gameObject.transform.position = new Vector3 (x, y, 0);
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D col){
+		if (col.gameObject.tag == "Player") {
+			SceneManager.LoadScene (3);
+
 		}
 	}
 }
