@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ChrsUtils.ChrsEventSystem.EventsManager;
+using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
 public class RadialMenu : MonoBehaviour 
@@ -17,6 +18,7 @@ public class RadialMenu : MonoBehaviour
 	public RadialIcon selected;
 
 	public Image selectionArea;
+	public Image screenHARTO;		
 	public Sprite defaultDisplay;
 	public Sprite emptyAreaSprite;
 	public AudioClip clip;
@@ -32,7 +34,8 @@ public class RadialMenu : MonoBehaviour
 	private const string AFFIRM_TAG = "Affirm_";
 	private const string FOLDER_TAG = "Folder_";
 	private const string RECORDING_TAG = "Recording_";
-
+	private const string HARTO_SCREEN = "HARTO_Screen";
+	private Color inactiveColor = new Color (0.39f, 0.39f, 0.39f, 1.0f);
 
 	public void Init(Player player)
 	{
@@ -41,6 +44,17 @@ public class RadialMenu : MonoBehaviour
 		emptyAreaSprite = selectionArea.sprite;
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
+		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
+		if (!GameManager.instance.inConversation)
+		{
+			screenHARTO.color = inactiveColor;
+		}
+	}
+
+	void OnWaitingForEmotionalInput(GameEvent e)
+	{
+		//	screenHARTO.color = new Color that is different!
+		//	screenHARTO.color = Color.white;
 	}
 
 	public void SpawnIcons (HARTO_UI_Interface obj, bool topicSelected) 
@@ -60,7 +74,6 @@ public class RadialMenu : MonoBehaviour
 				{
 					newRadialIcon = Instantiate(radialIconPrefab) as RadialIcon; 
 				}
-				
 			}
 			else
 			{
@@ -69,10 +82,11 @@ public class RadialMenu : MonoBehaviour
 			iconList.Add(newRadialIcon);
 			newRadialIcon.transform.SetParent(transform, false);
 			float theta = (2 * Mathf.PI / obj.options.Length) * i;
-			float xPos = Mathf.Sin(theta);
-			float yPos = Mathf.Cos(theta);
+			float xPos = Mathf.Sin(theta + 20);
+			float yPos = Mathf.Cos(theta + 20);
 			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 180.0f;
 			newRadialIcon.icon.color = obj.options[i].color;
+			newRadialIcon.alreadySelected = obj.options[i].alreadySelected;
 			newRadialIcon.icon.sprite = obj.options[i].sprite;
 			newRadialIcon.title = obj.options[i].title;
 			newRadialIcon.myMenu = this;
@@ -109,7 +123,6 @@ public class RadialMenu : MonoBehaviour
 
 	void RotateIconWheel(float scrollWheel)
 	{	
-
 		for (int i = 0; i < iconList.Count; i++)
 		{
 			float theta = (2 * Mathf.PI / iconList.Count) * i;
@@ -123,7 +136,7 @@ public class RadialMenu : MonoBehaviour
 	{
 		for (int i = 0; i < iconList.Count; i++)
 		{	
-			if(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position) < 10)
+			if(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position) < 15.0f)
 			{
 
 				if (displayAreaPrefab.displayIcon.sprite != iconList[i].icon.sprite)
@@ -132,7 +145,7 @@ public class RadialMenu : MonoBehaviour
 				}
 				
 				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
-				clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/Simple_Beeps/SIMPLE_Short_Harsh_0004") as AudioClip;
+				clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 04") as AudioClip;
 
 				if(!audioSource.isPlaying && !clipHasBeenPlayed)
 				{
@@ -142,14 +155,27 @@ public class RadialMenu : MonoBehaviour
 
 				if(Input.GetKeyDown(KeyCode.Mouse0))
 				{
-					clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/Repeating_Beeps/REPEAT_Fast_0036") as AudioClip;
-					if(!audioSource.isPlaying)
+					if(!iconList[i].alreadySelected)
 					{
-						audioSource.PlayOneShot(clip);
+						clip = Resources.Load("Audio/SFX/HARTO_SFX/BB_DRL__003") as AudioClip;
+						if(!audioSource.isPlaying)
+						{
+							audioSource.PlayOneShot(clip, 0.5f);
+						}
+						DetermineEvent(iconList[i]);
+						
 					}
-
-					DetermineEvent(iconList[i]);
-				}	
+					else
+					{
+						clip = Resources.Load("Audio/SFX/HARTO_SFX/Tune AM Radio 04") as AudioClip;
+						if(!audioSource.isPlaying)
+						{
+							audioSource.PlayOneShot(clip);
+						}
+					}
+				}
+				
+				
 			}
 		}
 	}
@@ -177,15 +203,44 @@ public class RadialMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
-		rotateSelectionWheel = 	rotate;
+		if (screenHARTO == null)
+		{
+			screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
+		}
 
-		
-		RotateIconWheel(rotateSelectionWheel);
 		if(selectionArea == null)
 		{
 			selectionArea = GameObject.Find("SelectionArea").GetComponent<Image>();
 		}
+		float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
+		if(rotate != rotateSelectionWheel && GameObject.Find("MOUSE_UI(Clone)"))
+		{
+			Destroy(GameObject.Find("MOUSE_UI(Clone)"));
+		}
+
+		rotateSelectionWheel = 	rotate;
+
+		RotateIconWheel(rotateSelectionWheel);
+
+		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation)
+		{
+			screenHARTO.color = Color.white;
+		}
+		else
+		{
+			screenHARTO.color = inactiveColor;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)
+		{
+			clip = Resources.Load("Audio/SFX/HARTO_SFX/BB_DRL__003") as AudioClip;
+			if(!audioSource.isPlaying)
+			{
+				audioSource.PlayOneShot(clip);
+			}
+		}
+		
+		
 
 		if(canSelect)
 		{

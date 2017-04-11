@@ -71,10 +71,8 @@ public class EventScript : MonoBehaviour
 				}
 			}
 
-
 			if (astridTalksFirst)
 			{
-				//topicName = topicName.Replace(ASTRID_TALKS_FIRST, "");
 				GameObject firstResponse = GameObject.Find("Astrid_VO_" + astridLines+ "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
@@ -121,34 +119,38 @@ public class EventScript : MonoBehaviour
 				waitingForEmotionalInput = true;
 			}
 
+			
 			//	Checks if response needs to wiat for emotional input
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
+				GameManager.instance.waitingForInput = waitingForEmotionalInput;
 				yield return new WaitForFixedUpdate();
 			}
 
-			gibberishPlayer.confirm = false;
+			//gibberishPlayer.confirm = false;
 			//	Redundant check
 			if (response.transform.childCount > 1)
 			{
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, scene, topicName);
-				yield return new WaitForSeconds(0.4f);
+				yield return new WaitForSeconds(0.7f);
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, scene, topicName);
-				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 				waitingForEmotionalInput = false;
+				GameManager.instance.waitingForInput = waitingForEmotionalInput;
 			}
 			else
-			{
-				
+			{	
 				response.PlayLine(GIBBERISH, scene, topicName);
-				yield return new WaitForSeconds(0.4f);
+				yield return new WaitForSeconds(0.7f);
 				response.PlayLine(HARTO, scene, topicName);
-				yield return new WaitForSeconds(response.elapsedGibberishSeconds * 1.1f);
 			}
-			gibberishPlayer.confirm = true;
-
-			//	Breaks out of while loop when we finished all the reponses.			
 			
+			while(response.characterAudioSource.isPlaying)
+			{
+				gibberishPlayer.GetComponent<AudioSource>().volume = 0.2f;
+				yield return new WaitForFixedUpdate();	
+			}
+			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
+			//gibberishPlayer.confirm = true;	
 
 			//	Checks who spoke last. If it was Astrid, play NPC dialouge.
 			if (response.characterName == ASTRID)
@@ -196,12 +198,24 @@ public class EventScript : MonoBehaviour
 					Debug.Log ("Could not find " + "Astrid VO_" +  astridLines + "_" + scene + "_" + topicName);
 				}
 			}
+
+			if( totalLines == totalResponses)
+			{
+				break;
+			}
 			
 		}
-		Debug.Log("Exit");
+
 		if(!topicName.Contains("Start_Game"))
 		{
 			GameEventsManager.Instance.Fire(new EndDialogueEvent());
+		}
+		else
+		{
+			if(!GameManager.instance.tabUIOnScreen)
+			{
+				GameEventsManager.Instance.Fire(new TABUIButtonAppearEvent());
+			}
 		}
 		yield return null;
 	}

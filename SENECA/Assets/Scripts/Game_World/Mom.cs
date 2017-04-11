@@ -8,7 +8,9 @@ using ChrsUtils.ChrsEventSystem.GameEvents;
 public class Mom : MonoBehaviour 
 {
 
+	bool beginGame;
 	public bool moveMom;
+	public bool tutorialBegan;
 	float x;
 	bool onposition;
 	private MoveMomEvent.Handler onMoveMomEvent;
@@ -17,8 +19,10 @@ public class Mom : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		beginGame = false;
 		gameObject.name = "Priya";
 		moveMom = false;
+		tutorialBegan = false;
 		x = -10f;
 		onposition = false;
 
@@ -36,9 +40,11 @@ public class Mom : MonoBehaviour
 
 	void OnToggleHARTO(GameEvent e)
 	{
-		Debug.Log("Ok");
-		//GameEventsManager.Instance.Fire(new TopicSelectedEvent("Event_Tutorial", "Priya"));
-		//GameEventsManager.Instance.Fire(new BeginTutorialEvent());
+		if (!tutorialBegan)
+		{
+			tutorialBegan = true;
+			GameEventsManager.Instance.Fire(new BeginTutorialEvent());	
+		}
 	}
 	
 	// Update is called once per frame
@@ -62,13 +68,13 @@ public class Mom : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D col)
 	{	
-		if(col.gameObject.tag == "Player")
+		if(col.gameObject.tag == "Player" && !beginGame)
 		{
+			beginGame = true;
 			GameEventsManager.Instance.Fire(new BeginGameEvent());
-		
+			
 			onposition = true;
 		}
-		Debug.Log (x);
 		//onposition = true;
 	}
 }

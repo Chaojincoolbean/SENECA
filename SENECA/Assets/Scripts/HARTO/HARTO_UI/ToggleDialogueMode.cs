@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SenecaEvents;
+using ChrsUtils.ChrsEventSystem.GameEvents;
+using ChrsUtils.ChrsEventSystem.EventsManager;
 
 public class ToggleDialogueMode : MonoBehaviour 
 {
@@ -11,26 +14,60 @@ public class ToggleDialogueMode : MonoBehaviour
 	public Vector3 dialogueRotation;
 	public RectTransform recordingPosition;
 	public Vector3 recordingRotation;
+
+	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	// Use this for initialization
 	void Start () 
 	{
 		ui = GameObject.Find("HARTO_UI_Interface").GetComponent<HARTO_UI_Interface>();
 		thisButton = GetComponent<Button>();
 		thisButton.onClick.AddListener(TaskOnClick);	
-
+		thisButton.interactable = false;
 		dialoguePosition = GetComponent<RectTransform>();
 		dialogueRotation = transform.localRotation.eulerAngles;
 
 		recordingPosition = GameObject.Find("RecordingSwitchPos").GetComponent<RectTransform>();
 		recordingRotation = GameObject.Find("RecordingSwitchPos").transform.localRotation.eulerAngles;
+
+		onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
+
+		GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
+	}
+
+	void OnBeginDialogueEvent(GameEvent e)
+	{
+		thisButton.interactable = false;
 	}
 
 	void Update()
 	{
+		if(thisButton == null)
+		{
+			ui = GameObject.Find("HARTO_UI_Interface").GetComponent<HARTO_UI_Interface>();
+			thisButton = GetComponent<Button>();
+			thisButton.onClick.AddListener(TaskOnClick);
+
+			onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
+
+			GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
+			
+		}
+
+		if(GameManager.instance.inConversation)
+		{
+			thisButton.interactable = false;
+		}
+		else if (GameManager.instance.completedOneTopic)
+		{
+			thisButton.interactable = true;
+		}
+
 		if(dialoguePosition == null || recordingPosition == null)
 		{
 			dialoguePosition = GetComponent<RectTransform>();
+			dialogueRotation = transform.localRotation.eulerAngles;
 			recordingPosition = GameObject.Find("RecordingSwitchPos").GetComponent<RectTransform>();
+			recordingRotation = GameObject.Find("RecordingSwitchPos").transform.localRotation.eulerAngles;
 		}
 		
 		if(ui.dialogueModeActive)

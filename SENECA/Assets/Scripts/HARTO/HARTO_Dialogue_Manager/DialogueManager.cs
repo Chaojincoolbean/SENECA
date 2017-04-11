@@ -94,7 +94,6 @@ public class DialogueManager : MonoBehaviour
 	void OnTopicSelected(GameEvent e)
 	{
 		string selectedEvent = EVENT_PREFIX + ((TopicSelectedEvent)e).topicName.Replace(TOPIC_PREFIX, "");
-		Debug.Log(selectedEvent);
 		bool astridTalksFirst =  GameManager.instance.whoTalksFirst[selectedEvent+SceneNumber +((TopicSelectedEvent)e).npcName];
 		InitDialogueEvent(selectedEvent, SceneNumber,((TopicSelectedEvent)e).npcName, astridTalksFirst);
 		

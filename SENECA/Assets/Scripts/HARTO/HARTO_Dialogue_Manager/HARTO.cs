@@ -10,8 +10,8 @@ public  enum  Emotions
 {
 	None,
 	Happy,
-	Sad,
-	Curious,
+	Question,
+	Depressed,
 	Angry
 }
 public class HARTO : MonoBehaviour 

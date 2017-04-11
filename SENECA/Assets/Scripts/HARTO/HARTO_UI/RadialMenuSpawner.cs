@@ -11,9 +11,10 @@ public class RadialMenuSpawner : MonoBehaviour
 	public AudioSource audioSource;
 	public static RadialMenuSpawner instance;
 
+	public GameObject uiMouse;
 	public RadialMenu menuPrefab;
 
-	private RadialMenu newMenu;
+	public RadialMenu newMenu;
 
 	private static bool firstPass = true;
 
@@ -30,7 +31,7 @@ public class RadialMenuSpawner : MonoBehaviour
 	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
 
-		clip = Resources.Load("Audio/SFX/FUTURE_BEEPS_LITE/R2D2/R2D2_Low_0014") as AudioClip;
+		clip = Resources.Load("Audio/SFX/HARO_SFX/LV-HTIS Beeps Simple 03") as AudioClip;
 
 		if(!audioSource.isPlaying)
 		{
@@ -43,7 +44,10 @@ public class RadialMenuSpawner : MonoBehaviour
 		
 		if(firstPass)
 		{
-			GameEventsManager.Instance.Fire(new BeginTutorialEvent());
+			//GameEventsManager.Instance.Fire(new BeginTutorialEvent());
+			Vector3 tabPosition = GameObject.Find("Mouse_Location").transform.localPosition;
+			GameObject mouse = Instantiate(uiMouse, tabPosition, Quaternion.identity);
+			mouse.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
 			firstPass = false;
 		}
 		// Courtine to fade in image here!

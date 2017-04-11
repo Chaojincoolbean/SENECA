@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
@@ -24,6 +26,9 @@ public class GameManager : MonoBehaviour {
 	public AudioSource audioSource;
 	public Player player_Astrid;
 	public GameObject npc_Priya;
+	public GameObject uiTAB;
+	public GameObject uiMouse;
+
 	[SerializeField]
 	private int _sceneNumber;
 	public int CurrentSceneNumber
@@ -38,9 +43,20 @@ public class GameManager : MonoBehaviour {
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
 	private const string ASTRID = "Player";
 	public bool begin;
+	public bool inConversation;
+	public bool tabUIOnScreen;
+	public bool waitingForInput;
+	public bool completedOneTopic;
+
+	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
+	private ToggleHARTOEvent.Handler onToggleHARTO;
+
 	// Use this for initialization
 	void Start () 
 	{
+		inConversation = false;
+		tabUIOnScreen = false;
+		completedOneTopic = false;
 		CurrentSceneNumber = 1;
 		if (instance == null)
 		{
@@ -74,11 +90,36 @@ public class GameManager : MonoBehaviour {
 		npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
 
 
+		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
+		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
+
+		GameEventsManager.Instance.Register<TABUIButtonAppearEvent>(onTABUIButtionAppear);
+		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
+
 		GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 
 		audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
 		begin = false;
 		
+	}
+
+	void OnTABUIButtonAppear(GameEvent e)
+	{
+		if (!tabUIOnScreen)
+		{
+			tabUIOnScreen = true;
+			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
+			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
+			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
+		}
+	}
+
+	void OnToggleHARTO(GameEvent e)
+	{
+		if(tabUIOnScreen)
+		{
+			Destroy(GameObject.Find("TAB_UI(Clone)"));
+		}
 	}
 	
 	// Update is called once per frame
