@@ -25,19 +25,30 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D _rigidBody2D;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
+	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
 
 
 	// Use this for initialization
 	void Start () 
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
+
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
+		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
+
 		GameEventsManager.Instance.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
+		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
 	{
 		diableMovement = ((DisablePlayerMovementEvent)e).disableMovement;
+	}
+
+	void OnClosingHARTOForTheFirstTime(GameEvent e)
+	{
+		npcAstridIsTalkingTo = "";
+		
 	}
 
 	/*--------------------------------------------------------------------------------------*/
