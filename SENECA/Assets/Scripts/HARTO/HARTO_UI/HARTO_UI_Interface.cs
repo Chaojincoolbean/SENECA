@@ -192,6 +192,15 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void OnDialogueEnded(GameEvent e)
 	{
+		Debug.Log(((EndDialogueEvent)e).topicName);
+		if(((EndDialogueEvent)e).topicName.Contains("Exit") && !closedTutorialUsingRecordingSwitch)
+		{
+			isHARTOActive = false;
+			RadialMenuSpawner.instance.DestroyMenu();
+			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(false));
+			return;
+		}
+		
 		if(closedTutorialUsingRecordingSwitch)
 		{
 			ReloadMenu(recordingFolders);
@@ -227,22 +236,30 @@ public class HARTO_UI_Interface : MonoBehaviour
 		{
 			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
-			if(isHARTOActive)
+			if (!isHARTOActive && !GameManager.instance.completedOneTopic)
 			{
-				RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+				isHARTOActive = true;
 			}
 			else
 			{
-				if (closingHARTOForFirstTime)
+				if(isHARTOActive)
 				{
-					GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
-					closingHARTOForFirstTime = false;
-					StartCoroutine(WaitForExitScript());
+					RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+					GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 				}
 				else
 				{
-					recordingFolderSelected = false;
-					RadialMenuSpawner.instance.DestroyMenu();
+					if (closingHARTOForFirstTime)
+					{
+						GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
+						closingHARTOForFirstTime = false;
+						StartCoroutine(WaitForExitScript());
+					}
+					else
+					{
+						recordingFolderSelected = false;
+						RadialMenuSpawner.instance.DestroyMenu();
+					}
 				}
 			}
 		}

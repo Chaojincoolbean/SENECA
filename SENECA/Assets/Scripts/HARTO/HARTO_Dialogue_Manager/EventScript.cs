@@ -132,7 +132,7 @@ public class EventScript : MonoBehaviour
 			if (response.transform.childCount > 1)
 			{
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, scene, topicName);
-				yield return new WaitForSeconds(0.7f);
+				yield return new WaitForSeconds(1.5f);
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, scene, topicName);
 				waitingForEmotionalInput = false;
 				GameManager.instance.waitingForInput = waitingForEmotionalInput;
@@ -140,13 +140,13 @@ public class EventScript : MonoBehaviour
 			else
 			{	
 				response.PlayLine(GIBBERISH, scene, topicName);
-				yield return new WaitForSeconds(0.7f);
+				yield return new WaitForSeconds(1.5f);
 				response.PlayLine(HARTO, scene, topicName);
 			}
 			
 			while(response.characterAudioSource.isPlaying)
 			{
-				gibberishPlayer.GetComponent<AudioSource>().volume = 0.2f;
+				gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
 				yield return new WaitForFixedUpdate();	
 			}
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
@@ -208,7 +208,7 @@ public class EventScript : MonoBehaviour
 
 		if(!topicName.Contains("Start_Game"))
 		{
-			GameEventsManager.Instance.Fire(new EndDialogueEvent());
+			GameEventsManager.Instance.Fire(new EndDialogueEvent(topicName));
 		}
 		else
 		{

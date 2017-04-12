@@ -128,7 +128,7 @@ public class RadialMenu : MonoBehaviour
 			float theta = (2 * Mathf.PI / iconList.Count) * i;
 			float xPos = Mathf.Sin(theta + scrollWheel);
 			float yPos = Mathf.Cos(theta + scrollWheel);
-			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * 180.0f;
+			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * 183.0f;
 		}
 	}
 
@@ -145,7 +145,7 @@ public class RadialMenu : MonoBehaviour
 				}
 				
 				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
-				clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 04") as AudioClip;
+				clip = Resources.Load("Audio/SFX/HARTO_SFX/SWEEPS_0015") as AudioClip;
 
 				if(!audioSource.isPlaying && !clipHasBeenPlayed)
 				{
@@ -157,7 +157,7 @@ public class RadialMenu : MonoBehaviour
 				{
 					if(!iconList[i].alreadySelected)
 					{
-						clip = Resources.Load("Audio/SFX/HARTO_SFX/BB_DRL__003") as AudioClip;
+						clip = Resources.Load("Audio/SFX/HARTO_SFX/LV-HTIS Beeps Simple 03") as AudioClip;
 						if(!audioSource.isPlaying)
 						{
 							audioSource.PlayOneShot(clip, 0.5f);
@@ -216,6 +216,16 @@ public class RadialMenu : MonoBehaviour
 		if(rotate != rotateSelectionWheel && GameObject.Find("MOUSE_UI(Clone)"))
 		{
 			Destroy(GameObject.Find("MOUSE_UI(Clone)"));
+		}
+
+		if(rotateSelectionWheel != rotate)
+		{
+			clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 03") as AudioClip;
+
+				// if(!audioSource.isPlaying)
+				// {
+					audioSource.PlayOneShot(clip, 0.5f);
+				//}
 		}
 
 		rotateSelectionWheel = 	rotate;

@@ -15,6 +15,7 @@ public class Mom : MonoBehaviour
 	bool onposition;
 	private MoveMomEvent.Handler onMoveMomEvent;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
+	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
 
 	// Use this for initialization
 	void Start () 
@@ -28,9 +29,24 @@ public class Mom : MonoBehaviour
 
 		onMoveMomEvent = new MoveMomEvent.Handler(OnMoveMom);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
+		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
 		GameEventsManager.Instance.Register<MoveMomEvent>(onMoveMomEvent);
 		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
+		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+	}
+
+	void OnClosingHARTOForTheFirstTime(GameEvent e)
+	{
+		Collider2D[] colliders = GetComponents<Collider2D>();
+		for(int i = 0;i < colliders.Length; i++)
+		{
+			if(colliders[i].isTrigger)
+			{
+				colliders[i].enabled = false;
+			}
+		}
+		
 	}
 
 	void OnMoveMom(GameEvent e)

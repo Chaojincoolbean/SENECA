@@ -51,9 +51,10 @@ namespace SenecaEvents
 
     public class EndDialogueEvent : GameEvent
     {
-        public EndDialogueEvent ()
+        public readonly string topicName;
+        public EndDialogueEvent (string topic)
         {
-            
+            topicName = topic;
         }
     }
 
