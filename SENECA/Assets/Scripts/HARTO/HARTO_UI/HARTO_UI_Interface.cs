@@ -204,6 +204,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		if(closedTutorialUsingRecordingSwitch)
 		{
 			ReloadMenu(recordingFolders);
+			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(false));
 			closedTutorialUsingRecordingSwitch = false;
 		}
 		else
