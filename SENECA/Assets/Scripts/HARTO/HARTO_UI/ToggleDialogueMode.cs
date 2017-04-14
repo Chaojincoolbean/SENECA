@@ -16,6 +16,7 @@ public class ToggleDialogueMode : MonoBehaviour
 	public Vector3 recordingRotation;
 
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
+	private EndDialogueEvent.Handler onEndDialogueEvent;
 	// Use this for initialization
 	void Start () 
 	{
@@ -30,13 +31,27 @@ public class ToggleDialogueMode : MonoBehaviour
 		recordingRotation = GameObject.Find("RecordingSwitchPos").transform.localRotation.eulerAngles;
 
 		onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
+		onEndDialogueEvent = new EndDialogueEvent.Handler(OnEndDialogueEvent);
 
 		GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
+		GameEventsManager.Instance.Register<EndDialogueEvent>(onEndDialogueEvent);
+	}
+
+	void OnDestroy()
+	{
+		Debug.Log("E!!!!!");
+		GameEventsManager.Instance.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
+		GameEventsManager.Instance.Unregister<EndDialogueEvent>(onEndDialogueEvent);
 	}
 
 	void OnBeginDialogueEvent(GameEvent e)
 	{
 		thisButton.interactable = false;
+	}
+
+	void OnEndDialogueEvent(GameEvent e)
+	{
+		thisButton.interactable = true;
 	}
 
 	void Update()

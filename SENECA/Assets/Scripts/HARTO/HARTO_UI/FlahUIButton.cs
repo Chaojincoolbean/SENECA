@@ -16,7 +16,7 @@ public class FlahUIButton : MonoBehaviour
 	void Start () 
 	{
 		_UIIcon = GetComponent<Image>();
-		
+		_UIIcon.color = new Color(_UIIcon.color.r, _UIIcon.color.g, _UIIcon.color.b, 0.0f);
 		_Position = GetComponent<RectTransform>().localPosition;
 		_Top = _Position.y + _Boundary;
 		_Bottom = _Position.y - _Boundary;

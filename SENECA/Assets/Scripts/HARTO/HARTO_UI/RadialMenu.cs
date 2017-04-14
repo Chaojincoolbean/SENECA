@@ -82,8 +82,8 @@ public class RadialMenu : MonoBehaviour
 			iconList.Add(newRadialIcon);
 			newRadialIcon.transform.SetParent(transform, false);
 			float theta = (2 * Mathf.PI / obj.options.Length) * i;
-			float xPos = Mathf.Sin(theta + 20);
-			float yPos = Mathf.Cos(theta + 20);
+			float xPos = Mathf.Sin(theta);
+			float yPos = Mathf.Cos(theta);
 			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 180.0f;
 			newRadialIcon.icon.color = obj.options[i].color;
 			newRadialIcon.alreadySelected = obj.options[i].alreadySelected;
@@ -222,10 +222,10 @@ public class RadialMenu : MonoBehaviour
 		{
 			clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 03") as AudioClip;
 
-				// if(!audioSource.isPlaying)
-				// {
+				if(!audioSource.isPlaying)
+				{
 					audioSource.PlayOneShot(clip, 0.5f);
-				//}
+				}
 		}
 
 		rotateSelectionWheel = 	rotate;

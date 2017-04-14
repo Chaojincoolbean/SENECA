@@ -69,7 +69,6 @@ namespace SenecaEvents
 
     public class EmotionSelectedEvent : GameEvent
     {
-        public readonly HARTOTuningv3Script hartoEmotion;
         public readonly Emotions emotion;
 
         public EmotionSelectedEvent(Emotions currentEmotion) 

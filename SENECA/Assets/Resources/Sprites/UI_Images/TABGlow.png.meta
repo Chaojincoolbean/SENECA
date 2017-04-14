@@ -1,13 +1,9 @@
 fileFormatVersion: 2
-guid: bb67ee47f435045acab15a9c3975e9a0
-timeCreated: 1492110443
+guid: d9a2cf92e78ec4bd0858dd1d2eba20d5
+timeCreated: 1492138122
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: astrid-front-walk_0
-    21300002: astrid-front-walk_1
-    21300004: astrid-front-walk_2
-    21300006: astrid-front-walk_3
+  fileIDToRecycleName: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -38,13 +34,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 80
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -96,59 +92,7 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: astrid-front-walk_0
-      rect:
-        serializedVersion: 2
-        x: 233
-        y: 178
-        width: 353
-        height: 1258
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: astrid-front-walk_1
-      rect:
-        serializedVersion: 2
-        x: 733
-        y: 163
-        width: 329
-        height: 1259
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: astrid-front-walk_2
-      rect:
-        serializedVersion: 2
-        x: 1131
-        y: 179
-        width: 353
-        height: 1256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: astrid-front-walk_3
-      rect:
-        serializedVersion: 2
-        x: 1546
-        y: 166
-        width: 427
-        height: 1255
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

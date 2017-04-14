@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
+using ChrsUtils;
+using UnityEngine.UI;
 
 public class RadialMenuSpawner : MonoBehaviour 
 {
@@ -16,6 +18,7 @@ public class RadialMenuSpawner : MonoBehaviour
 
 	public RadialMenu newMenu;
 
+	public EasingProperties easing;
 	private static bool firstPass = true;
 
 	void Awake()
@@ -24,6 +27,8 @@ public class RadialMenuSpawner : MonoBehaviour
 		{
 			instance = this;
 		}
+
+		easing = new EasingProperties();
 
 		audioSource = GetComponent<AudioSource>();
 	}
@@ -39,26 +44,61 @@ public class RadialMenuSpawner : MonoBehaviour
 		}
 		newMenu = Instantiate(menuPrefab) as RadialMenu;
 		newMenu.transform.SetParent(transform, false);
+		 newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
+		 StartCoroutine(Animate(true));
 		newMenu.Init(player);
 		newMenu.SpawnIcons(obj, topicSelected);
 		
 		if(firstPass)
 		{
+
 			//	toss this in a coroutine!!!!!!
 			//GameEventsManager.Instance.Fire(new BeginTutorialEvent());
 			Vector3 tabPosition = GameObject.Find("Mouse_Location").transform.localPosition;
 			GameObject mouse = Instantiate(uiMouse, tabPosition, Quaternion.identity);
+
 			mouse.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
 			firstPass = false;
 		}
 		// Courtine to fade in image here!
 	}
 
+	private IEnumerator Animate(bool fadeIn)
+    {
+        yield return StartCoroutine(Coroutines.DoOverEasedTime(1.0f, easing.MovementEasing, t =>
+        {
+			float alpha;
+			if(fadeIn)
+			{
+				alpha = Mathf.Lerp(0, 1, t);
+			}
+			else
+			{
+				alpha = Mathf.Lerp(1, 0, t);
+			}
+            newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			newMenu.selectionArea.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			newMenu.screenHARTO.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			for(int i = 0; i < newMenu.iconList.Count; i++)
+			{
+				if (!newMenu.iconList[i].alreadySelected)
+				{
+					newMenu.iconList[i].color.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+				}
+				else
+				{
+					newMenu.iconList[i].color.color = new Color(0.5f, 0.5f, 0.5f, alpha);
+				}
+			}
+        }));
+    }
+
 	public void DestroyMenu()
 	{
 		//	Courtine to fade out image here
 		if (newMenu != null)
 		{
+			StartCoroutine(Animate(false));
 			Destroy(newMenu.gameObject);
 		}
 	}

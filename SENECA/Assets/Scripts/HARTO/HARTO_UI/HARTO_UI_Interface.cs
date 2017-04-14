@@ -4,7 +4,15 @@ using UnityEngine;
 using SenecaEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
+using ChrsUtils.EasingEquations;
+using ChrsUtils;
 
+
+/*
+
+	TODO: find out if you are closing HARTO then fade out. Otherwise fade icons
+
+ */
 public class HARTO_UI_Interface : MonoBehaviour 
 {
 
@@ -30,6 +38,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	public Action[] options;
 
+	public Action[] empty;
 	public Action[] topics;
 	public Action[] emotions;
 	public Action[] recordingFolders;
@@ -44,6 +53,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	private bool closingHARTOForFirstTime;
 	private bool closedTutorialUsingRecordingSwitch;
 	public string currentNPC;
+	private EasingProperties _easing;
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
 	private TopicSelectedEvent.Handler onTopicSelecetd;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
@@ -60,6 +70,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		closedTutorialUsingRecordingSwitch = false;
 		audioSource = GetComponent<AudioSource>();
 
+		_easing = new EasingProperties();
 		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
 
 		options = emotions;
@@ -78,10 +89,44 @@ public class HARTO_UI_Interface : MonoBehaviour
 		
 	}
 
+	private IEnumerator Animate(bool fadeIn)
+    {
+        yield return StartCoroutine(Coroutines.DoOverEasedTime(1.0f, _easing.MovementEasing, t =>
+        {
+			float alpha;
+			if(fadeIn)
+			{
+				alpha = Mathf.Lerp(0, 1, t);
+			}
+			else
+			{
+				alpha = Mathf.Lerp(1, 0, t);
+			}
+            // newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			// newMenu.selectionArea.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			// newMenu.screenHARTO.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			// for(int i = 0; i < newMenu.iconList.Count; i++)
+			// {
+			// 	if (!newMenu.iconList[i].alreadySelected)
+			// 	{
+			// 		newMenu.iconList[i].color.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+			// 	}
+			// 	else
+			// 	{
+			// 		newMenu.iconList[i].color.color = new Color(0.5f, 0.5f, 0.5f, alpha);
+			// 	}
+			// }
+        }));
+    }
+
 	void ReloadMenu(Action[] newOptions)
 	{
 		RadialMenuSpawner.instance.DestroyMenu();
 		options = newOptions;
+		if(player.npcAstridIsTalkingTo == null)
+		{
+				topics = empty;
+		}
 		RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 	}
 
@@ -152,11 +197,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	}
 
 	void OnTopicSelected(GameEvent e)
-	{
-		Debug.Log(((TopicSelectedEvent)e).topicName);
-		Debug.Log("!" + topics[2].title);
-	
-
+	{	
 		if (currentNPC != ((TopicSelectedEvent)e).npcName)
 		{
 			currentNPC = ((TopicSelectedEvent)e).npcName;
@@ -198,6 +239,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 			isHARTOActive = false;
 			RadialMenuSpawner.instance.DestroyMenu();
 			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(false));
+			inConversation = false;
+			GameManager.instance.inConversation = inConversation;
 			return;
 		}
 		
@@ -232,7 +275,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 	void Update () 
 	{
 
-
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation)
 		{
 			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
@@ -245,6 +287,11 @@ public class HARTO_UI_Interface : MonoBehaviour
 			{
 				if(isHARTOActive)
 				{
+					Debug.Log(player.npcAstridIsTalkingTo);
+					if(player.npcAstridIsTalkingTo == null)
+					{
+						topics = empty;
+					}
 					RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 					GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 				}

@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 	
 	public float moveSpeed;
 
+	private Animator _animator;
 	private Rigidbody2D _rigidBody2D;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
 	void Start () 
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
+		_animator = GetComponent<Animator>();
 
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
@@ -62,6 +64,8 @@ public class Player : MonoBehaviour
 	{
 		//	Adds force to rigidbody based on the input
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
+		_animator.SetFloat("SpeedX", Mathf.Abs(dx));
+		_animator.SetFloat("SpeedY", dy);
 
 		if (dx > 0 && !facingLeft)
 		{

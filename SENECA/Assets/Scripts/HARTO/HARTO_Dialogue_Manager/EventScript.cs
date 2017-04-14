@@ -206,8 +206,9 @@ public class EventScript : MonoBehaviour
 			
 		}
 
-		if(!topicName.Contains("Start_Game"))
+		if(topicName != "Start_Game")
 		{
+			Debug.Log(topicName);
 			GameEventsManager.Instance.Fire(new EndDialogueEvent(topicName));
 		}
 		else
