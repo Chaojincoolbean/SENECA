@@ -8,15 +8,31 @@ public class witchlightmanager1 : MonoBehaviour {
 	public float x, y;
 	public GameObject player;
 	public Camera mainCamera;
+	public float n;
+	bool isCameraRotating;
 
 	// Use this for initialization
 	void Start () {
 		x = this.gameObject.transform.position.x;
 		y = this.gameObject.transform.position.y;
+		isCameraRotating = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (isCameraRotating == true) {
+
+			mainCamera.transform.Rotate (Vector3.forward * n * Time.deltaTime);
+
+			Debug.Log (mainCamera.transform.rotation.eulerAngles.z);
+
+			if(mainCamera.transform.rotation.eulerAngles.z >= 180){
+				
+				SceneManager.LoadScene (3);
+			}
+
+		}
 
 		if (x < 0) {
 
@@ -41,11 +57,14 @@ public class witchlightmanager1 : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
+		
 		if (col.gameObject.tag == "Player") {
 
+			isCameraRotating = true;
 
-			SceneManager.LoadScene (3);
+
 
 		}
 	}
+		
 }
