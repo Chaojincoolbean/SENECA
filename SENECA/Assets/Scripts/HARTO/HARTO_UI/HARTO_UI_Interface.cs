@@ -16,6 +16,8 @@ using ChrsUtils;
 public class HARTO_UI_Interface : MonoBehaviour 
 {
 
+	public static HARTO_UI_Interface HARTOSystem;
+
 	[System.Serializable]
 	public class Action
 	{
@@ -62,6 +64,16 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void Start()
 	{
+		if(HARTOSystem == null)
+		{
+			HARTOSystem = this;
+			DontDestroyOnLoad(gameObject);
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+
 		closingHARTOForFirstTime = true;
 		isHARTOActive = false;
 		dialogueModeActive = true;

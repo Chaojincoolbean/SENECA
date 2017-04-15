@@ -39,7 +39,6 @@ public class ToggleDialogueMode : MonoBehaviour
 
 	void OnDestroy()
 	{
-		Debug.Log("E!!!!!");
 		GameEventsManager.Instance.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
 		GameEventsManager.Instance.Unregister<EndDialogueEvent>(onEndDialogueEvent);
 	}

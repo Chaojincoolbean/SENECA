@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
@@ -146,7 +147,10 @@ public class EventScript : MonoBehaviour
 			
 			while(response.characterAudioSource.isPlaying)
 			{
-				gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
+				if(!SceneManager.GetActiveScene().name.Contains("Utan"))
+				{
+					gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
+				}
 				yield return new WaitForFixedUpdate();	
 			}
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
