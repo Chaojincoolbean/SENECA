@@ -6,6 +6,7 @@ using SenecaEvents;
 using ChrsUtils;
 using UnityEngine.UI;
 
+
 public class RadialMenuSpawner : MonoBehaviour 
 {
 
@@ -20,6 +21,7 @@ public class RadialMenuSpawner : MonoBehaviour
 
 	public EasingProperties easing;
 	private static bool firstPass = true;
+	private RectTransform spawnPosition;
 
 	void Awake()
 	{
@@ -30,6 +32,7 @@ public class RadialMenuSpawner : MonoBehaviour
 
 		easing = new EasingProperties();
 
+		spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
 		audioSource = GetComponent<AudioSource>();
 	}
 
@@ -44,8 +47,10 @@ public class RadialMenuSpawner : MonoBehaviour
 		}
 		newMenu = Instantiate(menuPrefab) as RadialMenu;
 		newMenu.transform.SetParent(transform, false);
-		 newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
-		 StartCoroutine(Animate(true));
+		newMenu.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+		newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
+		newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
+		StartCoroutine(Animate(true));
 		newMenu.Init(player);
 		newMenu.SpawnIcons(obj, topicSelected);
 		

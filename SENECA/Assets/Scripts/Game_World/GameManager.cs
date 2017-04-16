@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour {
 	private const string HARTO_TAG = "HARTO";
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
 	private const string ASTRID = "Player";
+	public bool isTestScene;
+	public bool inUtan;
 	public bool begin;
 	public bool inConversation;
 	public bool tabUIOnScreen;
@@ -96,7 +99,19 @@ public class GameManager : MonoBehaviour {
 		GameEventsManager.Instance.Register<TABUIButtonAppearEvent>(onTABUIButtionAppear);
 		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 
-		GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+		if (SceneManager.GetActiveScene().name.Contains("Test"))
+		{
+			isTestScene = true;
+		}
+		else
+		{
+			isTestScene = false;
+		}
+
+		if(!isTestScene)
+		{
+			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+		}
 
 		audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
 		begin = false;
@@ -125,7 +140,25 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!begin && !audioSource.isPlaying)
+		if (SceneManager.GetActiveScene().name.Contains("Test"))
+		{
+			isTestScene = true;
+		}
+		else
+		{
+			isTestScene = false;
+		}
+
+		if (SceneManager.GetActiveScene().name.Contains("Utan"))
+		{
+			inUtan = true;
+		}
+		else
+		{
+			inUtan = false;
+		}
+
+		if(!begin && !audioSource.isPlaying && !isTestScene)
 		{
 			GameEventsManager.Instance.Fire(new MoveMomEvent());
 			begin = true;

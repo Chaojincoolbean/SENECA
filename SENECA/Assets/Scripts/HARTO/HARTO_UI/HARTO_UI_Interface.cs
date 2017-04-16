@@ -7,7 +7,6 @@ using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.EasingEquations;
 using ChrsUtils;
 
-
 /*
 
 	TODO: find out if you are closing HARTO then fade out. Otherwise fade icons
@@ -78,14 +77,21 @@ public class HARTO_UI_Interface : MonoBehaviour
 		isHARTOActive = false;
 		dialogueModeActive = true;
 		recordingFolderSelected = false;
-		topicSelected = true;
 		closedTutorialUsingRecordingSwitch = false;
 		audioSource = GetComponent<AudioSource>();
 
 		_easing = new EasingProperties();
 		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
 
-		options = emotions;
+		if (!GameManager.instance.isTestScene)
+		{
+			topicSelected = true;
+			options = emotions;
+		}
+		else
+		{
+			options = topics;
+		}
 
 		onRecordingFolderSelecetd = new RecordingFolderSelectedEvent.Handler(OnRecordingFolderSelected);
 		onTopicSelecetd = new TopicSelectedEvent.Handler(OnTopicSelected);
@@ -291,7 +297,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		{
 			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
-			if (!isHARTOActive && !GameManager.instance.completedOneTopic)
+			if (!isHARTOActive && !GameManager.instance.completedOneTopic && !GameManager.instance.isTestScene)
 			{
 				isHARTOActive = true;
 			}
@@ -299,7 +305,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 			{
 				if(isHARTOActive)
 				{
-					Debug.Log(player.npcAstridIsTalkingTo);
 					if(player.npcAstridIsTalkingTo == null)
 					{
 						topics = empty;
@@ -309,7 +314,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 				}
 				else
 				{
-					if (closingHARTOForFirstTime)
+					if (closingHARTOForFirstTime && !GameManager.instance.isTestScene)
 					{
 						GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
 						closingHARTOForFirstTime = false;

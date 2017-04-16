@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
@@ -115,7 +114,6 @@ public class EventScript : MonoBehaviour
 			//	Redundant check (the first time)
 			if (response.transform.childCount > 1)
 			{
-				Debug.Log(response.transform.name);
 				//	If I am waiting for emotional input, I keep waiting unitl i get it.
 				waitingForEmotionalInput = true;
 			}
@@ -147,7 +145,7 @@ public class EventScript : MonoBehaviour
 			
 			while(response.characterAudioSource.isPlaying)
 			{
-				if(!SceneManager.GetActiveScene().name.Contains("Utan"))
+				if(!GameManager.instance.inUtan)
 				{
 					gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
 				}

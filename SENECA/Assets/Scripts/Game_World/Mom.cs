@@ -56,7 +56,7 @@ public class Mom : MonoBehaviour
 
 	void OnToggleHARTO(GameEvent e)
 	{
-		if (!tutorialBegan)
+		if (!tutorialBegan && !GameManager.instance.isTestScene)
 		{
 			tutorialBegan = true;
 			GameEventsManager.Instance.Fire(new BeginTutorialEvent());	

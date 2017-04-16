@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ChrsUtils;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
 public class RadialMenu : MonoBehaviour 
 {
+	public bool notActive;
 	public bool clipHasBeenPlayed;
 	public bool canSelect;
 	public float rotationSpeed = 5.0f;
@@ -26,6 +28,7 @@ public class RadialMenu : MonoBehaviour
 
 	public List<RadialIcon> iconList;
 	private float rotateSelectionWheel;
+	private RectTransform _rectTransform;
 	public Player _player;
 	private const string SCROLLWHEEL = "Mouse ScrollWheel";
 	private const string PLAYER_TAG = "Player";
@@ -35,20 +38,25 @@ public class RadialMenu : MonoBehaviour
 	private const string FOLDER_TAG = "Folder_";
 	private const string RECORDING_TAG = "Recording_";
 	private const string HARTO_SCREEN = "HARTO_Screen";
-	private Color inactiveColor = new Color (0.39f, 0.39f, 0.39f, 1.0f);
+	public Color inactiveColor = new Color (0.39f, 0.39f, 0.39f, 1.0f);
+	public Animator _anim;
 
 	public void Init(Player player)
 	{
+		_anim = GetComponent<Animator>();
 		canSelect = true;
 		_player = player;
 		emptyAreaSprite = selectionArea.sprite;
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
+		_rectTransform = GetComponent<RectTransform>();
 		if (!GameManager.instance.inConversation)
 		{
-			screenHARTO.color = inactiveColor;
+			_anim.SetBool("Inactive", true);
 		}
+
+		notActive = true;
 	}
 
 	void OnWaitingForEmotionalInput(GameEvent e)
@@ -174,8 +182,7 @@ public class RadialMenu : MonoBehaviour
 						}
 					}
 				}
-				
-				
+						
 			}
 		}
 	}
@@ -203,6 +210,24 @@ public class RadialMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+
+		if(GameManager.instance.isTestScene)
+		{
+			if(Input.GetKeyDown(KeyCode.Space))
+			{
+				notActive = !notActive;
+			}
+			if(notActive)
+			{
+				_anim.SetBool("Inactive", true);
+			}
+			else
+			{
+				_anim.SetBool("Inactive", false);
+			}
+			
+		}
+
 		if (screenHARTO == null)
 		{
 			screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
@@ -234,11 +259,11 @@ public class RadialMenu : MonoBehaviour
 
 		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation)
 		{
-			screenHARTO.color = Color.white;
+			_anim.SetBool("Inactive", false);
 		}
 		else
 		{
-			screenHARTO.color = inactiveColor;
+			_anim.SetBool("Inactive", true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)
@@ -249,8 +274,6 @@ public class RadialMenu : MonoBehaviour
 				audioSource.PlayOneShot(clip);
 			}
 		}
-		
-		
 
 		if(canSelect)
 		{

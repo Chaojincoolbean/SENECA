@@ -33,7 +33,6 @@ public class ResponseScript : MonoBehaviour {
 		if (dialogueType == HARTO)
 		{
 			characterAudioSource.PlayOneShot(myLine.LoadAudioClip(characterName, scene, topic, transform.name), volume);
-			Debug.Log("Here for: " + characterName);
 			elapsedHARTOSeconds = myLine.LoadAudioClip(characterName, scene, topic,transform.name).length;
 		}
 		else if (dialogueType == GIBBERISH)
