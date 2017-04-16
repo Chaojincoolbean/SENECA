@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using SenecaEvents;
 
 /*--------------------------------------------------------------------------------------*/
 /*																						*/
@@ -36,11 +38,11 @@ public class DrawLine : MonoBehaviour
 	private LineRenderer lineRenderer;							//	Reference to Line Renderer
 
 	private List<GameObject> lines; //list that holds the GameObjects with LineRenderer
-	private List<GameObject> nodes;
+	public List<GameObject> nodes;
 	private List<GameObject> usedNodes;
 
 
-	private GameObject currentNode;
+	public GameObject currentNode;
 	private GameObject prevNode;
 
 	private int lastNodeIndex;
@@ -75,16 +77,16 @@ public class DrawLine : MonoBehaviour
 
 		foreach (GameObject go in GameObject.FindGameObjectsWithTag(HARTO_NODE)) {
 			nodes.Add (go);
-			go.transform.position = new Vector3 (go.transform.position.x, Random.Range (-boundaryY, boundaryY), go.transform.position.z);
+			//go.transform.position = new Vector3 (go.transform.position.x, Random.Range (-boundaryY, boundaryY), go.transform.position.z);
 		}
 
-		shuffleGameObjects (nodes);
+		//shuffleGameObjects (nodes);
 
 		lastNodeIndex = Random.Range(0,nodes.Count);
 
 
 		if (puzzleToggle) {
-			shuffleMaterials (materials);
+			//shuffleMaterials (materials);
 			int materialIndex = 0;
 			foreach (GameObject node in nodes) {
 				node.GetComponent<Renderer> ().material = materials [materialIndex];
@@ -99,7 +101,7 @@ public class DrawLine : MonoBehaviour
 			audios [1] = audiomanager.D;
 			audios [2] = audiomanager.E;
 			audios [3] = audiomanager.F;
-			audios [4] = audiomanager.G;
+			//audios [4] = audiomanager.G;
 
 			audioCheck = new bool[audios.Length];
 		}
@@ -130,6 +132,8 @@ public class DrawLine : MonoBehaviour
 					//	Waits for player to left click [INITIAL]
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						if (hit.collider.tag == HARTO_NODE) {
+							currentNode = hit.collider.gameObject;
+							currentNode.GetComponent<Animator>().SetBool("IsActive", true);
 							usedNodes.Add (hit.collider.transform.gameObject);
 							DrawNewLine ();
 							lineRenderer.startColor = hit.collider.transform.gameObject.GetComponent<Renderer> ().material.color;
@@ -143,11 +147,17 @@ public class DrawLine : MonoBehaviour
 				}
 
 				//	Keep left mouse button down to keep drawing. 
-				if (Input.GetKey (KeyCode.Mouse0) && drawingLine) {			
-					if (hit.collider != null) {
-						if (hit.collider.tag == HARTO_NODE) {
-							if (hit.collider.transform.gameObject.GetInstanceID () != usedNodes [usedNodes.Count - 1].GetInstanceID ()) {
-
+				if (Input.GetKey (KeyCode.Mouse0) && drawingLine) 
+				{			
+					if (hit.collider != null) 
+					{
+						if (hit.collider.tag == HARTO_NODE) 
+						{
+								currentNode = hit.collider.gameObject;
+								currentNode.GetComponent<Animator>().SetBool("IsActive", true);
+							if (hit.collider.transform.gameObject.GetInstanceID () != usedNodes [usedNodes.Count - 1].GetInstanceID ()) 
+							{
+								
 								lineRenderer.endColor = hit.collider.transform.gameObject.GetComponent<Renderer> ().material.color;
 								usedNodes.Add (hit.collider.transform.gameObject);
 								//finish drawing the previous line
@@ -160,7 +170,8 @@ public class DrawLine : MonoBehaviour
 								particleSystem.GetComponent<ParticleSystem>().Play();
 								particleSystem.transform.position = hit.collider.transform.position;
 							} 
-							if (usedNodes.Count >= nodes.Count && CheckIfEveryNodeIsReached () && hit.collider.transform.gameObject.GetInstanceID () == nodes [lastNodeIndex].GetInstanceID ()) {
+							if (usedNodes.Count >= nodes.Count && CheckIfEveryNodeIsReached () && hit.collider.transform.gameObject.GetInstanceID () == nodes [lastNodeIndex].GetInstanceID ()) 
+							{
 								//check if the end condition has been met
 								solved = true;
 								Debug.Log ("the extremely hard puzzle has been conquered");
@@ -173,25 +184,35 @@ public class DrawLine : MonoBehaviour
 				}
 
 				//	When you release the left mouse button
-				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (Input.GetKeyUp (KeyCode.Mouse0)) 
+				{
 					CheckIfNoLongerDrawing ();
 				}
-			} else { //music puzzle
+			} 
+			else 
+			{ //music puzzle
 				//	Connects mose position on screen to game screen
 				hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
 				//	If the mouse ray collides with something go into this if-statement
-				if (hit.collider != null) {
-					if (hit.collider.tag == HARTO_NODE) {
-						if (Input.GetKeyDown (KeyCode.Mouse0)) {
-							
+				if (hit.collider != null) 
+				{
+					if (hit.collider.tag == HARTO_NODE) 
+					{
+						if (Input.GetKeyDown (KeyCode.Mouse0)) 
+						{
+							currentNode = hit.collider.gameObject;
+							currentNode.GetComponent<Animator>().SetBool("IsActive", true);
 							usedNodes.Add (hit.collider.transform.gameObject);
 							DrawNewLine ();
 
 							//initial check
-							for (int i = 0; i < nodes.Count; i++) {
-								if (hit.collider.transform.gameObject.GetInstanceID () == nodes [i].GetInstanceID ()) {
-									if (audioCount == i) {
+							for (int i = 0; i < nodes.Count; i++) 
+							{
+								if (hit.collider.transform.gameObject.GetInstanceID () == nodes [i].GetInstanceID ()) 
+								{
+									if (audioCount == i) 
+									{
 										audioCheck [audioCount] = true;
 										audioCount++;
 									}
@@ -202,11 +223,15 @@ public class DrawLine : MonoBehaviour
 							particleSystem.transform.position = hit.collider.transform.position;
 							
 						}
-						for (int i = 0; i < nodes.Count; i++) {
-							if (hit.collider.transform.gameObject.GetInstanceID () == nodes [i].GetInstanceID ()) {
-								if (!audios [i].isPlaying ) {
+						for (int i = 0; i < nodes.Count; i++) 
+						{
+							if (hit.collider.transform.gameObject.GetInstanceID () == nodes [i].GetInstanceID ()) 
+							{
+								if (!audios [i].isPlaying ) 
+								{
 									audios [i].PlayOneShot (audios [i].clip);
-									if (audioCount == i && usedNodes.Count > 0) {
+									if (audioCount == i && usedNodes.Count > 0) 
+									{
 										audioCheck [audioCount] = true;
 										audioCount++;
 										Debug.Log (audioCount);
@@ -218,10 +243,16 @@ public class DrawLine : MonoBehaviour
 				}
 
 				//	Keep left mouse button down to keep drawing. 
-				if (Input.GetKey (KeyCode.Mouse0) && drawingLine) {			
-					if (hit.collider != null) {
-						if (hit.collider.tag == HARTO_NODE) {
-							if (!usedNodes.Contains (hit.collider.transform.gameObject)) {
+				if (Input.GetKey (KeyCode.Mouse0) && drawingLine) 
+				{			
+					if (hit.collider != null) 
+					{
+						if (hit.collider.tag == HARTO_NODE) 
+						{
+							currentNode = hit.collider.gameObject;
+							currentNode.GetComponent<Animator>().SetBool("IsActive", true);
+							if (!usedNodes.Contains (hit.collider.transform.gameObject)) 
+							{
 								usedNodes.Add (hit.collider.transform.gameObject);
 								//finish drawing the previous line
 								lineRenderer.SetPosition (1, usedNodes [usedNodes.Count - 1].transform.position);
@@ -230,10 +261,12 @@ public class DrawLine : MonoBehaviour
 								particleSystem.transform.position = hit.collider.transform.position;
 							} 
 
-							if (usedNodes.Count >= nodes.Count && CheckIfEveryNodeIsReached () && CheckIfAudioPlayedInOrder()) {
+							if (usedNodes.Count >= nodes.Count && CheckIfEveryNodeIsReached () && CheckIfAudioPlayedInOrder()) 
+							{
 								//check if the end condition has been met
 								solved = true;
 								Debug.Log ("the extremely hard puzzle has been conquered");
+								GameEventsManager.Instance.Fire(new PuzzleCompletedEvent());
 							}
 						}
 					}
@@ -243,7 +276,8 @@ public class DrawLine : MonoBehaviour
 				}
 
 				//	When you release the left mouse button
-				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (Input.GetKeyUp (KeyCode.Mouse0)) 
+				{
 					CheckIfNoLongerDrawing ();
 				}
 
@@ -296,7 +330,12 @@ public class DrawLine : MonoBehaviour
 	}
 
 
-	void CheckIfNoLongerDrawing(){
+	void CheckIfNoLongerDrawing()
+	{
+		for(int i = 0; i < nodes.Count; i++)
+		{
+			nodes[i].GetComponent<Animator>().SetBool("IsActive", false);
+		}
 		//	When you release the left mouse button you are no longer drawing the line
 		drawingLine = false;
 		//destroy every line

@@ -38,7 +38,7 @@ public class NPC : MonoBehaviour {
 
 			float Perc = currentLerptime / lerptime;
 			this.transform.position = Vector3.Lerp (startPos, endPos, Perc);
-			Debug.Log ("currenttime:" + currentLerptime);
+			//Debug.Log ("currenttime:" + currentLerptime);
 		}
 
 		if (n == false) {

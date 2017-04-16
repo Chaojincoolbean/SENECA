@@ -151,4 +151,12 @@ namespace SenecaEvents
             
         }
     }
+
+    public class PuzzleCompletedEvent : GameEvent
+    {
+        public PuzzleCompletedEvent()
+        {
+            
+        }
+    }
 }

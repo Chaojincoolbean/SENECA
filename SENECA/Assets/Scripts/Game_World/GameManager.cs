@@ -51,12 +51,14 @@ public class GameManager : MonoBehaviour {
 	public bool waitingForInput;
 	public bool completedOneTopic;
 
+	private bool startedGame;
 	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 
 	// Use this for initialization
 	void Start () 
 	{
+		startedGame = false;
 		inConversation = false;
 		tabUIOnScreen = false;
 		completedOneTopic = false;
@@ -88,9 +90,7 @@ public class GameManager : MonoBehaviour {
 
 		player_Astrid = GameObject.FindGameObjectWithTag(ASTRID).GetComponent<Player>();
 
-		npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
-
-		npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+		
 
 
 		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
@@ -113,8 +113,16 @@ public class GameManager : MonoBehaviour {
 			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 		}
 
-		audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
-		begin = false;
+		begin = true;
+		if (SceneManager.GetActiveScene().name == "Forrest1" && !startedGame)
+		{
+			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+
+			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+			startedGame = true;
+			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
+			begin = false;
+		}
 		
 	}
 
