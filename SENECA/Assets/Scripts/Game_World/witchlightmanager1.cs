@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using SenecaEvents;
 
 public class witchlightmanager1 : MonoBehaviour {
 
@@ -25,10 +27,11 @@ public class witchlightmanager1 : MonoBehaviour {
 
 			mainCamera.transform.Rotate (Vector3.forward * n * Time.deltaTime);
 
-			Debug.Log (mainCamera.transform.rotation.eulerAngles.z);
+			//Debug.Log (mainCamera.transform.rotation.eulerAngles.z);
 
-			if(mainCamera.transform.rotation.eulerAngles.z >= 180){
-				
+			if(mainCamera.transform.rotation.eulerAngles.z >= 180)
+			{
+				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan1"));
 				SceneManager.LoadScene (3);
 			}
 

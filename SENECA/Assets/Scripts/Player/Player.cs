@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 	private Animator _animator;
 	private Rigidbody2D _rigidBody2D;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
+	private ToggleHARTOEvent.Handler onToggleHARTO;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
 
 
@@ -36,15 +37,22 @@ public class Player : MonoBehaviour
 		_animator = GetComponent<Animator>();
 
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
+		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
 		GameEventsManager.Instance.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
+		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
 	{
 		diableMovement = ((DisablePlayerMovementEvent)e).disableMovement;
+	}
+
+	void OnToggleHARTO(GameEvent e)
+	{
+		_animator.SetBool("HARTOActive", !HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 	}
 
 	void OnClosingHARTOForTheFirstTime(GameEvent e)

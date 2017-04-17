@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using SenecaEvents;
 
 public class ExitUtan1 : MonoBehaviour {
 
@@ -18,10 +20,10 @@ public class ExitUtan1 : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll){
 
-		if (coll.gameObject.tag == "Player") {
-
+		if (coll.gameObject.tag == "Player") 
+		{
+			GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan2"));
 			SceneManager.LoadScene (4);
-
 		}
 	}
 }

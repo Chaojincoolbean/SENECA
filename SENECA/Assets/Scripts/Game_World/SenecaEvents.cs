@@ -5,6 +5,15 @@ using ChrsUtils.ChrsEventSystem.GameEvents;
 
 namespace SenecaEvents
 {
+    public class SceneChangeEvent : GameEvent
+    {
+        public readonly string sceneName;
+        public SceneChangeEvent(string name)
+        {
+            sceneName = name;
+        }
+    }
+
     public class TopicSelectedEvent : GameEvent
     {
         public readonly string topicName;

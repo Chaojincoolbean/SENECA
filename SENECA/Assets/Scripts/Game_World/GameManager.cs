@@ -7,19 +7,13 @@ using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
-
-/*
-		When ever you click doubles of the audio is played.
-		Why?
-
-		Play sfx when toggling modes
- */
-
+public class GameManager : MonoBehaviour 
+{
 	public static GameManager instance;
 
 	public Dictionary<string, bool> whoTalksFirst;
 
+	public string sceneName;
 	public HARTO astridHARTO;
 	public DialogueManager dialogueManager;
 	public HARTO_UI_Interface HARTOInterface;
@@ -70,7 +64,7 @@ public class GameManager : MonoBehaviour {
 		}
 		else
 		{
-			Destroy(gameObject);
+			Destroy(this);
 		}
 
 		whoTalksFirst = new Dictionary<string, bool>();
@@ -90,8 +84,7 @@ public class GameManager : MonoBehaviour {
 
 		player_Astrid = GameObject.FindGameObjectWithTag(ASTRID).GetComponent<Player>();
 
-		
-
+		sceneName = SceneManager.GetActiveScene().name;
 
 		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
@@ -114,7 +107,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		begin = true;
-		if (SceneManager.GetActiveScene().name == "Forrest1" && !startedGame)
+		if (SceneManager.GetActiveScene().name == "Forest1" && !startedGame)
 		{
 			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
 
@@ -165,6 +158,8 @@ public class GameManager : MonoBehaviour {
 		{
 			inUtan = false;
 		}
+
+		sceneName = SceneManager.GetActiveScene().name;
 
 		if(!begin && !audioSource.isPlaying && !isTestScene)
 		{

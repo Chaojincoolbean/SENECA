@@ -22,7 +22,7 @@ public class CameraFlip : MonoBehaviour {
 
 
 			transform.Rotate (Vector3.forward * n * Time.deltaTime);
-			Debug.Log (transform.rotation.eulerAngles.z);
+			//Debug.Log (transform.rotation.eulerAngles.z);
 
 		}
 
