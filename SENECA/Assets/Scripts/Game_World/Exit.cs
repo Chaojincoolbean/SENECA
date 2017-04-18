@@ -25,8 +25,8 @@ public class Exit : MonoBehaviour {
 			if(SceneManager.GetActiveScene().name == "Utan2")
 			{
 				//	Pass in the scene you are going to
-				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan3"));
-				SceneManager.LoadScene("Utan3");
+				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan1"));
+				SceneManager.LoadScene("Utan1");
 			}
 			else
 			{
