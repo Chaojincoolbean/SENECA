@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		begin = true;
-		if (SceneManager.GetActiveScene().name == "Forest1" && !startedGame)
+		if (SceneManager.GetActiveScene().name == "Campsite" && !startedGame)
 		{
 			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
 

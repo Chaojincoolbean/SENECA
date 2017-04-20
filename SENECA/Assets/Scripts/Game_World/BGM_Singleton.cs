@@ -25,13 +25,13 @@ public class BGM_Singleton : MonoBehaviour
 			audioSource = GetComponent<AudioSource>();
 			audioSource.volume = 0.5f;
 
-			if(SceneManager.GetActiveScene().name.Contains("Forest"))
+			if(SceneManager.GetActiveScene().name.Contains("Utan"))
 			{
-				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+				clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
 			}
 			else
 			{
-				clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
+				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
 			}
 
 			onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
@@ -53,13 +53,13 @@ public class BGM_Singleton : MonoBehaviour
 		
 		Debug.Log(sceneName + " || " + newScene);
 
-		if(sceneName.Contains("Utan") && newScene.Contains("Forest"))
+		if(sceneName.Contains("Utan") && newScene.Contains("Seneca"))
 		{
 			clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, 0.5f);
 		}
-		else if (sceneName.Contains("Forest") && newScene.Contains("Utan"))
+		else if (sceneName.Contains("Seneca") && newScene.Contains("Utan"))
 		{
 			clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
 			audioSource.Stop();
