@@ -26,7 +26,7 @@ public class CameraFlip : MonoBehaviour {
 
 		}
 
-		if (transform.rotation.eulerAngles.z <= 2) {
+		if (transform.rotation.eulerAngles.z <= 5) {
 			
 			isCameraRotating = false;
 
