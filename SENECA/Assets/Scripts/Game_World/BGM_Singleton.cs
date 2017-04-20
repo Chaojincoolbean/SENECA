@@ -73,5 +73,9 @@ public class BGM_Singleton : MonoBehaviour
 	{
 		sceneName = GameManager.instance.sceneName;
 
+		if (audioSource.isPlaying == false) {
+			audioSource.PlayOneShot (clip, 0.5f);
+		}
+
 	}
 }
