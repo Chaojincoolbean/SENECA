@@ -26,6 +26,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		public string title;
 	}
 
+	public bool isHARTOOn;
 	public bool inConversation;
 	public bool isHARTOActive;
 	public bool recordingFolderSelected;
@@ -305,12 +306,14 @@ public class HARTO_UI_Interface : MonoBehaviour
 			{
 				if(isHARTOActive)
 				{
+					
 					if(player.npcAstridIsTalkingTo == null)
 					{
 						topics = empty;
 					}
 					RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 					GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+					isHARTOOn = true;
 				}
 				else
 				{
@@ -318,13 +321,16 @@ public class HARTO_UI_Interface : MonoBehaviour
 					{
 						GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
 						closingHARTOForFirstTime = false;
+						isHARTOOn = false;
 						StartCoroutine(WaitForExitScript());
 					}
 					else
 					{
 						recordingFolderSelected = false;
+						isHARTOOn = false;
 						RadialMenuSpawner.instance.DestroyMenu();
 					}
+					
 				}
 			}
 		}

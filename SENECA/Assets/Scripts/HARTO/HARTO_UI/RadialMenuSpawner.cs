@@ -22,6 +22,7 @@ public class RadialMenuSpawner : MonoBehaviour
 	public EasingProperties easing;
 	private static bool firstPass = true;
 	private RectTransform spawnPosition;
+	
 
 	void Awake()
 	{
@@ -39,7 +40,7 @@ public class RadialMenuSpawner : MonoBehaviour
 	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
 
-		clip = Resources.Load("Audio/SFX/HARO_SFX/LV-HTIS Beeps Simple 03") as AudioClip;
+		clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
 
 		if(!audioSource.isPlaying)
 		{
@@ -103,6 +104,13 @@ public class RadialMenuSpawner : MonoBehaviour
 		//	Courtine to fade out image here
 		if (newMenu != null)
 		{
+
+			clip = Resources.Load("Audio/SFX/HARO_SFX/CloseHARTO") as AudioClip;
+
+			if(!audioSource.isPlaying && !HARTO_UI_Interface.HARTOSystem.isHARTOOn)
+			{
+				audioSource.PlayOneShot(clip);
+			}
 			StartCoroutine(Animate(false));
 			Destroy(newMenu.gameObject);
 		}

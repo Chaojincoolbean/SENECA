@@ -11,6 +11,8 @@ public class BGM_Singleton : MonoBehaviour
 {
 	public static BGM_Singleton instance;
 	public string sceneName;
+
+	public float volume;
 	public AudioSource audioSource;
 	public AudioClip clip;
 	private SceneChangeEvent.Handler onSceneChange;
@@ -23,7 +25,7 @@ public class BGM_Singleton : MonoBehaviour
 			DontDestroyOnLoad(this.gameObject);
 			sceneName = GameManager.instance.sceneName;
 			audioSource = GetComponent<AudioSource>();
-			audioSource.volume = 0.5f;
+			volume = 0.5f;
 
 			if(SceneManager.GetActiveScene().name.Contains("Utan"))
 			{
@@ -36,7 +38,8 @@ public class BGM_Singleton : MonoBehaviour
 
 			onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
 			GameEventsManager.Instance.Register<SceneChangeEvent>(onSceneChange);
-			audioSource.PlayOneShot(clip, 0.5f);
+			audioSource.PlayOneShot(clip, volume);
+			audioSource.volume = volume;
 		}
 		else
 		{
@@ -57,13 +60,13 @@ public class BGM_Singleton : MonoBehaviour
 		{
 			clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
 			audioSource.Stop();
-			audioSource.PlayOneShot(clip, 0.5f);
+			audioSource.PlayOneShot(clip, volume);
 		}
 		else if (sceneName.Contains("Seneca") && newScene.Contains("Utan"))
 		{
 			clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
 			audioSource.Stop();
-			audioSource.PlayOneShot(clip, 0.5f);
+			audioSource.PlayOneShot(clip, volume);
 			
 		}
 	}
@@ -73,9 +76,20 @@ public class BGM_Singleton : MonoBehaviour
 	{
 		sceneName = GameManager.instance.sceneName;
 
-		if (audioSource.isPlaying == false) {
-			audioSource.PlayOneShot (clip, 0.5f);
+		if (GameManager.instance.inConversation)
+		{
+			volume = 0.25f;
+			
 		}
+		else
+		{
+			volume = 0.5f;
+		}
+		audioSource.volume = volume;
 
+		if (audioSource.isPlaying == false) 
+		{
+			audioSource.PlayOneShot (clip, volume);
+		}
 	}
 }
