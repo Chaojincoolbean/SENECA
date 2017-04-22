@@ -18,6 +18,7 @@ public class Exit : MonoBehaviour {
 
 	}
 
+	// Do not go to nuext scene until EndConvo topic has been played
 	void OnTriggerEnter2D(Collider2D coll){
 
 		if (coll.gameObject.tag == "Player") 
