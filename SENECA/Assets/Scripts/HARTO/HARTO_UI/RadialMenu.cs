@@ -171,6 +171,7 @@ public class RadialMenu : MonoBehaviour
 						{
 							audioSource.PlayOneShot(clip, 0.5f);
 						}
+						_anim.SetBool("Confirm", true);
 						DetermineEvent(iconList[i]);
 						
 					}
@@ -206,6 +207,8 @@ public class RadialMenu : MonoBehaviour
 		{
 			GameEventsManager.Instance.Fire(new RecordingSelectedEvent(icon.title));
 		}
+
+		
 	}
 	
 	// Update is called once per frame
@@ -258,6 +261,7 @@ public class RadialMenu : MonoBehaviour
 		}
 		else
 		{
+			_anim.SetBool("Confirm", false);
 			_anim.SetBool("Inactive", true);
 		}
 

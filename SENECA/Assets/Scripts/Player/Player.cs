@@ -4,6 +4,7 @@ using UnityEngine;
 using SenecaEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
+using ChrsUtils.ChrsExtensionMethods;
 
 public class Player : MonoBehaviour 
 {
@@ -22,7 +23,14 @@ public class Player : MonoBehaviour
 	public KeyCode rightKey = KeyCode.D;
 	
 	public float moveSpeed;
+	public float currentScale;
+	public float currentYPos;
+	public float newYPos;
 
+	private const float MAX_SCALE = 0.3f;
+	private const float MIN_SCALE = 0.17f;
+	private AudioSource _audioSource;
+	private AudioClip _clip;
 	private Animator _animator;
 	private Rigidbody2D _rigidBody2D;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
@@ -35,6 +43,7 @@ public class Player : MonoBehaviour
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
 		_animator = GetComponent<Animator>();
+		_audioSource = GetComponent<AudioSource>();
 
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
@@ -43,6 +52,8 @@ public class Player : MonoBehaviour
 		GameEventsManager.Instance.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
 		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+
+		currentScale = transform.localScale.y;
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
@@ -71,23 +82,71 @@ public class Player : MonoBehaviour
 	void Move(float dx, float dy)
 	{
 		//	Adds force to rigidbody based on the input
+		currentYPos = transform.position.y;
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
 		_animator.SetFloat("SpeedX", Mathf.Abs(dx));
 		_animator.SetFloat("SpeedY", dy);
+		
 
+		if (newYPos > currentYPos)
+		{
+			currentScale += 0.0005f;
+		}
+		else if (newYPos < currentYPos)
+		{
+			currentScale -= 0.0005f;
+		}
+		
+		
+		if(currentScale > MAX_SCALE)
+		{
+			currentScale = MAX_SCALE;
+		}
+
+		if(currentScale < MIN_SCALE)
+		{
+			currentScale = MIN_SCALE;
+		}
+
+		newYPos = currentYPos;
+		
+
+		if(facingLeft)
+		{
+			transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
+		}
+		else
+		{
+			transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+		}
+		
 		if (dx > 0 && !facingLeft)
 		{
+			
 			// Flips player
 			Flip ();
 		}
 		// Otherwise player should be facing left
 		else if (dx < 0 && facingLeft)
 		{
+			
 			// Flips player
 			Flip ();
 		}
 
 	}
+
+	public void PlayFootStepAudio()
+	{
+		_clip = Resources.Load("Audio/SFX/Footstep01") as AudioClip;
+
+		if(!_audioSource.isPlaying)
+		{
+			_audioSource.pitch = Random.Range(0.85f, 1.2f);
+			_audioSource.PlayOneShot(_clip);
+		}
+	}
+
 
 
 	/*--------------------------------------------------------------------------------------*/

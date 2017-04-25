@@ -88,7 +88,7 @@ public class Mom : MonoBehaviour
 		{
 			beginGame = true;
 			GameEventsManager.Instance.Fire(new BeginGameEvent());
-			
+			GameManager.instance.hasPriyaSpoken = true;
 			onposition = true;
 		}
 		//onposition = true;

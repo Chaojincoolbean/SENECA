@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 	private const string ASTRID = "Player";
 	public bool isTestScene;
 	public bool inUtan;
+	public bool hasPriyaSpoken;
 	public bool begin;
 	public bool inConversation;
 	public bool tabUIOnScreen;
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
 		startedGame = false;
 		inConversation = false;
 		tabUIOnScreen = false;
+		hasPriyaSpoken = false;
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
 		if (instance == null)
