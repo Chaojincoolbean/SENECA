@@ -26,6 +26,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		public string title;
 	}
 
+	public bool isHARTOOn;
 	public bool inConversation;
 	public bool isHARTOActive;
 	public bool recordingFolderSelected;
@@ -41,6 +42,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	public Action[] empty;
 	public Action[] topics;
+	public Action[] updatedTopics = new Action[4];
 	public Action[] emotions;
 	public Action[] recordingFolders;
 	public Action[] recordings_Dad;
@@ -228,17 +230,35 @@ public class HARTO_UI_Interface : MonoBehaviour
 			ReloadMenu(emotions);
 		}
 
-			for (int i = 0; i < topics.Length; i++)
+		for (int i = 0; i < topics.Length; i++)
 		{
 			if (((TopicSelectedEvent)e).topicName == topics[i].title)
 			{
+				if(((TopicSelectedEvent)e).topicName == "Topic_Exit")
+				{
+					closingHARTOForFirstTime = false;
+				}
 				topics[i].alreadySelected = true;
 				topics[i].color = new Color (0.5f, 0.5f,0.5f, 1.0f);
 				topicSelected = true;
 				GameManager.instance.completedOneTopic = true;
+				for(int j = 0; j < topics.Length; j++)
+				{
+					updatedTopics[j] = topics[j];
+				}
+				// Action end = new Action();
+				// end.color = Color.white;
+				// end.title = "End";
+				// end.sprite = Resources.Load("Sprites/HARTO_Images/Icons_General/icon-end") as Sprite;
+				// updatedTopics[3] = end;
 				ReloadMenu(emotions);
 				break;
 			}
+		}
+
+		if (GameManager.instance.completedOneTopic)
+		{
+			topics = updatedTopics;
 		}
 		
 	}
@@ -283,7 +303,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		ReloadMenu(recordingFolders);
 	}
 
-	IEnumerator WaitForExitScript()
+	public IEnumerator WaitForExitScript()
 	{
 		yield return new WaitForSeconds(14.0f);
 		RadialMenuSpawner.instance.DestroyMenu();
@@ -293,7 +313,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	void Update () 
 	{
 
-		if (Input.GetKeyDown(toggleHARTO) && !inConversation)
+		if (Input.GetKeyDown(toggleHARTO) && !inConversation && GameManager.instance.hasPriyaSpoken)
 		{
 			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
@@ -305,12 +325,14 @@ public class HARTO_UI_Interface : MonoBehaviour
 			{
 				if(isHARTOActive)
 				{
+					
 					if(player.npcAstridIsTalkingTo == null)
 					{
 						topics = empty;
 					}
 					RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 					GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+					isHARTOOn = true;
 				}
 				else
 				{
@@ -318,13 +340,16 @@ public class HARTO_UI_Interface : MonoBehaviour
 					{
 						GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
 						closingHARTOForFirstTime = false;
+						isHARTOOn = false;
 						StartCoroutine(WaitForExitScript());
 					}
 					else
 					{
 						recordingFolderSelected = false;
+						isHARTOOn = false;
 						RadialMenuSpawner.instance.DestroyMenu();
 					}
+					
 				}
 			}
 		}

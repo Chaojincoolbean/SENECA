@@ -22,8 +22,8 @@ public class ExitForest2 : MonoBehaviour {
 
 		if (coll.gameObject.tag == "Player") 
 		{
-			GameEventsManager.Instance.Fire(new SceneChangeEvent("Forest3"));
-			SceneManager.LoadScene (2);
+			GameEventsManager.Instance.Fire(new SceneChangeEvent("Seneca_Meadow"));
+			SceneManager.LoadScene ("Seneca_Meadow");
 
 		}
 	}

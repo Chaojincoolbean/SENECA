@@ -22,8 +22,8 @@ public class ExitUtan1 : MonoBehaviour {
 
 		if (coll.gameObject.tag == "Player") 
 		{
-			GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan2"));
-			SceneManager.LoadScene (4);
+			GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan_Meadow"));
+			SceneManager.LoadScene ("Utan_Meadow");
 		}
 	}
 }

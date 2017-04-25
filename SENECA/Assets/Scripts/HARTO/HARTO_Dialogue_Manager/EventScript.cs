@@ -210,8 +210,12 @@ public class EventScript : MonoBehaviour
 
 		if(topicName != "Start_Game")
 		{
-			Debug.Log(topicName);
 			GameEventsManager.Instance.Fire(new EndDialogueEvent(topicName));
+			if (topicName == "Exit")
+			{
+				HARTO_UI_Interface.HARTOSystem.WaitForExitScript();
+				GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
+			}
 		}
 		else
 		{

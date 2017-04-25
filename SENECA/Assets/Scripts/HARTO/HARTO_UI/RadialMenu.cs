@@ -10,6 +10,7 @@ using SenecaEvents;
 
 public class RadialMenu : MonoBehaviour 
 {
+	public bool activeSFXPlayedOnce;
 	public bool notActive;
 	public bool clipHasBeenPlayed;
 	public bool canSelect;
@@ -55,7 +56,7 @@ public class RadialMenu : MonoBehaviour
 		{
 			_anim.SetBool("Inactive", true);
 		}
-
+		activeSFXPlayedOnce = false;
 		notActive = true;
 	}
 
@@ -157,7 +158,7 @@ public class RadialMenu : MonoBehaviour
 
 				if(!audioSource.isPlaying && !clipHasBeenPlayed)
 				{
-					audioSource.PlayOneShot(clip);
+					//audioSource.PlayOneShot(clip);
 					clipHasBeenPlayed = true;
 				}
 
@@ -170,6 +171,7 @@ public class RadialMenu : MonoBehaviour
 						{
 							audioSource.PlayOneShot(clip, 0.5f);
 						}
+						_anim.SetBool("Confirm", true);
 						DetermineEvent(iconList[i]);
 						
 					}
@@ -205,6 +207,8 @@ public class RadialMenu : MonoBehaviour
 		{
 			GameEventsManager.Instance.Fire(new RecordingSelectedEvent(icon.title));
 		}
+
+		
 	}
 	
 	// Update is called once per frame
@@ -219,10 +223,20 @@ public class RadialMenu : MonoBehaviour
 			}
 			if(notActive)
 			{
+				clip = Resources.Load("Audio/SFX/HARTO_SFX/HARTOInactive") as AudioClip;
+				if(!audioSource.isPlaying)
+				{
+					audioSource.PlayOneShot(clip);
+				}
 				_anim.SetBool("Inactive", true);
 			}
 			else
 			{
+				clip = Resources.Load("Audio/SFX/HARTO_SFX/HARTOActive") as AudioClip;
+				if(!audioSource.isPlaying)
+				{
+					audioSource.PlayOneShot(clip);
+				}
 				_anim.SetBool("Inactive", false);
 			}
 			
@@ -237,25 +251,9 @@ public class RadialMenu : MonoBehaviour
 		{
 			selectionArea = GameObject.Find("SelectionArea").GetComponent<Image>();
 		}
-		float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
-		if(rotate != rotateSelectionWheel && GameObject.Find("MOUSE_UI(Clone)"))
-		{
-			Destroy(GameObject.Find("MOUSE_UI(Clone)"));
-		}
+		
 
-		if(rotateSelectionWheel != rotate)
-		{
-			clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 03") as AudioClip;
-
-				if(!audioSource.isPlaying)
-				{
-					audioSource.PlayOneShot(clip, 0.5f);
-				}
-		}
-
-		rotateSelectionWheel = 	rotate;
-
-		RotateIconWheel(rotateSelectionWheel);
+		
 
 		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation)
 		{
@@ -263,7 +261,13 @@ public class RadialMenu : MonoBehaviour
 		}
 		else
 		{
+			_anim.SetBool("Confirm", false);
 			_anim.SetBool("Inactive", true);
+		}
+
+		if(!audioSource.isPlaying)
+		{
+			audioSource.PlayOneShot(clip);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)
@@ -277,6 +281,26 @@ public class RadialMenu : MonoBehaviour
 
 		if(canSelect)
 		{
+			
+			float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
+			if(rotate != rotateSelectionWheel && GameObject.Find("MOUSE_UI(Clone)"))
+			{
+				Destroy(GameObject.Find("MOUSE_UI(Clone)"));
+			}
+
+			if(rotateSelectionWheel != rotate)
+			{
+				clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 03") as AudioClip;
+
+				if(!audioSource.isPlaying)
+				{
+					audioSource.PlayOneShot(clip, 0.5f);
+				}
+			}
+
+			rotateSelectionWheel = 	rotate;
+			RotateIconWheel(rotateSelectionWheel);
+
 			SelectIcon();
 		}
 	}

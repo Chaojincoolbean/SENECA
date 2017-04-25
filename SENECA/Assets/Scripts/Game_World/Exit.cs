@@ -18,20 +18,21 @@ public class Exit : MonoBehaviour {
 
 	}
 
+	// Do not go to nuext scene until EndConvo topic has been played
 	void OnTriggerEnter2D(Collider2D coll){
 
 		if (coll.gameObject.tag == "Player") 
 		{
-			if(SceneManager.GetActiveScene().name == "Utan2")
+			if(SceneManager.GetActiveScene().name == "Utan_Meadow")
 			{
 				//	Pass in the scene you are going to
-				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan1"));
-				SceneManager.LoadScene("Utan1");
+				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan_ForkPath"));
+				SceneManager.LoadScene("Utan_ForkPath");
 			}
 			else
 			{
-				GameEventsManager.Instance.Fire(new SceneChangeEvent("Forest2"));
-				SceneManager.LoadScene (1);
+				GameEventsManager.Instance.Fire(new SceneChangeEvent("Seneca_ForestForkPath"));
+				SceneManager.LoadScene ("Seneca_ForestForkPath");
 			}
 
 		}

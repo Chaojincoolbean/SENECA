@@ -59,6 +59,29 @@ namespace ChrsUtils
 			{
 				return degrees * (Mathf.PI / 180.0f);
 			}
+
+			public static Vector2 GetPointOnCircle(float radius, float angleInDegrees, Vector3 origin)
+    		{
+        		// Convert from degrees to radians via multiplication by PI/180        
+        		float x = (float)(radius * Mathf.Cos(angleInDegrees * Mathf.PI / 180F)) + origin.x;
+        		float y = (float)(radius * Mathf.Sin(angleInDegrees * Mathf.PI / 180F)) + origin.z;
+
+        		return new Vector2(x, y);
+    		}
+
+			public static Vector2 GetPointOnCircle(float radius, float angleInDegrees, Vector2 origin)
+    		{
+        		// Convert from degrees to radians via multiplication by PI/180        
+        		float x = (float)(radius * Mathf.Cos(angleInDegrees * Mathf.PI / 180F)) + origin.x;
+        		float y = (float)(radius * Mathf.Sin(angleInDegrees * Mathf.PI / 180F)) + origin.y;
+
+        		return new Vector2(x, y);
+    		}
+
+			public static float Map(float value, float istart, float istop, float ostart, float ostop) 
+			{
+    			return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+			}
 		}
 	}
 }
