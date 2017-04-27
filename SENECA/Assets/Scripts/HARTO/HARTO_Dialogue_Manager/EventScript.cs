@@ -24,6 +24,8 @@ public class EventScript : MonoBehaviour
 	public int astridLines;
 	public int npcLines;
 	public int totalLines;
+	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
+
 	public ResponseScript response;
 	public GameObject thisResponse;
 	public List<AudioSource> myCharacters;	
@@ -46,6 +48,28 @@ public class EventScript : MonoBehaviour
 
 		gibberishPlayer = GameObject.Find(BROCA_PARTICLES).GetComponent<AudioController>();
 	
+	}
+
+	void FindBrocaParticles()
+	{
+		if (nextTimeToSearch <= Time.time)
+		{
+			GameObject result = GameObject.FindGameObjectWithTag (BROCA_PARTICLES);
+			if (result != null)
+			{
+				gibberishPlayer = result.GetComponent<AudioController>();
+			}
+				nextTimeToSearch = Time.time + 2.0f;
+		}
+	}
+
+	void Update()
+	{
+		if(gibberishPlayer == null)
+		{
+			FindBrocaParticles();
+			return;
+		}
 	}
 
 	public void InitResponseScriptWith(string characterName, bool astridTalksFirst)

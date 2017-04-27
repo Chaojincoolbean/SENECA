@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 
-		currentScale = transform.localScale.y;
+		//currentScale = transform.localScale.y;
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
@@ -90,11 +90,11 @@ public class Player : MonoBehaviour
 
 		if (newYPos > currentYPos)
 		{
-			currentScale += 0.05f;
+			//currentScale += 0.05f;
 		}
 		else if (newYPos < currentYPos)
 		{
-			currentScale -= 0.05f;
+			//currentScale -= 0.05f;
 		}
 		
 		

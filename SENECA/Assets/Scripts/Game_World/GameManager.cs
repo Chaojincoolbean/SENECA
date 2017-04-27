@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
 	public bool waitingForInput;
 	public bool completedOneTopic;
 
-	private bool startedGame;
+	public bool startedGame;
+	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 	private SceneChangeEvent.Handler onSceneChange;
 	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
@@ -110,12 +111,15 @@ public class GameManager : MonoBehaviour
 			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 		}
 
-		begin = true;
+		uiTAB = Resources.Load("Prefabs/HARTO/UI/TAB_UI") as GameObject;
+		uiMouse = Resources.Load("Prefabs/HARTO/UI/MOUSE_UI") as GameObject;
+		
 		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
 		{
-			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+			begin = true;
+			//npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
 
-			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+			//npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
 			startedGame = true;
 			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
 			begin = false;
@@ -129,13 +133,13 @@ public class GameManager : MonoBehaviour
 		
 		Debug.Log(sceneName + " || " + newScene);
 
-		if(newScene.Contains("TitleScreen"))
+		if(newScene.Contains("Seneca_Campsite") && !startedGame)
 		{
-			RetartGame();
+			RestartGame();
 		}
 	}
 
-	void RetartGame()
+	void RestartGame()
 	{
 		startedGame = false;
 		inConversation = false;
@@ -160,16 +164,8 @@ public class GameManager : MonoBehaviour
 			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 		}
 
-		begin = true;
-		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
-		{
-			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
-
-			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
-			startedGame = true;
-			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
-			begin = false;
-		}
+		//player_Astrid = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		
 	}
 
 	void OnTABUIButtonAppear(GameEvent e)
@@ -191,6 +187,30 @@ public class GameManager : MonoBehaviour
 		}
 	}
 	
+	void FindPlayer()
+	{
+		
+		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
+		{
+			begin = true;
+			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+
+			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+			startedGame = true;
+			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
+			begin = false;
+		}
+		if (nextTimeToSearch <= Time.time)
+		{
+			GameObject result = GameObject.FindGameObjectWithTag ("Player");
+			if (result != null)
+			{
+				player_Astrid = result.GetComponent<Player>();
+			}
+				nextTimeToSearch = Time.time + 2.0f;
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -212,9 +232,15 @@ public class GameManager : MonoBehaviour
 			inUtan = false;
 		}
 
+		if(player_Astrid == null)
+		{
+			FindPlayer();
+			return;
+		}
+
 		sceneName = SceneManager.GetActiveScene().name;
 
-		if(!begin && !audioSource.isPlaying && !isTestScene)
+		if(!begin && !audioSource.isPlaying && !isTestScene && SceneManager.GetActiveScene().name.Contains("Seneca_Campsite"))
 		{
 			GameEventsManager.Instance.Fire(new MoveMomEvent());
 			begin = true;

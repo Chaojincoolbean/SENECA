@@ -73,6 +73,12 @@ public class BGM_Singleton : MonoBehaviour
 			audioSource.PlayOneShot(clip, volume);
 			
 		}
+		else if (sceneName.Contains("Credits"))
+		{
+			clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+			audioSource.Stop();
+			audioSource.PlayOneShot(clip, volume);
+		}
 	}
 
 	// Update is called once per frame

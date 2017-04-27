@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class VoiceOverLine : MonoBehaviour 
 {
+	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 	public string voiceOverLine = "";
 	public const string GIBBERISH = "Gibberish";
 	public const string BROCA_PARTICLES = "BrocaParticles";
@@ -14,8 +15,30 @@ public class VoiceOverLine : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		
+
 		gibberishGenerator = GameObject.Find(BROCA_PARTICLES).GetComponent<BufferShuffler>();
+	}
+
+	void FindBrocaParticles()
+	{
+		if (nextTimeToSearch <= Time.time)
+		{
+			GameObject result = GameObject.FindGameObjectWithTag (BROCA_PARTICLES);
+			if (result != null)
+			{
+				gibberishGenerator = result.GetComponent<BufferShuffler>();
+			}
+				nextTimeToSearch = Time.time + 2.0f;
+		}
+	}
+
+	void Update()
+	{
+		if(gibberishGenerator == null)
+		{
+			FindBrocaParticles();
+			return;
+		}
 	}
 
 	public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename, string emotionalResponse)

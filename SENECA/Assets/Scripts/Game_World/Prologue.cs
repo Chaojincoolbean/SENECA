@@ -13,7 +13,7 @@ public class Prologue : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		clip = Resources.Load("Audio/VO/Prologue") as AudioClip;
+		clip = Resources.Load("Audio/VO/HARTO/HARTO_VO1") as AudioClip;
 		audioSource = GetComponent<AudioSource>();
 
 		audioSource.PlayOneShot(clip);
@@ -22,7 +22,7 @@ public class Prologue : MonoBehaviour
 	
 	IEnumerator LoadNextScene()
 	{
-		yield return new WaitForSeconds(2.0f);
+		yield return new WaitForSeconds(1.0f);
 		GameEventsManager.Instance.Fire(new SceneChangeEvent("Seneca_Campsite"));
 		SceneManager.LoadScene("Seneca_Campsite");
 	}
