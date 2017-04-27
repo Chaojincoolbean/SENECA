@@ -7,7 +7,8 @@ public class CameraFlip : MonoBehaviour {
 	public float n;
 	bool isChangeSize;
 	bool isCameraRotating;
-	public Camera mainCamera;
+	public Camera FlipCamera;
+	public Camera MainCamera;
 	public GameObject Flare1;
 	public GameObject Flare2;
 	public GameObject Flare3;
@@ -24,6 +25,11 @@ public class CameraFlip : MonoBehaviour {
 		Flare2.gameObject.GetComponent<Animator> ().SetBool("FlareReverse", true);
 		Flare3.gameObject.GetComponent<Animator> ().SetBool("FlareReverse", true);
 		Flare4.gameObject.GetComponent<Animator> ().SetBool("FlareReverse", true);
+
+		MainCamera = Camera.main;
+
+		MainCamera.enabled = false;
+		FlipCamera.enabled = true;
 
 	}
 	
@@ -52,6 +58,7 @@ public class CameraFlip : MonoBehaviour {
 			transform.eulerAngles = new Vector3(0,0,0);
 		
 		}
+			
 
 
 		
@@ -65,15 +72,15 @@ public class CameraFlip : MonoBehaviour {
 
 		while (t < 1) {
 			
-			mainCamera.orthographicSize = Mathf.Lerp (2, 3.5f, t);
+			FlipCamera.orthographicSize = Mathf.Lerp (2, 3.5f, t);
 
 			t = t + Time.deltaTime;
 
-			Debug.Log (mainCamera.orthographicSize);
+			Debug.Log (FlipCamera.orthographicSize);
 
-			if (mainCamera.orthographicSize >= 3f) {
+			if (FlipCamera.orthographicSize >= 3f) {
 
-				mainCamera.orthographicSize = 5f;
+				FlipCamera.orthographicSize = 5f;
 
 				Debug.Log ("camerachange");
 				
@@ -81,9 +88,16 @@ public class CameraFlip : MonoBehaviour {
 				Flare2.transform.position = new Vector3 (8.64f, 4.66f, 0);
 				Flare3.transform.position = new Vector3 (8.64f, -4.66f, 0);
 				Flare4.transform.position = new Vector3 (-8.64f, -4.66f, 0);
+
 //			
 			}
 		}
+
+
+		FlipCamera.enabled = false;
+		MainCamera.enabled = true;
+		MainCamera.orthographicSize = 5f;
+		MainCamera.transform.eulerAngles = new Vector3(0,0,0);
 
 		yield return null;
 	}
