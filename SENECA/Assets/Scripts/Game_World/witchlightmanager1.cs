@@ -70,18 +70,10 @@ public class witchlightmanager1 : MonoBehaviour {
 		
 		if (col.gameObject.tag == "Player") {
 
-			Flare1.transform.position = new Vector3 (-3.16f, 1.67f, 0);
-			Flare2.transform.position = new Vector3 (3.16f, 1.67f, 0);
-			Flare3.transform.position = new Vector3 (3.16f, -1.67f, 0);
-			Flare4.transform.position = new Vector3 (-3.16f, -1.67f, 0);
-
 			Flare1.gameObject.GetComponent<Animator> ().SetBool("Flare", true);
 			Flare2.gameObject.GetComponent<Animator> ().SetBool("Flare", true);
 			Flare3.gameObject.GetComponent<Animator> ().SetBool("Flare", true);
 			Flare4.gameObject.GetComponent<Animator> ().SetBool("Flare", true);
-
-
-
 
 			StartCoroutine (SizeLerp());
 		}
@@ -91,6 +83,11 @@ public class witchlightmanager1 : MonoBehaviour {
 	IEnumerator SizeLerp(){
 
 		yield return new WaitForSeconds(1);
+
+		Flare1.transform.position = new Vector3 (-3.16f, 1.67f, 0);
+		Flare2.transform.position = new Vector3 (3.16f, 1.67f, 0);
+		Flare3.transform.position = new Vector3 (3.16f, -1.67f, 0);
+		Flare4.transform.position = new Vector3 (-3.16f, -1.67f, 0);
 
 		isCameraRotating = true;
 
