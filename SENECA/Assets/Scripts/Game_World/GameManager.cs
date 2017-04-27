@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
 	private const string DIALOUGE_MANAGER_TAG = "DialogueManager";
 	private const string HARTO_TAG = "HARTO";
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
-	private const string ASTRID = "Player";
 	public bool isTestScene;
 	public bool inUtan;
 	public bool hasPriyaSpoken;
@@ -47,6 +46,7 @@ public class GameManager : MonoBehaviour
 	public bool completedOneTopic;
 
 	private bool startedGame;
+	private SceneChangeEvent.Handler onSceneChange;
 	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 
@@ -66,8 +66,10 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			Destroy(this);
+			Destroy(this.gameObject);
 		}
+
+		
 
 		whoTalksFirst = new Dictionary<string, bool>();
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
@@ -84,13 +86,13 @@ public class GameManager : MonoBehaviour
 
 		audioSource = GetComponent<AudioSource>();
 
-		player_Astrid = GameObject.FindGameObjectWithTag(ASTRID).GetComponent<Player>();
-
 		sceneName = SceneManager.GetActiveScene().name;
 
 		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
+		onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
 
+		GameEventsManager.Instance.Register<SceneChangeEvent>(onSceneChange);
 		GameEventsManager.Instance.Register<TABUIButtonAppearEvent>(onTABUIButtionAppear);
 		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 
@@ -119,6 +121,55 @@ public class GameManager : MonoBehaviour
 			begin = false;
 		}
 		
+	}
+
+	void OnSceneChange(GameEvent e)
+	{
+		string newScene = ((SceneChangeEvent)e).sceneName;
+		
+		Debug.Log(sceneName + " || " + newScene);
+
+		if(newScene.Contains("TitleScreen"))
+		{
+			RetartGame();
+		}
+	}
+
+	void RetartGame()
+	{
+		startedGame = false;
+		inConversation = false;
+		tabUIOnScreen = false;
+		hasPriyaSpoken = false;
+		completedOneTopic = false;
+		CurrentSceneNumber = 1;
+
+		sceneName = SceneManager.GetActiveScene().name;
+
+		if (SceneManager.GetActiveScene().name.Contains("Test"))
+		{
+			isTestScene = true;
+		}
+		else
+		{
+			isTestScene = false;
+		}
+
+		if(!isTestScene)
+		{
+			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+		}
+
+		begin = true;
+		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
+		{
+			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+
+			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+			startedGame = true;
+			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
+			begin = false;
+		}
 	}
 
 	void OnTABUIButtonAppear(GameEvent e)

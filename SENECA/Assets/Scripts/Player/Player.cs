@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
 	public float currentYPos;
 	public float newYPos;
 
-	private const float MAX_SCALE = 0.3f;
-	private const float MIN_SCALE = 0.17f;
+	private const float MAX_SCALE = 0.7f;
+	private const float MIN_SCALE = 0.4f;
 	private AudioSource _audioSource;
 	private AudioClip _clip;
 	private Animator _animator;
@@ -90,11 +90,11 @@ public class Player : MonoBehaviour
 
 		if (newYPos > currentYPos)
 		{
-			currentScale += 0.0005f;
+			currentScale += 0.05f;
 		}
 		else if (newYPos < currentYPos)
 		{
-			currentScale -= 0.0005f;
+			currentScale -= 0.05f;
 		}
 		
 		

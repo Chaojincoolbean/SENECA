@@ -44,10 +44,8 @@ namespace ChrsUtils
 			/*--------------------------------------------------------------------------------------*/
 			void Start () 
 			{
-				target = GameObject.FindGameObjectWithTag(PLAYER_TAG).transform;
-				m_LastTargetPosition = target.position;
-				m_OffsetZ = (transform.position - target.position).z;
-				transform.parent = null;
+				target = null;
+				
 			}
 
 			/*--------------------------------------------------------------------------------------*/
@@ -61,8 +59,13 @@ namespace ChrsUtils
 				{
 					GameObject result = GameObject.FindGameObjectWithTag ("Player");
 					if (result != null)
+					{
 						target = result.transform;
 
+						m_LastTargetPosition = target.position;
+						m_OffsetZ = (transform.position - target.position).z;
+						transform.parent = null;
+					}
 					nextTimeToSearch = Time.time + 2.0f;
 				}
 			}

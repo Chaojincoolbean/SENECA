@@ -16,6 +16,8 @@ public  enum  Emotions
 }
 public class HARTO : MonoBehaviour 
 {
+
+	public static HARTO instance;
 	[SerializeField]
 	private Emotions emotion;
 	public Emotions CurrentEmotion
@@ -34,6 +36,16 @@ public class HARTO : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+
+		if(instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(this.gameObject);
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
 		onEmotionSelected = new EmotionSelectedEvent.Handler(OnEmotionSelected);
 		GameEventsManager.Instance.Register<EmotionSelectedEvent>(onEmotionSelected);
 	}
