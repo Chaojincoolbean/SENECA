@@ -1,16 +1,17 @@
 fileFormatVersion: 2
-guid: 400d5d72e0169483eafd3893ac147e00
-timeCreated: 1492833183
+guid: f56cac1812c6e43d79afc7008544a2d9
+timeCreated: 1493152915
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: _Astrid-side-spritesheet_0
-    21300002: _Astrid-side-spritesheet_1
-    21300004: _Astrid-side-spritesheet_2
-    21300006: _Astrid-side-spritesheet_3
-    21300008: _Astrid-side-spritesheet_4
-    21300010: _Astrid-side-spritesheet_5
-    21300012: _Astrid-side-spritesheet_6
+    21300000: _Astrid-side_spritesheet_0
+    21300002: _Astrid-side_spritesheet_1
+    21300004: _Astrid-side_spritesheet_2
+    21300006: _Astrid-side_spritesheet_3
+    21300008: _Astrid-side_spritesheet_4
+    21300010: _Astrid-side_spritesheet_5
+    21300012: _Astrid-side_spritesheet_6
+    21300014: _Astrid-side_spritesheet_7
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -101,25 +102,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: _Astrid-side-spritesheet_0
+      name: _Astrid-side_spritesheet_0
       rect:
         serializedVersion: 2
-        x: 182
-        y: 35
-        width: 378
-        height: 1496
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: _Astrid-side-spritesheet_1
-      rect:
-        serializedVersion: 2
-        x: 894
+        x: 0
         y: 0
-        width: 432
+        width: 706
         height: 1537
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -127,65 +115,91 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: _Astrid-side-spritesheet_2
+      name: _Astrid-side_spritesheet_1
       rect:
         serializedVersion: 2
-        x: 1466
-        y: 40
-        width: 615
-        height: 1476
+        x: 706
+        y: 0
+        width: 706
+        height: 1537
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: _Astrid-side-spritesheet_3
+      name: _Astrid-side_spritesheet_2
       rect:
         serializedVersion: 2
-        x: 2318
-        y: 59
-        width: 347
-        height: 1472
+        x: 1412
+        y: 0
+        width: 706
+        height: 1537
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: _Astrid-side-spritesheet_4
+      name: _Astrid-side_spritesheet_3
       rect:
         serializedVersion: 2
-        x: 2993
-        y: 19
-        width: 444
-        height: 1518
+        x: 2118
+        y: 0
+        width: 706
+        height: 1537
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: _Astrid-side-spritesheet_5
+      name: _Astrid-side_spritesheet_4
       rect:
         serializedVersion: 2
-        x: 3527
-        y: 57
-        width: 656
-        height: 1459
+        x: 2824
+        y: 0
+        width: 706
+        height: 1537
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: _Astrid-side-spritesheet_6
+      name: _Astrid-side_spritesheet_5
       rect:
         serializedVersion: 2
-        x: 4350
-        y: 42
-        width: 592
-        height: 1477
+        x: 3530
+        y: 0
+        width: 706
+        height: 1537
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: _Astrid-side_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 4236
+        y: 0
+        width: 706
+        height: 1537
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: _Astrid-side_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 4942
+        y: 0
+        width: 706
+        height: 1537
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

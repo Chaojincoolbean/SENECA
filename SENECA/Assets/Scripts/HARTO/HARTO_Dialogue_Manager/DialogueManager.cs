@@ -8,14 +8,10 @@ using ChrsUtils.ChrsEventSystem.EventsManager;
 
 public class DialogueManager : MonoBehaviour 
 {
-
-	public static DialogueManager instance;	
 	public HARTO astridHARTO;
 	public EventScript[] Events;
 
 	
-	
-	private int RelationLevel; 
 	private int _scene;
 	public int SceneNumber
 	{
@@ -26,21 +22,12 @@ public class DialogueManager : MonoBehaviour
 	public const string SCENE = "SCENE_";
 	public const string TOPIC_PREFIX = "Topic_";
 	public const string EVENT_PREFIX = "Event_";
-	public const string EVENT_ASTRID_TALKS_FIRST = "@";
-
+	
 	public const string EVENT_START_GAME = "Event_Start_Game";
 	public const string EVENT_MEETING_TUTORIAL = "Event_Tutorial";
 	public const string EVENT_EXIT = "Event_Exit";
-	public const string EVENT_MEETING_STARTS = "Event_Meeting";
-	public const string EVENT_BROCA_STARTS = "Event_BrocaParticles";
-	public const string EVENT_RUTH_STARTS = "Event_Ruth";
-	
-	public const string EVENT_UTAN_ASTRID_STARTS = "Event_Utan";
-	public const string PLAYER_ASTRID = "Astrid";
 
-	public const string NPC_TAG = "NPC_";
 	public const string NPC_PRIYA = "Priya";
-	public const string NPC_MALI = "Mali";
 
 	private BeginGameEvent.Handler onBeginGame;
 	private BeginTutorialEvent.Handler onBeginTutorial;
@@ -51,15 +38,7 @@ public class DialogueManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		if(instance == null)
-		{
-			instance = this;
-			DontDestroyOnLoad(gameObject);
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
+		
 
 		astridHARTO = GameObject.FindGameObjectWithTag("HARTO").GetComponent<HARTO>();
 

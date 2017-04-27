@@ -7,11 +7,6 @@ using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.EasingEquations;
 using ChrsUtils;
 
-/*
-
-	TODO: find out if you are closing HARTO then fade out. Otherwise fade icons
-
- */
 public class HARTO_UI_Interface : MonoBehaviour 
 {
 
@@ -32,6 +27,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public bool recordingFolderSelected;
 	public bool topicSelected;
 	public bool dialogueModeActive;
+	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 	private const string PLAYER_TAG = "Player";
 	public KeyCode toggleHARTO = KeyCode.Tab;
 	public AudioClip clip;
@@ -83,7 +79,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 
 		_easing = new EasingProperties();
-		player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<Player>();
 
 		if (!GameManager.instance.isTestScene)
 		{
@@ -309,9 +304,28 @@ public class HARTO_UI_Interface : MonoBehaviour
 		RadialMenuSpawner.instance.DestroyMenu();
 	}
 
+	void FindPlayer()
+	{
+		if (nextTimeToSearch <= Time.time)
+		{
+			GameObject result = GameObject.FindGameObjectWithTag (PLAYER_TAG);
+			if (result != null)
+			{
+				player = result.GetComponent<Player>();
+			}
+			nextTimeToSearch = Time.time + 2.0f;
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
+
+		if (player == null)
+		{
+			FindPlayer ();
+			return;
+		}
 
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation && GameManager.instance.hasPriyaSpoken)
 		{

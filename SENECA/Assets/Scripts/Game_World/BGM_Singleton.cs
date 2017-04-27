@@ -31,7 +31,11 @@ public class BGM_Singleton : MonoBehaviour
 			{
 				clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
 			}
-			else
+			else if(SceneManager.GetActiveScene().name.Contains("Seneca"))
+			{
+				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+			}
+			else if(SceneManager.GetActiveScene().name.Contains("Title"))
 			{
 				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
 			}
