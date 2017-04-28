@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class RadialMenuSpawner : MonoBehaviour 
 {
 
+	public bool closing;
 	public AudioClip clip;
 	public AudioSource audioSource;
 	public static RadialMenuSpawner instance;
@@ -32,6 +33,8 @@ public class RadialMenuSpawner : MonoBehaviour
 		}
 
 		easing = new EasingProperties();
+		//Debug.Log(Resources.Load("Prefabs/HARTO/UI/HARTOMenu"));
+		//menuPrefab = Resources.Load("Prefabs/HARTO/UI/HARTOMenu") as RadialMenu;
 
 		spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
 		audioSource = GetComponent<AudioSource>();
@@ -39,22 +42,24 @@ public class RadialMenuSpawner : MonoBehaviour
 
 	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
-
+		audioSource.Stop();
 		clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
 
 		if(!audioSource.isPlaying)
 		{
 			audioSource.PlayOneShot(clip);
 		}
-		newMenu = Instantiate(menuPrefab) as RadialMenu;
-		newMenu.transform.SetParent(transform, false);
-		newMenu.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-		newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
-		newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
-		StartCoroutine(Animate(true));
-		newMenu.Init(player);
-		newMenu.SpawnIcons(obj, topicSelected);
-		
+		if(newMenu == null)
+		{
+			newMenu = Instantiate(menuPrefab) as RadialMenu;
+			newMenu.transform.SetParent(transform, false);
+			newMenu.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+			newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
+			newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
+			StartCoroutine(Animate(true));
+			newMenu.Init(player);
+			newMenu.SpawnIcons(obj, topicSelected);
+		}
 		if(firstPass)
 		{
 
@@ -71,6 +76,7 @@ public class RadialMenuSpawner : MonoBehaviour
 
 	private IEnumerator Animate(bool fadeIn)
     {
+
         yield return StartCoroutine(Coroutines.DoOverEasedTime(1.0f, easing.MovementEasing, t =>
         {
 			float alpha;
@@ -80,6 +86,7 @@ public class RadialMenuSpawner : MonoBehaviour
 			}
 			else
 			{
+				
 				alpha = Mathf.Lerp(1, 0, t);
 			}
             newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, alpha);
@@ -96,7 +103,18 @@ public class RadialMenuSpawner : MonoBehaviour
 					newMenu.iconList[i].color.color = new Color(0.5f, 0.5f, 0.5f, alpha);
 				}
 			}
+			
         }));
+		if(!fadeIn)
+		{
+			
+			closing = true;
+			newMenu._anim.SetBool("Inactive", true);
+			yield return new WaitForSeconds(1.2f);
+			Destroy(newMenu.gameObject);
+			closing = false;
+		}
+		
     }
 
 	public void DestroyMenu()
@@ -104,15 +122,15 @@ public class RadialMenuSpawner : MonoBehaviour
 		//	Courtine to fade out image here
 		if (newMenu != null)
 		{
-
-			clip = Resources.Load("Audio/SFX/HARO_SFX/CloseHARTO") as AudioClip;
+			audioSource.Stop();
+			clip = Resources.Load("Audio/SFX/HARTO_SFX/CloseHARTO") as AudioClip;
 
 			if(!audioSource.isPlaying && !HARTO_UI_Interface.HARTOSystem.isHARTOOn)
 			{
 				audioSource.PlayOneShot(clip);
 			}
 			StartCoroutine(Animate(false));
-			Destroy(newMenu.gameObject);
+			
 		}
 	}
 }

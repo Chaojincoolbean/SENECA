@@ -58,8 +58,6 @@ public class BGM_Singleton : MonoBehaviour
 	{
 		string newScene = ((SceneChangeEvent)e).sceneName;
 		
-		Debug.Log(sceneName + " || " + newScene);
-
 		if(sceneName.Contains("Utan") && newScene.Contains("Seneca"))
 		{
 			clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;

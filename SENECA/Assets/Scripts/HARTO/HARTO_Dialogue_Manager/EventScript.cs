@@ -89,8 +89,9 @@ public class EventScript : MonoBehaviour
 		{
 			for (int i = 0; i < myCharacters.Count; i++)
 			{
-				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == ASTRID)
+				if (myCharacters[i].name  == characterSearchKey)// || myCharacters[i].name  == ASTRID)
 				{
+					Debug.Log("Name: " + myCharacters[i].transform.name + " " + myCharacters[i].transform.childCount);
 					totalResponses += myCharacters[i].transform.childCount;
 				}
 			}
@@ -245,7 +246,8 @@ public class EventScript : MonoBehaviour
 		{
 			if(!GameManager.instance.tabUIOnScreen)
 			{
-				GameEventsManager.Instance.Fire(new TABUIButtonAppearEvent());
+				GameManager.instance.MakeTabAppear();
+				//GameEventsManager.Instance.Fire(new TABUIButtonAppearEvent());
 			}
 		}
 		yield return null;

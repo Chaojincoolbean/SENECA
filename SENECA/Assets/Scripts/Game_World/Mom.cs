@@ -91,6 +91,5 @@ public class Mom : MonoBehaviour
 			GameManager.instance.hasPriyaSpoken = true;
 			onposition = true;
 		}
-		//onposition = true;
 	}
 }

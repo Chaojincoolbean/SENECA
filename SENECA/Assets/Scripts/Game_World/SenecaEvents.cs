@@ -123,7 +123,7 @@ namespace SenecaEvents
     {
         public BeginGameEvent()
         {
-
+            Debug.Log("How many times");
         }
     }
 

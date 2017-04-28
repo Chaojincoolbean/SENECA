@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 	{
 		startedGame = false;
 		inConversation = false;
-		tabUIOnScreen = false;
+		//tabUIOnScreen = false;
 		hasPriyaSpoken = false;
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
@@ -116,13 +116,13 @@ public class GameManager : MonoBehaviour
 		
 		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
 		{
-			begin = true;
-			//npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
+			//begin = true;
+			//npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
 
 			//npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
-			startedGame = true;
-			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
-			begin = false;
+			//startedGame = true;
+			//audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
+			//begin = false;
 		}
 		
 	}
@@ -164,14 +164,37 @@ public class GameManager : MonoBehaviour
 			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 		}
 
-		//player_Astrid = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-		
+		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
+		{
+			begin = true;
+			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
+
+			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+			startedGame = true;
+			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
+			begin = false;
+		}		
+	}
+
+	public void MakeTabAppear()
+	{
+		if (!tabUIOnScreen)
+		{
+			
+			tabUIOnScreen = true;
+			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
+			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
+			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
+		}
 	}
 
 	void OnTABUIButtonAppear(GameEvent e)
 	{
+		Debug.Log("Count!!!");
+		Debug.Log("Tab on Screen: " + tabUIOnScreen);
 		if (!tabUIOnScreen)
 		{
+			
 			tabUIOnScreen = true;
 			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
 			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
@@ -189,23 +212,13 @@ public class GameManager : MonoBehaviour
 	
 	void FindPlayer()
 	{
-		
-		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
-		{
-			begin = true;
-			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Mom", typeof(GameObject))) as GameObject;
-
-			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
-			startedGame = true;
-			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
-			begin = false;
-		}
 		if (nextTimeToSearch <= Time.time)
 		{
 			GameObject result = GameObject.FindGameObjectWithTag ("Player");
 			if (result != null)
 			{
 				player_Astrid = result.GetComponent<Player>();
+				RestartGame();
 			}
 				nextTimeToSearch = Time.time + 2.0f;
 		}

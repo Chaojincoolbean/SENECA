@@ -16,7 +16,14 @@ public class FlahUIButton : MonoBehaviour
 	void Start () 
 	{
 		_UIIcon = GetComponent<Image>();
-		_UIIcon.color = new Color(_UIIcon.color.r, _UIIcon.color.g, _UIIcon.color.b, 0.0f);
+		if(!transform.name.Contains("Mask"))
+		{
+			_UIIcon.color = new Color(_UIIcon.color.r, _UIIcon.color.g, _UIIcon.color.b, 0.0f);
+		}
+		else
+		{
+			_UIIcon.color = new Color(_UIIcon.color.r, _UIIcon.color.g, _UIIcon.color.b, 1.0f);
+		}
 		_Position = GetComponent<RectTransform>().localPosition;
 		_Top = _Position.y + _Boundary;
 		_Bottom = _Position.y - _Boundary;
@@ -25,8 +32,10 @@ public class FlahUIButton : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		_UIIcon.color = new Color(_UIIcon.color.r, _UIIcon.color.g, _UIIcon.color.b, Mathf.PingPong(Time.time, 1.5f));
-
+		if(!transform.name.Contains("Mask"))
+		{
+			_UIIcon.color = new Color(_UIIcon.color.r, _UIIcon.color.g, _UIIcon.color.b, Mathf.PingPong(Time.time, 1.5f));
+		}
 		_Position.y+= _Speed; 
 
 			if (_Position.y > _Top || _Position.y < _Bottom)

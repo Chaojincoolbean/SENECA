@@ -91,9 +91,9 @@ public class RadialMenu : MonoBehaviour
 			iconList.Add(newRadialIcon);
 			newRadialIcon.transform.SetParent(transform, false);
 			float theta = (2 * Mathf.PI / obj.options.Length) * i;
-			float xPos = Mathf.Sin(theta);
-			float yPos = Mathf.Cos(theta);
-			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 180.0f;
+			float xPos = Mathf.Sin(theta) * 1.08f + 0.2f;
+			float yPos = Mathf.Cos(theta) * 1.08f;
+			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 130.0f;
 			newRadialIcon.icon.color = obj.options[i].color;
 			newRadialIcon.alreadySelected = obj.options[i].alreadySelected;
 			newRadialIcon.icon.sprite = obj.options[i].sprite;
@@ -135,9 +135,9 @@ public class RadialMenu : MonoBehaviour
 		for (int i = 0; i < iconList.Count; i++)
 		{
 			float theta = (2 * Mathf.PI / iconList.Count) * i;
-			float xPos = Mathf.Sin(theta + scrollWheel);
-			float yPos = Mathf.Cos(theta + scrollWheel);
-			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * 183.0f;
+			float xPos = Mathf.Sin(theta + scrollWheel) * 1.08f + 0.2f;
+			float yPos = Mathf.Cos(theta + scrollWheel) * 1.08f;
+			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * 130.0f;
 		}
 	}
 
@@ -226,7 +226,7 @@ public class RadialMenu : MonoBehaviour
 				clip = Resources.Load("Audio/SFX/HARTO_SFX/HARTOInactive") as AudioClip;
 				if(!audioSource.isPlaying)
 				{
-					audioSource.PlayOneShot(clip);
+					//audioSource.PlayOneShot(clip);
 				}
 				_anim.SetBool("Inactive", true);
 			}
@@ -255,7 +255,7 @@ public class RadialMenu : MonoBehaviour
 
 		
 
-		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation)
+		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !RadialMenuSpawner.instance.closing)
 		{
 			_anim.SetBool("Inactive", false);
 		}
@@ -263,11 +263,6 @@ public class RadialMenu : MonoBehaviour
 		{
 			_anim.SetBool("Confirm", false);
 			_anim.SetBool("Inactive", true);
-		}
-
-		if(!audioSource.isPlaying)
-		{
-			audioSource.PlayOneShot(clip);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)

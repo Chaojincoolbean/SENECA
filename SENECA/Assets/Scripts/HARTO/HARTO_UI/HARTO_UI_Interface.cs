@@ -35,6 +35,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public Player player;
 
 	public Action[] options;
+	public Action[] titleMenu;
 
 	public Action[] empty;
 	public Action[] topics;
@@ -327,7 +328,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 			return;
 		}
 
-		if (Input.GetKeyDown(toggleHARTO) && !inConversation && GameManager.instance.hasPriyaSpoken)
+		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene))
 		{
 			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
