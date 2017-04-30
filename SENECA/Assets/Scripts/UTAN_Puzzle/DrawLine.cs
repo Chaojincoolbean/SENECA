@@ -55,7 +55,7 @@ public class DrawLine : MonoBehaviour
 	private Renderer ringRenderer;
 	private AudioManager_prototype audiomanager;
 
-	private AudioSource[] audios;
+	public AudioSource[] audios;
 
 	public float boundaryY;
 
@@ -85,24 +85,26 @@ public class DrawLine : MonoBehaviour
 		lastNodeIndex = Random.Range(0,nodes.Count);
 
 
-		if (puzzleToggle) {
+		if (puzzleToggle) 
+		{
 			//shuffleMaterials (materials);
 			int materialIndex = 0;
-			foreach (GameObject node in nodes) {
+			foreach (GameObject node in nodes) 
+			{
 				node.GetComponent<Renderer> ().material = materials [materialIndex];
 				materialIndex++;
 			}
 			ringRenderer = GameObject.Find ("UtanRing").GetComponent<Renderer> ();
 			ringRenderer.material = materials [lastNodeIndex];
-		} else {
+		} 
+		else 
+		{
 			audiomanager = GameObject.Find ("AudioManager").GetComponent<AudioManager_prototype> ();
 			audios = new AudioSource[nodes.Count];
-			audios [0] = audiomanager.C;
-			audios [1] = audiomanager.D;
-			audios [2] = audiomanager.E;
-			audios [3] = audiomanager.F;
-			//audios [4] = audiomanager.G;
-
+			for(int i = 0; i < audios.Length; i++)
+			{
+				audios[i] = audiomanager.notes[i];
+			}
 			audioCheck = new bool[audios.Length];
 		}
 

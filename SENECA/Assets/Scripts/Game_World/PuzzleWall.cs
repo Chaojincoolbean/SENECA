@@ -18,7 +18,7 @@ public class PuzzleWall : MonoBehaviour
 	{
 		puzzleTrigger = GetComponent<BoxCollider2D>();
 
-		utanPuzzle = GameObject.Find("UtanPuzzle").GetComponent<UtanPuzzle>();
+		utanPuzzle = GameObject.FindGameObjectWithTag("UtanPuzzle").GetComponent<UtanPuzzle>();
 		puzzleWall = GameObject.Find("PuzzleWall").GetComponent<PuzzleWallMover>();
 		utanPuzzle.anim.SetBool("IsActive", false);
 		puzzleWall.anim.SetBool("Solved", false);
@@ -36,6 +36,7 @@ public class PuzzleWall : MonoBehaviour
 		Debug.Log("Nice job!");
 		puzzleWall.anim.SetBool("Solved", true);
 		utanPuzzle.anim.SetBool("IsActive", false);
+		GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 0);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)

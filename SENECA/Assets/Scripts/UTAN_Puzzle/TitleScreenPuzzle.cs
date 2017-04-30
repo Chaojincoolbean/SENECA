@@ -97,9 +97,11 @@ public class TitleScreenPuzzle : MonoBehaviour
 		} else {
 			audiomanager = GameObject.Find ("AudioManager").GetComponent<AudioManager_prototype> ();
 			audios = new AudioSource[nodes.Count];
-			audios [0] = audiomanager.C;
-			audios [1] = audiomanager.D;
-
+			for(int i = 0; i <audios.Length; i++)
+			{
+				audios[i] = audiomanager.notes[i];
+			}
+			audioCheck = new bool[audios.Length];
 			audioCheck = new bool[audios.Length];
 		}
 	}
@@ -221,8 +223,9 @@ public class TitleScreenPuzzle : MonoBehaviour
 		while(t < 1)
 		{
 			//float fadingVolume = 
-			audiomanager.C.volume = Mathf.Lerp(1, 0, t);
-			audiomanager.D.volume = Mathf.Lerp(1, 0, t );;
+			
+			audiomanager.notes[0].volume = Mathf.Lerp(1, 0, t);
+			audiomanager.notes[1].volume = Mathf.Lerp(1, 0, t );
 			t = t +  Time.deltaTime;
 		}
 		yield return new WaitForSeconds(2.0f);
