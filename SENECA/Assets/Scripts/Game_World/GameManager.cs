@@ -131,8 +131,6 @@ public class GameManager : MonoBehaviour
 	{
 		string newScene = ((SceneChangeEvent)e).sceneName;
 		
-		Debug.Log(sceneName + " || " + newScene);
-
 		if(newScene.Contains("Seneca_Campsite") && !startedGame)
 		{
 			RestartGame();

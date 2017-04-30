@@ -32,9 +32,7 @@ public class RadialMenuSpawner : MonoBehaviour
 			instance = this;
 		}
 
-		easing = new EasingProperties();
-		//Debug.Log(Resources.Load("Prefabs/HARTO/UI/HARTOMenu"));
-		//menuPrefab = Resources.Load("Prefabs/HARTO/UI/HARTOMenu") as RadialMenu;
+		easing = ScriptableObject.CreateInstance("EasingProperties") as EasingProperties;
 
 		spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
 		audioSource = GetComponent<AudioSource>();
@@ -49,17 +47,16 @@ public class RadialMenuSpawner : MonoBehaviour
 		{
 			audioSource.PlayOneShot(clip);
 		}
-		if(newMenu == null)
-		{
-			newMenu = Instantiate(menuPrefab) as RadialMenu;
-			newMenu.transform.SetParent(transform, false);
-			newMenu.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-			newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
-			newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
-			StartCoroutine(Animate(true));
-			newMenu.Init(player);
-			newMenu.SpawnIcons(obj, topicSelected);
-		}
+
+		newMenu = Instantiate(menuPrefab) as RadialMenu;
+		newMenu.transform.SetParent(transform, false);
+		newMenu.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+		newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
+		newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
+		StartCoroutine(Animate(true));
+		newMenu.Init(player);
+		newMenu.SpawnIcons(obj, topicSelected);
+		
 		if(firstPass)
 		{
 
@@ -108,11 +105,7 @@ public class RadialMenuSpawner : MonoBehaviour
 		if(!fadeIn)
 		{
 			
-			closing = true;
-			newMenu._anim.SetBool("Inactive", true);
-			yield return new WaitForSeconds(1.2f);
-			Destroy(newMenu.gameObject);
-			closing = false;
+			
 		}
 		
     }
@@ -129,8 +122,12 @@ public class RadialMenuSpawner : MonoBehaviour
 			{
 				audioSource.PlayOneShot(clip);
 			}
+
+			closing = true;
+			newMenu._anim.SetBool("Inactive", true);
+			closing = false;
 			StartCoroutine(Animate(false));
-			
+			Destroy(newMenu.gameObject);
 		}
 	}
 }

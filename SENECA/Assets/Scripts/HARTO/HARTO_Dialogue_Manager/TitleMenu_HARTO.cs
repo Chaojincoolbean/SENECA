@@ -102,7 +102,6 @@ public class TitleMenu_HARTO : MonoBehaviour
 						{
 							audioSource.PlayOneShot(clip, 0.5f);
 						}
-						_anim.SetBool("Confirm", true);
 						StartGame(iconList[i]);
 						
 					}

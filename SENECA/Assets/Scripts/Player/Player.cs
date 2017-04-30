@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 
-		//currentScale = transform.localScale.y;
+		currentScale = transform.localScale.y;
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
 
 	void OnToggleHARTO(GameEvent e)
 	{
-		_animator.SetBool("HARTOActive", !HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+		//_animator.SetBool("HARTOActive", !HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 	}
 
 	void OnClosingHARTOForTheFirstTime(GameEvent e)
@@ -170,7 +170,7 @@ public class Player : MonoBehaviour
 	{
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
-
+		_animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 		if(!diableMovement)
 		{
 			Move(x, y);

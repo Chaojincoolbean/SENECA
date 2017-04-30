@@ -53,7 +53,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 	private bool closingHARTOForFirstTime;
 	private bool closedTutorialUsingRecordingSwitch;
 	public string currentNPC;
-	private EasingProperties _easing;
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
 	private TopicSelectedEvent.Handler onTopicSelecetd;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
@@ -79,8 +78,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 		closedTutorialUsingRecordingSwitch = false;
 		audioSource = GetComponent<AudioSource>();
 
-		_easing = new EasingProperties();
-
 		if (!GameManager.instance.isTestScene)
 		{
 			topicSelected = true;
@@ -105,45 +102,18 @@ public class HARTO_UI_Interface : MonoBehaviour
 		
 	}
 
-	private IEnumerator Animate(bool fadeIn)
-    {
-        yield return StartCoroutine(Coroutines.DoOverEasedTime(1.0f, _easing.MovementEasing, t =>
-        {
-			float alpha;
-			if(fadeIn)
-			{
-				alpha = Mathf.Lerp(0, 1, t);
-			}
-			else
-			{
-				alpha = Mathf.Lerp(1, 0, t);
-			}
-            // newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, alpha);
-			// newMenu.selectionArea.color = new Color(1.0f, 1.0f, 1.0f, alpha);
-			// newMenu.screenHARTO.color = new Color(1.0f, 1.0f, 1.0f, alpha);
-			// for(int i = 0; i < newMenu.iconList.Count; i++)
-			// {
-			// 	if (!newMenu.iconList[i].alreadySelected)
-			// 	{
-			// 		newMenu.iconList[i].color.color = new Color(1.0f, 1.0f, 1.0f, alpha);
-			// 	}
-			// 	else
-			// 	{
-			// 		newMenu.iconList[i].color.color = new Color(0.5f, 0.5f, 0.5f, alpha);
-			// 	}
-			// }
-        }));
-    }
-
 	void ReloadMenu(Action[] newOptions)
 	{
 		RadialMenuSpawner.instance.DestroyMenu();
 		options = newOptions;
+		Debug.Log(newOptions[0].title);
+		Debug.Log("Talking To: " + player.npcAstridIsTalkingTo);
 		if(player.npcAstridIsTalkingTo == null)
 		{
-				topics = empty;
+				newOptions = empty;
 		}
 		RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+		Debug.Log("Done");
 	}
 
 	public void ToggleDialogueMode()
@@ -242,11 +212,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 				{
 					updatedTopics[j] = topics[j];
 				}
-				// Action end = new Action();
-				// end.color = Color.white;
-				// end.title = "End";
-				// end.sprite = Resources.Load("Sprites/HARTO_Images/Icons_General/icon-end") as Sprite;
-				// updatedTopics[3] = end;
 				ReloadMenu(emotions);
 				break;
 			}
@@ -286,6 +251,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		}
 		else
 		{
+			Debug.Log("In here");
 			ReloadMenu(topics);
 		}
 		topicSelected = false;

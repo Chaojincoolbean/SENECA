@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using SenecaEvents;
 
 public class BackToSeneca : MonoBehaviour 
 {
@@ -48,6 +51,12 @@ public class BackToSeneca : MonoBehaviour
 			
 		}
 	}
+
+	void RollCredits()
+	{
+		GameEventsManager.Instance.Fire(new SceneChangeEvent("_CreditScene"));
+		SceneManager.LoadScene("Utan_ForkPath");
+	}
 	
 	// Update is called once per frame
 	void Update () 
@@ -56,5 +65,7 @@ public class BackToSeneca : MonoBehaviour
 		{
 			anim.SetBool("Flash", true);
 		}
+
+		
 	}
 }

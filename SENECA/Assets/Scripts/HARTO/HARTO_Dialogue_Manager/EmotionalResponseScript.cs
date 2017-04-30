@@ -28,7 +28,6 @@ public class EmotionalResponseScript : ResponseScript {
 		{
 			if (possibleLines[i].name.Contains(emotion.ToString()))
 			{	
-				Debug.Log(emotion.ToString());
 				if (dialogueType == HARTO)
 				{
 					characterAudioSource.PlayOneShot(possibleLines[i].LoadAudioClip(characterName, scene, topic, transform.name, emotion.ToString()), volume);

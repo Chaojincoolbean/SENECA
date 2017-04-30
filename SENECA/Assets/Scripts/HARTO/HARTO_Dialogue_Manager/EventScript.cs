@@ -80,8 +80,8 @@ public class EventScript : MonoBehaviour
 		}
 
 		totalLines = 0;
-		astridLines = 1;
-		npcLines = 1;
+		astridLines = 0;
+		npcLines = 0;
 
 		characterSearchKey = characterName;
 
@@ -89,15 +89,15 @@ public class EventScript : MonoBehaviour
 		{
 			for (int i = 0; i < myCharacters.Count; i++)
 			{
-				if (myCharacters[i].name  == characterSearchKey)// || myCharacters[i].name  == ASTRID)
+				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == ASTRID)
 				{
-					Debug.Log("Name: " + myCharacters[i].transform.name + " " + myCharacters[i].transform.childCount);
 					totalResponses += myCharacters[i].transform.childCount;
 				}
 			}
 
 			if (astridTalksFirst)
 			{
+				astridLines++;
 				GameObject firstResponse = GameObject.Find("Astrid_VO_" + astridLines+ "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
@@ -108,10 +108,11 @@ public class EventScript : MonoBehaviour
 				{
 					response = firstResponse.GetComponent<ResponseScript>();
 				}
-				astridLines++;
+				
 			}
 			else
 			{
+				npcLines++;
 				GameObject firstResponse = GameObject.Find(characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
@@ -124,7 +125,7 @@ public class EventScript : MonoBehaviour
 					response = firstResponse.GetComponent<ResponseScript>();
 				}
 				
-				npcLines++;
+				
 			}
 			StartCoroutine(PlayEventDialogue(characterName));
 		}
@@ -163,11 +164,14 @@ public class EventScript : MonoBehaviour
 			}
 			else
 			{	
+				
 				response.PlayLine(GIBBERISH, scene, topicName);
 				yield return new WaitForSeconds(1.5f);
+				Debug.Log("Playing the line NOW: " + response.characterName);
 				response.PlayLine(HARTO, scene, topicName);
 			}
 			
+
 			while(response.characterAudioSource.isPlaying)
 			{
 				if(!GameManager.instance.inUtan)
@@ -177,13 +181,13 @@ public class EventScript : MonoBehaviour
 				yield return new WaitForFixedUpdate();	
 			}
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
-			//gibberishPlayer.confirm = true;	
 
 			//	Checks who spoke last. If it was Astrid, play NPC dialouge.
 			if (response.characterName == ASTRID)
 			{
 				try
 				{
+					npcLines++;
 					thisResponse = GameObject.Find(characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName).gameObject;
 					if (thisResponse.transform.childCount > 1)
 					{
@@ -193,7 +197,7 @@ public class EventScript : MonoBehaviour
 					{
 						response = thisResponse.GetComponent<ResponseScript>();
 					}
-					npcLines++;
+					
 					
 				}
 				catch (Exception e)
@@ -206,6 +210,7 @@ public class EventScript : MonoBehaviour
 			{
 				try 
 				{
+					astridLines++;
 					thisResponse = GameObject.Find("Astrid_VO_" + astridLines + "_" + scene + "_" + topicName).gameObject;
 
 					if (thisResponse.transform.childCount > 1)
@@ -218,7 +223,7 @@ public class EventScript : MonoBehaviour
 						response = thisResponse.GetComponent<ResponseScript>();
 					}
 					astridHARTO.CurrentEmotion = Emotions.None;
-					astridLines++;
+					
 				}
 				catch (Exception e)
 				{

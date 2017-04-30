@@ -7,6 +7,8 @@ public class ResponseScript : MonoBehaviour {
 	[Range(0.0f, 1.0f)]
 	public float volume = 1.0f;
 	
+	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
+
 	public float elapsedHARTOSeconds;
 	public float elapsedGibberishSeconds;
 	public VoiceOverLine myLine;
@@ -32,6 +34,7 @@ public class ResponseScript : MonoBehaviour {
 	{
 		if (dialogueType == HARTO)
 		{
+			Debug.Log("Playing HARTO LINE: " + scene + " " + transform.name);
 			characterAudioSource.PlayOneShot(myLine.LoadAudioClip(characterName, scene, topic, transform.name), volume);
 			elapsedHARTOSeconds = myLine.LoadAudioClip(characterName, scene, topic,transform.name).length;
 		}
@@ -44,6 +47,28 @@ public class ResponseScript : MonoBehaviour {
 
 	virtual public void PlayLine(Emotions myEmotion)
 	{
+	}
+
+	void FindBrocaParticles()
+	{
+		if (nextTimeToSearch <= Time.time)
+		{
+			GameObject result = GameObject.FindGameObjectWithTag (BROCA_PARTICLES);
+			if (result != null)
+			{
+				gibberishAudioSource = result.GetComponent<AudioSource>();
+			}
+				nextTimeToSearch = Time.time + 2.0f;
+		}
+	}
+
+	void Update()
+	{
+		if(gibberishAudioSource == null)
+		{
+			FindBrocaParticles();
+			return;
+		}
 	}
 	
 }

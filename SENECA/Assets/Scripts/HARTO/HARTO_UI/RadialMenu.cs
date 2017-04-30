@@ -47,7 +47,7 @@ public class RadialMenu : MonoBehaviour
 		_anim = GetComponent<Animator>();
 		canSelect = true;
 		_player = player;
-		emptyAreaSprite = selectionArea.sprite;
+		displayAreaPrefab = GetComponentInChildren<DisplayArea>();
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
@@ -145,22 +145,27 @@ public class RadialMenu : MonoBehaviour
 	{
 		for (int i = 0; i < iconList.Count; i++)
 		{	
-			if(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position) < 15.0f)
+			if(Vector3.Distance(iconList[i].icon.rectTransform.localPosition, selectionArea.rectTransform.localPosition) < 115.3f)
 			{
+				//Debug.Log("Name: " + iconList[i].title + " " + Vector3.Distance(iconList[i].icon.rectTransform.localPosition, selectionArea.rectTransform.localPosition));
 
+				
 				if (displayAreaPrefab.displayIcon.sprite != iconList[i].icon.sprite)
 				{
 					clipHasBeenPlayed = false;
 				}
-				
-				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
+
 				clip = Resources.Load("Audio/SFX/HARTO_SFX/SWEEPS_0015") as AudioClip;
 
 				if(!audioSource.isPlaying && !clipHasBeenPlayed)
 				{
-					//audioSource.PlayOneShot(clip);
+					audioSource.Stop();
+					audioSource.PlayOneShot(clip);
 					clipHasBeenPlayed = true;
 				}
+		
+
+				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
 
 				if(Input.GetKeyDown(KeyCode.Mouse0))
 				{
@@ -185,6 +190,10 @@ public class RadialMenu : MonoBehaviour
 					}
 				}
 						
+			}
+			else
+			{
+				//displayAreaPrefab.displayIcon.sprite = defaultDisplay;
 			}
 		}
 	}
