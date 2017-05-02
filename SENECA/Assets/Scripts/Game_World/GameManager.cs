@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
 
 		if(!isTestScene)
 		{
-			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+			//GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 		}
 
 		uiTAB = Resources.Load("Prefabs/HARTO/UI/TAB_UI") as GameObject;
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
 
 		if(!isTestScene)
 		{
-			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+			//GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
 		}
 
 		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
