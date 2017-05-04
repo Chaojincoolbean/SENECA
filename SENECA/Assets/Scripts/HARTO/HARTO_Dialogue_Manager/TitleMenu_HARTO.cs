@@ -40,6 +40,7 @@ public class TitleMenu_HARTO : MonoBehaviour
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
 		_rectTransform = GetComponent<RectTransform>();
 		SpawnIcons(HARTO_UI_Interface.HARTOSystem.titleMenu);
+		Debug.Log(GetComponent<RectTransform>().rect.width * 0.3f);
 	}
 
 	public void SpawnIcons (HARTO_UI_Interface.Action[] actions) 
@@ -53,8 +54,7 @@ public class TitleMenu_HARTO : MonoBehaviour
 			float theta = (2 * Mathf.PI / actions.Length) * i;
 			float xPos = Mathf.Sin(theta);
 			float yPos = Mathf.Cos(theta);
-			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 0.0000000000000010f;
-			newRadialIcon.transform.localRotation = Quaternion.Euler(0, 0, 90.0f);
+			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f);
 			newRadialIcon.icon.color = actions[i].color;
 			newRadialIcon.alreadySelected = actions[i].alreadySelected;
 			newRadialIcon.icon.sprite = actions[i].sprite;
@@ -67,9 +67,9 @@ public class TitleMenu_HARTO : MonoBehaviour
 		for (int i = 0; i < iconList.Count; i++)
 		{
 			float theta = (2 * Mathf.PI / iconList.Count) * i;
-			float xPos = Mathf.Sin(theta + scrollWheel) * 0.9f;
-			float yPos = Mathf.Cos(theta + scrollWheel) * 1.1f;
-			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * 200.0f;
+			float xPos = Mathf.Sin(theta + scrollWheel) * 1.1f;
+			float yPos = Mathf.Cos(theta + scrollWheel);
+			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * (GetComponent<RectTransform>().rect.width * 0.3f);
 		}
 	}
 
@@ -78,7 +78,8 @@ public class TitleMenu_HARTO : MonoBehaviour
 		
 		for (int i = 0; i < iconList.Count; i++)
 		{	
-			if(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position) < 181.0f)
+			//Debug.Log(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position));
+			if(Vector3.Distance(iconList[i].icon.rectTransform.position, selectionArea.rectTransform.position) < 15.0f)
 			{
 				_anim.SetBool("IconInRange", true);
 				if (displayAreaPrefab.displayIcon.sprite != iconList[i].icon.sprite)

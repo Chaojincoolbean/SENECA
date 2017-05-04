@@ -107,8 +107,7 @@ public class EventScript : MonoBehaviour
 				else
 				{
 					response = firstResponse.GetComponent<ResponseScript>();
-				}
-				
+				}	
 			}
 			else
 			{
@@ -137,23 +136,17 @@ public class EventScript : MonoBehaviour
 		{
 			totalLines++;
 
-			//	Redundant check (the first time)
 			if (response.transform.childCount > 1)
 			{
-				//	If I am waiting for emotional input, I keep waiting unitl i get it.
 				waitingForEmotionalInput = true;
 			}
 
-			
-			//	Checks if response needs to wiat for emotional input
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
 				GameManager.instance.waitingForInput = waitingForEmotionalInput;
 				yield return new WaitForFixedUpdate();
 			}
 
-			//gibberishPlayer.confirm = false;
-			//	Redundant check
 			if (response.transform.childCount > 1)
 			{
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, scene, topicName);
@@ -164,7 +157,6 @@ public class EventScript : MonoBehaviour
 			}
 			else
 			{	
-				
 				response.PlayLine(GIBBERISH, scene, topicName);
 				yield return new WaitForSeconds(1.5f);
 				Debug.Log("Playing the line NOW: " + response.characterName);
@@ -174,6 +166,10 @@ public class EventScript : MonoBehaviour
 
 			while(response.characterAudioSource.isPlaying)
 			{
+				//	TODO: Talking animations
+				//	set anim for talking to true...
+				//	if response == Astrid. set astrid talking anim to true
+				//	else set base class fo npc talking anim to true
 				if(!GameManager.instance.inUtan)
 				{
 					gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
@@ -182,7 +178,6 @@ public class EventScript : MonoBehaviour
 			}
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
 
-			//	Checks who spoke last. If it was Astrid, play NPC dialouge.
 			if (response.characterName == ASTRID)
 			{
 				try
@@ -197,14 +192,11 @@ public class EventScript : MonoBehaviour
 					{
 						response = thisResponse.GetComponent<ResponseScript>();
 					}
-					
-					
 				}
 				catch (Exception e)
 				{
 					Debug.Log ("Could not find " + characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName);
 				}
-				
 			}
 			else
 			{

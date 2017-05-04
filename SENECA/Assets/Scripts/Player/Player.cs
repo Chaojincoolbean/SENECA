@@ -23,12 +23,14 @@ public class Player : MonoBehaviour
 	public KeyCode rightKey = KeyCode.D;
 	
 	public float moveSpeed;
+	public float frontScaleFactor;
+	public float backScaleFactor;
 	public float currentScale;
 	public float currentYPos;
 	public float newYPos;
 
 	private const float MAX_SCALE = 0.7f;
-	private const float MIN_SCALE = 0.4f;
+	private const float MIN_SCALE = 0.2f;
 	private AudioSource _audioSource;
 	private AudioClip _clip;
 	private Animator _animator;
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
 		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 
 		currentScale = transform.localScale.y;
+		frontScaleFactor = 0.008f;
+		backScaleFactor = 0.002f;
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
@@ -88,16 +92,32 @@ public class Player : MonoBehaviour
 		_animator.SetFloat("SpeedY", dy);
 		
 
-		if (newYPos > currentYPos)
+		if(newYPos < 0)
 		{
-			//currentScale += 0.05f;
+			if (newYPos > currentYPos)
+			{
+				currentScale += frontScaleFactor;
+			}
+			else if (newYPos < currentYPos)
+			{
+				currentScale -= frontScaleFactor;
+			}
+		
 		}
-		else if (newYPos < currentYPos)
+		else if(0 < newYPos && newYPos < 4)
 		{
-			//currentScale -= 0.05f;
+			if (newYPos > currentYPos)
+			{
+				currentScale += backScaleFactor;
+			}
+			else if (newYPos < currentYPos)
+			{
+				currentScale -= backScaleFactor;
+			}
 		}
 		
-		
+		//TODO:	Character Scaling
+		//		Need scaling chart
 		if(currentScale > MAX_SCALE)
 		{
 			currentScale = MAX_SCALE;

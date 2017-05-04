@@ -61,6 +61,9 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void Start()
 	{
+
+		//	TODO: HARTO SCREEN
+		//			When not talking to anyone and opening HARTO only make end convo button appear
 		if(HARTOSystem == null)
 		{
 			HARTOSystem = this;

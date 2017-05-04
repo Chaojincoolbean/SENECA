@@ -70,5 +70,27 @@ public class ResponseScript : MonoBehaviour {
 			return;
 		}
 	}
+	/*
+	
+		if(mainCamera == null)
+		{
+			FindMainCamera();
+			return;
+		}
+
+
+		void FindMainCamera()
+		{
+			if (nextTimeToSearch <= Time.time)
+			{
+				GameObject result = GameObject.FindGameObjectWithTag ("MainCamera");
+				if (result != null)
+				{
+					mainCamera = result.GetComponent<Camera>();
+				}
+				nextTimeToSearch = Time.time + 2.0f;
+		}
+		}
+	 */
 	
 }

@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
 
 		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
 		{
+			
 			begin = true;
 			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
 

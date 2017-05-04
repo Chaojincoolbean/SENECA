@@ -39,7 +39,7 @@ public class witchlightmanager1 : MonoBehaviour {
 			if(mainCamera.transform.rotation.eulerAngles.z >= 180)
 			{
 				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan Meadow"));
-				SceneManager.LoadScene (0);
+				SceneManager.LoadScene ("Utan_Meadow");
 			}
 
 		}
