@@ -12,17 +12,8 @@ public class Main : MonoBehaviour
 
         Services.Prefabs = Resources.Load<PrefabDB>("Prefabs/PrefabDB");
         Services.Events = new GameEventsManager();
-        Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Levels);
+		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
 
-        Services.Scenes.PushScene<MainMenu>();
-    }
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) 
-        {
-            Services.Events.Fire(new SpaceButtonDownEvent(KeyCode.Space));
-        }
+        //Services.Scenes.PushScene<MainMenu>();
     }
 }
