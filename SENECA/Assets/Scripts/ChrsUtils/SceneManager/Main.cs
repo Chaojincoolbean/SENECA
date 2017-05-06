@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
-using GameEvents;
-using GameEventsManager;
+using ChrsUtils.ChrsEventSystem.EventsManager;
+using GameSceneManagerSystem;
 using PrefabDataBase;
-using SceneManager;
 
 public class Main : MonoBehaviour
 {
@@ -12,8 +11,8 @@ public class Main : MonoBehaviour
         Assert.raiseExceptions = true;
 
         Services.Prefabs = Resources.Load<PrefabDB>("Prefabs/PrefabDB");
-        Services.Events = new EventManager();
-        Services.Scenes = new SceneManager<TransitionData>(gameObject, Services.Prefabs.Levels);
+        Services.Events = new GameEventsManager();
+        Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Levels);
 
         Services.Scenes.PushScene<MainMenu>();
     }
@@ -25,15 +24,5 @@ public class Main : MonoBehaviour
         {
             Services.Events.Fire(new SpaceButtonDownEvent(KeyCode.Space));
         }
-    }
-}
-
-public class SpaceButtonDownEvent : GameEvent
-{
-    public readonly KeyCode space;
-
-    public SpaceButtonDownEvent(KeyCode key)
-    {
-        space = key;
     }
 }

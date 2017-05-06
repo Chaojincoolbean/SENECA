@@ -6,9 +6,9 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using GameScenes;
 
-namespace SceneManager 
+namespace GameSceneManagerSystem 
 {
-	public class SceneManager<TTransitionData>
+	public class GameSceneManager<TTransitionData>
 	{
 		internal GameObject SceneRoot { get; private set;	}
 
@@ -22,7 +22,7 @@ namespace SceneManager
 			}
 		}
 
-		public SceneManager(GameObject root, IEnumerable<GameObject> scenePrefabs)
+		public GameSceneManager(GameObject root, IEnumerable<GameObject> scenePrefabs)
 		{
 			SceneRoot = root;
 
