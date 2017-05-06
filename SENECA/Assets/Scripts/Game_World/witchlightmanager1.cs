@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
@@ -39,7 +38,7 @@ public class witchlightmanager1 : MonoBehaviour {
 			if(mainCamera.transform.rotation.eulerAngles.z >= 180)
 			{
 				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan Meadow"));
-				SceneManager.LoadScene ("Utan_Meadow");
+				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Seneca_Meadow", player.transform.position, player.transform.localScale));
 			}
 
 		}

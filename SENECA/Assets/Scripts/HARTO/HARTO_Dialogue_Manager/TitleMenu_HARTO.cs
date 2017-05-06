@@ -129,7 +129,7 @@ public class TitleMenu_HARTO : MonoBehaviour
 			if(icon.title == "StartGame")
 			{
 				GameEventsManager.Instance.Fire(new SceneChangeEvent("_Prologue"));
-				SceneManager.LoadScene("_Prologue");
+				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("_TitleScreen", Vector3.zero, Vector3.zero));
 			}
 	}
 	

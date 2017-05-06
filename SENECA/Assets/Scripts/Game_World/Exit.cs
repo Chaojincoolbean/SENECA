@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
-using UnityEngine.SceneManagement;
 
 public class Exit : MonoBehaviour {
 
@@ -23,16 +22,16 @@ public class Exit : MonoBehaviour {
 
 		if (coll.gameObject.tag == "Player") 
 		{
-			if(SceneManager.GetActiveScene().name == "Utan_Meadow")
+			if(GameManager.instance.sceneName == "Utan_Meadow") // Find a new way to determine the scene
 			{
 				//	Pass in the scene you are going to
 				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan_ForkPath"));
-				SceneManager.LoadScene("Utan_ForkPath");
+				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Utan_Meadow", coll.transform.position, coll.transform.localScale));
 			}
 			else
 			{
 				GameEventsManager.Instance.Fire(new SceneChangeEvent("Seneca_ForestForkPath"));
-				SceneManager.LoadScene ("Seneca_ForestForkPath");
+				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Seneca_Campsite", coll.transform.position, coll.transform.localScale));
 			}
 
 		}

@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
 
 		audioSource = GetComponent<AudioSource>();
 
-		sceneName = SceneManager.GetActiveScene().name;
+		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 
 		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
 
-		sceneName = SceneManager.GetActiveScene().name;
+		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 
 		if (SceneManager.GetActiveScene().name.Contains("Test"))
 		{
@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 
-		sceneName = SceneManager.GetActiveScene().name;
+		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 
 		if(!begin && !audioSource.isPlaying && !isTestScene && SceneManager.GetActiveScene().name.Contains("Seneca_Campsite"))
 		{

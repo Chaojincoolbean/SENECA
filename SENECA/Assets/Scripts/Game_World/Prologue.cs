@@ -24,7 +24,7 @@ public class Prologue : MonoBehaviour
 	{
 		yield return new WaitForSeconds(1.0f);
 		GameEventsManager.Instance.Fire(new SceneChangeEvent("Seneca_Campsite"));
-		SceneManager.LoadScene("Seneca_Campsite");
+		Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("_Prolouge", Vector3.zero, Vector3.zero));
 	}
 
 	// Update is called once per frame
