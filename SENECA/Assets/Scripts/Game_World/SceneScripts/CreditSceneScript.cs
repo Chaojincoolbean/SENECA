@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameScenes;
 
-public class CreditSceneScript : MonoBehaviour {
+public class CreditSceneScript : Scene<TransitionData> 
+{
 
-	// Use this for initialization
-	void Start () {
-		
+	void OnEnter(TransitionData data)
+	{
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	void OnExit()
+	{
 	}
 }

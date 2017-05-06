@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameScenes;
 
-public class SenecaMeadowSceneSript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
+public class SenecaMeadowSceneSript : Scene<TransitionData>
+{
+	void OnEnter(TransitionData data)
+	{
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	void OnExit()
+	{
 	}
 }
