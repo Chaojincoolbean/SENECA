@@ -32,9 +32,10 @@ public class TitleMenu_HARTO : MonoBehaviour
 
 	public void Start()
 	{
+		radialIconPrefab = Resources.Load ("Prefabs/HARTO/UI/RadialIcon") as RadialIcon;
 		_anim = GetComponent<Animator>();
 		canSelect = true;
-		emptyAreaSprite = selectionArea.sprite;
+		//emptyAreaSprite = selectionArea.sprite;
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
