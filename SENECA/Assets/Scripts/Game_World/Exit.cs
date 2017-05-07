@@ -22,7 +22,7 @@ public class Exit : MonoBehaviour {
 
 		if (coll.gameObject.tag == "Player") 
 		{
-			if(GameManager.instance.sceneName == "Utan_Meadow") // Find a new way to determine the scene
+			if(GameManager.instance.sceneName == "UtanMeadow") // Find a new way to determine the scene
 			{
 				//	Pass in the scene you are going to
 				Services.Events.Fire(new SceneChangeEvent("Utan_ForkPath"));
