@@ -26,12 +26,12 @@ public class Exit : MonoBehaviour {
 			{
 				//	Pass in the scene you are going to
 				Services.Events.Fire(new SceneChangeEvent("Utan_ForkPath"));
-				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Utan_Meadow", coll.transform.position, coll.transform.localScale));
+				Services.Scenes.Swap<UtanRoadSceneScript>(new TransitionData("Utan_Meadow", coll.transform.position, coll.transform.localScale));
 			}
 			else
 			{
 				Services.Events.Fire(new SceneChangeEvent("Seneca_ForestForkPath"));
-				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Seneca_Campsite", coll.transform.position, coll.transform.localScale));
+				Services.Scenes.Swap<SenecaForestForkSceneScript>(new TransitionData("Seneca_Campsite", coll.transform.position, coll.transform.localScale));
 			}
 
 		}
