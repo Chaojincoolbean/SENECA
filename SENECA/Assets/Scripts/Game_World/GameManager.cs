@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
 
 		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 
+		Services.Events.Register<SceneChangeEvent>(onSceneChange);
 
 		if (sceneName.Contains("Test"))
 		{
