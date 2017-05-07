@@ -23,11 +23,6 @@ public class Player : MonoBehaviour
 	public KeyCode rightKey = KeyCode.D;
 	
 	public float moveSpeed;
-	public float frontScaleFactor;
-	public float backScaleFactor;
-	public float currentScale;
-	public float currentYPos;
-	public float newYPos;
 	public Animator animator;
 
 	private const float MAX_SCALE = 0.7f;
@@ -39,7 +34,6 @@ public class Player : MonoBehaviour
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
-
 
 	// Use this for initialization
 	void Start () 
@@ -55,10 +49,6 @@ public class Player : MonoBehaviour
 		Services.Events.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
 		Services.Events.Register<ToggleHARTOEvent>(onToggleHARTO);
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
-
-		currentScale = transform.localScale.y;
-		frontScaleFactor = 0.008f;
-		backScaleFactor = 0.002f;
 	}
 
 	void OnToggleDisableMovement(GameEvent e)
@@ -87,60 +77,10 @@ public class Player : MonoBehaviour
 	void Move(float dx, float dy)
 	{
 		//	Adds force to rigidbody based on the input
-		currentYPos = transform.position.y;
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
 		animator.SetFloat("SpeedX", Mathf.Abs(dx));
 		animator.SetFloat("SpeedY", dy);
-		
 
-		if(newYPos < 0)
-		{
-			if (newYPos > currentYPos)
-			{
-				currentScale += frontScaleFactor;
-			}
-			else if (newYPos < currentYPos)
-			{
-				currentScale -= frontScaleFactor;
-			}
-		
-		}
-		else if(0 < newYPos && newYPos < 4)
-		{
-			if (newYPos > currentYPos)
-			{
-				currentScale += backScaleFactor;
-			}
-			else if (newYPos < currentYPos)
-			{
-				currentScale -= backScaleFactor;
-			}
-		}
-		
-		//TODO:	Character Scaling
-		//		Need scaling chart
-		if(currentScale > MAX_SCALE)
-		{
-			currentScale = MAX_SCALE;
-		}
-
-		if(currentScale < MIN_SCALE)
-		{
-			currentScale = MIN_SCALE;
-		}
-
-		newYPos = currentYPos;
-		
-
-		if(facingLeft)
-		{
-			transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
-		}
-		else
-		{
-			transform.localScale = new Vector3(currentScale, currentScale, currentScale);
-		}
-		
 		if (dx > 0 && !facingLeft)
 		{
 			

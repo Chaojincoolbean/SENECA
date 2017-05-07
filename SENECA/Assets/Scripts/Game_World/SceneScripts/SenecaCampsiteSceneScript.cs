@@ -33,7 +33,10 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 	internal override void OnEnter(TransitionData data)
 	{
+
+
 		player = GameManager.instance.player_Astrid;
+		//Debug.Log (player.transform.localScale);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 1.5f;
 
 		startedGame = false;
