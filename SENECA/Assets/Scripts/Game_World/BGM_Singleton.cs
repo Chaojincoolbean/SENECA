@@ -27,15 +27,16 @@ public class BGM_Singleton : MonoBehaviour
 			audioSource = GetComponent<AudioSource>();
 			volume = 0.5f;
 
-			if(SceneManager.GetActiveScene().name.Contains("Utan"))
+
+			if(sceneName.Contains("Utan"))
 			{
 				clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
 			}
-			else if(SceneManager.GetActiveScene().name.Contains("Seneca"))
+			else if(sceneName.Contains("Seneca"))
 			{
 				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
 			}
-			else if(SceneManager.GetActiveScene().name.Contains("Title"))
+			else if(sceneName.Contains("Title"))
 			{
 				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
 			}
@@ -49,9 +50,11 @@ public class BGM_Singleton : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-
-		
-
+	
+		onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
+		Services.Events.Register<SceneChangeEvent>(onSceneChange);
+		audioSource.PlayOneShot(clip, volume);
+		audioSource.volume = volume;
 	}
 
 	void OnSceneChange(GameEvent e)

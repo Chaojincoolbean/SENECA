@@ -69,11 +69,17 @@ public class PlayerScaling : MonoBehaviour
 
 		currentScene = root.transform.GetChild (0).tag;
 
-		if (currentScene.Contains(CAMPSITE)) 
+		if (currentScene.Contains (CAMPSITE)) 
 		{
 			// campsite scaling
 			currentScaleCurve = CampsiteScalingCurve;
 		} 
+		else if (currentScene.Contains (FORK)) 
+		{
+
+			//	fork scaling
+			currentScaleCurve = ForkScalingCurve;
+		}
 		else if (currentScene.Contains(FARM))
 		{
 			// farm scaling
@@ -209,6 +215,68 @@ public class PlayerScaling : MonoBehaviour
 
 		//player.localScale = new Vector3(currentScale, currentScale,currentScale);
 	}
+
+	void ForkScalingCurve(Transform player)
+	{
+		Vector2 lowerLimit = new Vector2(0.82f, -11.61f);
+		Vector2 tier1 = new Vector2(0.55f, -4.03f);
+		Vector2 tier2 = new Vector2(0.4f, -1.98f);
+		Vector2 tier3 = new Vector2(0.33f, -0.94f);
+		Vector2 tier4 = new Vector2(0.3f ,-0.39f);
+		Vector2 upperLimit = new Vector2(0.27f, 0.14f);
+
+		if (player.localPosition.y < lowerLimit.y) 
+		{
+			player.localScale = new Vector3 (lowerLimit.x, lowerLimit.x, lowerLimit.x);
+		} 
+		else if (lowerLimit.y < player.localPosition.y && player.localPosition.y < tier1.y) 
+		{
+			//	calcualte growth scale
+			deltaScale = CalculateDeltaScale(lowerLimit, tier1);
+			//	find player's posiiton on scale
+			//	set scale
+			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+		}
+		else if (tier1.y < player.localPosition.y && player.localPosition.y < tier2.y) 
+		{
+			//	calcualte growth scale
+			deltaScale = CalculateDeltaScale(tier1, tier2);
+			//	find player's posiiton on scale
+			//	set scale
+			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+		}
+		else if (tier2.y < player.localPosition.y && player.localPosition.y < tier3.y) 
+		{
+			//	calcualte growth scale
+			deltaScale = CalculateDeltaScale(tier2, tier3);
+			//	find player's posiiton on scale
+			//	set scale
+			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+		}
+		else if (tier3.y < player.localPosition.y && player.localPosition.y < tier4.y) 
+		{
+			//	calcualte growth scale
+			deltaScale = CalculateDeltaScale(tier3, upperLimit);
+			//	find player's posiiton on scale
+			//	set scale
+			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+		}
+		else if (tier4.y < player.localPosition.y && player.localPosition.y < upperLimit.y) 
+		{
+			//	calcualte growth scale
+			deltaScale = CalculateDeltaScale(tier3, upperLimit);
+			//	find player's posiiton on scale
+			//	set scale
+			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+		}
+		else if (player.localPosition.y > upperLimit.y) 
+		{
+			//	find player's posiiton on scale
+			//	set scale
+			player.localScale = new Vector3(upperLimit.x, upperLimit.x, upperLimit.x);
+		}
+	}
+
 
 	void FarmScalingCurve(Transform player)
 	{
