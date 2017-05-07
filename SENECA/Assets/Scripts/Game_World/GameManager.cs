@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		
 		startedGame = false;
 		inConversation = false;
 		hasPriyaSpoken = false;
@@ -79,21 +80,23 @@ public class GameManager : MonoBehaviour
 		HARTOInterface = GameObject.FindGameObjectWithTag(HARTO_UI_INTERFACE_TAG).GetComponent<HARTO_UI_Interface>();
 
 		audioSource = GetComponent<AudioSource>();
-
-		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
-
+		isTestScene = true;
+		if (!isTestScene) 
+		{
+			sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
+		}
 		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 
 		Services.Events.Register<SceneChangeEvent>(onSceneChange);
 
-		if (sceneName.Contains("Test"))
-		{
-			isTestScene = true;
-		}
-		else
-		{
-			isTestScene = false;
-		}
+//		if (sceneName.Contains("Test"))
+//		{
+//			isTestScene = true;
+//		}
+//		else
+//		{
+//			isTestScene = false;
+//		}
 
 		if(!isTestScene)
 		{
