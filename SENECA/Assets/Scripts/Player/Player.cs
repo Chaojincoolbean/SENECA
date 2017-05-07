@@ -28,12 +28,13 @@ public class Player : MonoBehaviour
 	public float currentScale;
 	public float currentYPos;
 	public float newYPos;
+	public Animator animator;
 
 	private const float MAX_SCALE = 0.7f;
 	private const float MIN_SCALE = 0.2f;
 	private AudioSource _audioSource;
 	private AudioClip _clip;
-	private Animator _animator;
+
 	private Rigidbody2D _rigidBody2D;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
@@ -44,7 +45,7 @@ public class Player : MonoBehaviour
 	void Start () 
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
-		_animator = GetComponent<Animator>();
+		animator = GetComponent<Animator>();
 		_audioSource = GetComponent<AudioSource>();
 
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
@@ -88,8 +89,8 @@ public class Player : MonoBehaviour
 		//	Adds force to rigidbody based on the input
 		currentYPos = transform.position.y;
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
-		_animator.SetFloat("SpeedX", Mathf.Abs(dx));
-		_animator.SetFloat("SpeedY", dy);
+		animator.SetFloat("SpeedX", Mathf.Abs(dx));
+		animator.SetFloat("SpeedY", dy);
 		
 
 		if(newYPos < 0)
@@ -190,7 +191,7 @@ public class Player : MonoBehaviour
 	{
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
-		_animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+		animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 		if(!diableMovement)
 		{
 			Move(x, y);
