@@ -23,7 +23,10 @@ public class ExitUtan1 : MonoBehaviour {
 		if (coll.gameObject.tag == "Player") 
 		{
 			Services.Events.Fire(new SceneChangeEvent("Utan_Meadow"));
-			SceneManager.LoadScene ("Utan_Meadow");
+
+			TransitionData.Instance.UTAN_FORK.position = coll.transform.position;
+			TransitionData.Instance.UTAN_FORK.scale = coll.transform.localScale;
+			Services.Scenes.Swap<UtanRoadSceneScript>(TransitionData.Instance);
 		}
 	}
 }

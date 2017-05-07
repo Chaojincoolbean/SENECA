@@ -38,7 +38,9 @@ public class witchlightmanager1 : MonoBehaviour {
 			if(mainCamera.transform.rotation.eulerAngles.z >= 180)
 			{
 				Services.Events.Fire(new SceneChangeEvent("Utan Meadow"));
-				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Seneca_Meadow", player.transform.position, player.transform.localScale));
+				TransitionData.Instance.SENECA_MEADOW.position = player.transform.position;
+				TransitionData.Instance.SENECA_MEADOW.scale = player.transform.localScale;
+				Services.Scenes.Swap<UtanMeadowSceneScript>(TransitionData.Instance);
 			}
 
 		}

@@ -22,8 +22,9 @@ public class ExitForest2 : MonoBehaviour {
 		if (coll.gameObject.tag == "Player") 
 		{
 			Services.Events.Fire(new SceneChangeEvent("Seneca_Meadow"));
-			Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Seneca_Meadow", coll.transform.position, coll.transform.localScale));
-
+			TransitionData.Instance.SENECA_FORK.position = coll.transform.position;
+			TransitionData.Instance.SENECA_FORK.scale = coll.transform.localScale;
+			Services.Scenes.Swap<SenecaMeadowSceneSript>(TransitionData.Instance);
 		}
 	}
 }
