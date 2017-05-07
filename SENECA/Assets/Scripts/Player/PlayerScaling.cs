@@ -235,7 +235,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(lowerLimit, tier1);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(lowerLimit.x, lowerLimit.x, lowerLimit.x);
 		}
 		else if (tier1.y < player.localPosition.y && player.localPosition.y < tier2.y) 
 		{
@@ -243,7 +243,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier1, tier2);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier1.x, tier1.x, tier1.x);
 		}
 		else if (tier2.y < player.localPosition.y && player.localPosition.y < tier3.y) 
 		{
@@ -251,7 +251,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier2, tier3);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier2.x, tier2.x, tier2.x);
 		}
 		else if (tier3.y < player.localPosition.y && player.localPosition.y < tier4.y) 
 		{
@@ -259,7 +259,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier3, upperLimit);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier3.x, tier3.x, tier3.x);
 		}
 		else if (tier4.y < player.localPosition.y && player.localPosition.y < upperLimit.y) 
 		{
@@ -267,7 +267,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier3, upperLimit);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier4.x, tier4.x, tier4.x);
 		}
 		else if (player.localPosition.y > upperLimit.y) 
 		{
@@ -421,46 +421,22 @@ public class PlayerScaling : MonoBehaviour
 	void MeadowScalingCurve(Transform player)
 	{
 		Vector2 lowerLimit = new Vector2(0.5f, -11.43f);
-		Vector2 tier1 = new Vector2(0.28f, -3.67f);
-		Vector2 tier2 = new Vector2(0.22f, -2.42f);
-		Vector2 tier3 = new Vector2(0.18f, -1.44f);
-		Vector2 upperLimit = new Vector2(0.14f ,0.58f);
+//		Vector2 tier1 = new Vector2(0.28f, -3.67f);
+//		Vector2 tier2 = new Vector2(0.22f, -2.42f);
+//		Vector2 tier3 = new Vector2(0.18f, -1.44f);
+		Vector2 upperLimit = new Vector2(0.23f ,-3.28f);
 
 		if (player.localPosition.y < lowerLimit.y) 
 		{
 			player.localScale = new Vector3 (lowerLimit.x, lowerLimit.x, lowerLimit.x);
-		} 
-		else if (lowerLimit.y < player.localPosition.y && player.localPosition.y < tier1.y) 
-		{
-			//	calcualte growth scale
-			deltaScale = CalculateDeltaScale(lowerLimit, tier1);
-			//	find player's posiiton on scale
-			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
 		}
-		else if (tier1.y < player.localPosition.y && player.localPosition.y < tier2.y) 
+		else if (lowerLimit.y < player.localPosition.y && player.localPosition.y < upperLimit.y) 
 		{
 			//	calcualte growth scale
-			deltaScale = CalculateDeltaScale(tier1, tier2);
+			deltaScale = CalculateDeltaScale(lowerLimit, upperLimit);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
-		}
-		else if (tier2.y < player.localPosition.y && player.localPosition.y < tier3.y) 
-		{
-			//	calcualte growth scale
-			deltaScale = CalculateDeltaScale(tier2, tier3);
-			//	find player's posiiton on scale
-			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
-		}
-		else if (tier3.y < player.localPosition.y && player.localPosition.y < upperLimit.y) 
-		{
-			//	calcualte growth scale
-			deltaScale = CalculateDeltaScale(tier3, upperLimit);
-			//	find player's posiiton on scale
-			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3 (lowerLimit.x, lowerLimit.x, lowerLimit.x);
 		}
 		else if (player.localPosition.y > upperLimit.y) 
 		{
@@ -514,7 +490,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(lowerLimit, tier1);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier1.x, tier1.x, tier1.x);
 		}
 		else if (tier1.y < player.localPosition.y && player.localPosition.y < tier2.y) 
 		{
@@ -522,7 +498,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier1, tier2);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier2.x, tier2.x, tier2.x);
 		}
 		else if (tier2.y < player.localPosition.y && player.localPosition.y < tier3.y) 
 		{
@@ -530,7 +506,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier2, tier3);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier3.x, tier3.x, tier3.x);
 		}
 		else if (tier3.y < player.localPosition.y && player.localPosition.y < tier4.y) 
 		{
@@ -538,7 +514,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier3, tier4);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(tier4.x, tier4.x, tier4.x);
 		}
 		else if (tier4.y < player.localPosition.y && player.localPosition.y < upperLimit.y) 
 		{
@@ -546,7 +522,7 @@ public class PlayerScaling : MonoBehaviour
 			deltaScale = CalculateDeltaScale(tier4, upperLimit);
 			//	find player's posiiton on scale
 			//	set scale
-			player.localScale = new Vector3(player.localScale.y + deltaScale, player.localScale.y + deltaScale, player.localScale.z + deltaScale);
+			player.localScale = new Vector3(upperLimit.x, upperLimit.x, upperLimit.x);
 		}
 		else if (player.localPosition.y > upperLimit.y) 
 		{
