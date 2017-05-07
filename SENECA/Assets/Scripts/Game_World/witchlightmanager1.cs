@@ -24,6 +24,7 @@ public class witchlightmanager1 : MonoBehaviour {
 		y = this.gameObject.transform.position.y;
 		isCameraRotating = false;
 		anim = this.gameObject.GetComponent<Animator> ();
+		mainCamera = Camera.main;
 	}
 	
 	// Update is called once per frame
