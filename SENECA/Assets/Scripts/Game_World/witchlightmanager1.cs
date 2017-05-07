@@ -98,7 +98,7 @@ public class witchlightmanager1 : MonoBehaviour {
 		while (t < 1) {
 			mainCamera.orthographicSize = Mathf.Lerp (5, 2, t/1.2f);
 			t = t + Time.deltaTime;
-			Debug.Log (mainCamera.orthographicSize);
+			//Debug.Log (mainCamera.orthographicSize);
 		}
 
 		yield return null;

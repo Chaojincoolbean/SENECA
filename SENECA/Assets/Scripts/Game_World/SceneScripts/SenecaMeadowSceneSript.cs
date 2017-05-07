@@ -10,7 +10,7 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
 
 	internal override void OnEnter(TransitionData data)
 	{
-		player = GameManager.instance.player_Astrid;
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0f;
 
 	}

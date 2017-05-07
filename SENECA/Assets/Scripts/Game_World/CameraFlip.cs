@@ -76,13 +76,13 @@ public class CameraFlip : MonoBehaviour {
 
 			t = t + Time.deltaTime;
 
-			Debug.Log (FlipCamera.orthographicSize);
+			//Debug.Log (FlipCamera.orthographicSize);
 
 			if (FlipCamera.orthographicSize >= 3f) {
 
 				FlipCamera.orthographicSize = 5f;
 
-				Debug.Log ("camerachange");
+				//Debug.Log ("camerachange");
 				
 				Flare1.transform.position = new Vector3 (-8.64f, 4.66f, 0);
 				Flare2.transform.position = new Vector3 (8.64f, 4.66f, 0);
