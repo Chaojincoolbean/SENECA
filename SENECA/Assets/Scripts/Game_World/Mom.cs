@@ -31,9 +31,9 @@ public class Mom : MonoBehaviour
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
-		GameEventsManager.Instance.Register<MoveMomEvent>(onMoveMomEvent);
-		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
-		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+		Services.Events.Register<MoveMomEvent>(onMoveMomEvent);
+		Services.Events.Register<ToggleHARTOEvent>(onToggleHARTO);
+		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
 	void OnClosingHARTOForTheFirstTime(GameEvent e)
@@ -59,7 +59,7 @@ public class Mom : MonoBehaviour
 		if (!tutorialBegan && !GameManager.instance.isTestScene)
 		{
 			tutorialBegan = true;
-			GameEventsManager.Instance.Fire(new BeginTutorialEvent());	
+			Services.Events.Fire(new BeginTutorialEvent());	
 		}
 	}
 	
@@ -87,8 +87,8 @@ public class Mom : MonoBehaviour
 		if(col.gameObject.tag == "Player" && !beginGame)
 		{
 			beginGame = true;
-			GameEventsManager.Instance.Fire(new BeginGameEvent());
-			GameManager.instance.hasPriyaSpoken = true;
+			Services.Events.Fire(new BeginGameEvent());
+			SenecaCampsiteSceneScript.hasPriyaSpoken = true;
 			onposition = true;
 		}
 	}

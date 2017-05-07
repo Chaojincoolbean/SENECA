@@ -229,7 +229,7 @@ public class TitleScreenPuzzle : MonoBehaviour
 			t = t +  Time.deltaTime;
 		}
 		yield return new WaitForSeconds(2.0f);
-		GameEventsManager.Instance.Fire(new SceneChangeEvent("_Prologue"));
+		Services.Events.Fire(new SceneChangeEvent("_Prologue"));
 		SceneManager.LoadScene("_Prologue");
 	}
 

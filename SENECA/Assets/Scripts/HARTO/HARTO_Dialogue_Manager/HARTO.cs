@@ -47,7 +47,7 @@ public class HARTO : MonoBehaviour
 			Destroy(this.gameObject);
 		}
 		onEmotionSelected = new EmotionSelectedEvent.Handler(OnEmotionSelected);
-		GameEventsManager.Instance.Register<EmotionSelectedEvent>(onEmotionSelected);
+		Services.Events.Register<EmotionSelectedEvent>(onEmotionSelected);
 	}
 	
 	void OnEmotionSelected(GameEvent e)

@@ -25,12 +25,12 @@ public class Exit : MonoBehaviour {
 			if(GameManager.instance.sceneName == "Utan_Meadow") // Find a new way to determine the scene
 			{
 				//	Pass in the scene you are going to
-				GameEventsManager.Instance.Fire(new SceneChangeEvent("Utan_ForkPath"));
+				Services.Events.Fire(new SceneChangeEvent("Utan_ForkPath"));
 				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Utan_Meadow", coll.transform.position, coll.transform.localScale));
 			}
 			else
 			{
-				GameEventsManager.Instance.Fire(new SceneChangeEvent("Seneca_ForestForkPath"));
+				Services.Events.Fire(new SceneChangeEvent("Seneca_ForestForkPath"));
 				Services.Scenes.Swap<PrologueSceneScript>(new TransitionData("Seneca_Campsite", coll.transform.position, coll.transform.localScale));
 			}
 

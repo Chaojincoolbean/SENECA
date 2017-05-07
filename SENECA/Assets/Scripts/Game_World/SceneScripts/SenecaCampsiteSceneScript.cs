@@ -12,7 +12,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	Player player;
 
 	public bool startedGame;
-	public bool hasPriyaSpoken;
+	public static bool hasPriyaSpoken;
 	public bool begin;
 	public bool inConversation;
 	public static bool tabUIOnScreen;
@@ -22,31 +22,22 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 
 	public static GameObject uiTAB;
+	public static  GameObject tab;
 	public GameObject uiMouse;
 	public GameObject npc_Priya;
 
 	public AudioSource audioSource;
 
-	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
+	private TABUIButtonAppearEvent.Handler onTABUIButtonAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
-
-	void Start()
-	{
-		
-	}
 
 	internal override void OnEnter(TransitionData data)
 	{
-		Debug.Log ("Entered");
 		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 1.5f;
 
 		startedGame = false;
 		audioSource = GetComponent<AudioSource>();
-
-
-		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler (OnTABUIButtonAppear);
-		onToggleHARTO = new ToggleHARTOEvent.Handler (OnToggleHARTO);
 
 		uiTAB = Resources.Load ("Prefabs/HARTO/UI/TAB_UI") as GameObject;
 		uiMouse = Resources.Load ("Prefabs/HARTO/UI/MOUSE_UI") as GameObject;
@@ -55,10 +46,11 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 		if (!TransitionData.Instance.SENECA_CAMPSITE.visitedScene) 
 		{
-			onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler (OnTABUIButtonAppear);
+			onTABUIButtonAppear = new TABUIButtonAppearEvent.Handler (OnTABUIButtonAppear);
 			onToggleHARTO = new ToggleHARTOEvent.Handler (OnToggleHARTO);
 
 			uiTAB = Resources.Load ("Prefabs/HARTO/UI/TAB_UI") as GameObject;
+			uiTAB.name = "TAB_UI";
 			uiMouse = Resources.Load ("Prefabs/HARTO/UI/MOUSE_UI") as GameObject;
 
 			begin = true;
@@ -68,6 +60,9 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			startedGame = true;
 			audioSource.PlayOneShot(GameManager.instance.recordingManager.LoadHARTOVO("HARTO_VO1"));
 			begin = false;
+
+			Services.Events.Register<ToggleHARTOEvent> (onToggleHARTO);
+			Services.Events.Register<TABUIButtonAppearEvent> (onTABUIButtonAppear);
 
 		} 
 		else
@@ -85,15 +80,13 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 			tabUIOnScreen = true;
 			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
-			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
+			tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
 			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
 		}
 	}
 
 	void OnTABUIButtonAppear(GameEvent e)
 	{
-		Debug.Log("Count!!!");
-		Debug.Log("Tab on Screen: " + tabUIOnScreen);
 		if (!tabUIOnScreen)
 		{
 
@@ -129,7 +122,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	{
 		if(!begin && !audioSource.isPlaying && !TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
 		{
-			GameEventsManager.Instance.Fire(new MoveMomEvent());
+			Services.Events.Fire(new MoveMomEvent());
 			begin = true;
 		}
 	}

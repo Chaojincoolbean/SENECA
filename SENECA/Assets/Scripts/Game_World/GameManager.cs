@@ -46,8 +46,6 @@ public class GameManager : MonoBehaviour
 	public bool startedGame;
 	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 	private SceneChangeEvent.Handler onSceneChange;
-	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
-	private ToggleHARTOEvent.Handler onToggleHARTO;
 
 	// Use this for initialization
 	void Start () 
@@ -84,12 +82,8 @@ public class GameManager : MonoBehaviour
 
 		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 
-		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
-		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
+		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 
-		GameEventsManager.Instance.Register<SceneChangeEvent>(onSceneChange);
-		GameEventsManager.Instance.Register<TABUIButtonAppearEvent>(onTABUIButtionAppear);
-		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 
 		if (sceneName.Contains("Test"))
 		{
@@ -108,40 +102,6 @@ public class GameManager : MonoBehaviour
 		{
 		}
 		
-	}
-
-	public void MakeTabAppear()
-	{
-		if (!tabUIOnScreen)
-		{
-			
-			tabUIOnScreen = true;
-			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
-			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
-			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
-		}
-	}
-
-	void OnTABUIButtonAppear(GameEvent e)
-	{
-		Debug.Log("Count!!!");
-		Debug.Log("Tab on Screen: " + tabUIOnScreen);
-		if (!tabUIOnScreen)
-		{
-			
-			tabUIOnScreen = true;
-			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
-			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
-			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
-		}
-	}
-
-	void OnToggleHARTO(GameEvent e)
-	{
-		if(tabUIOnScreen)
-		{
-			Destroy(GameObject.Find("TAB_UI(Clone)"));
-		}
 	}
 	
 	void FindPlayer()

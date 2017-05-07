@@ -48,10 +48,10 @@ public class DialogueManager : MonoBehaviour
 		onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
-		GameEventsManager.Instance.Register<BeginGameEvent>(onBeginGame);
-		GameEventsManager.Instance.Register<BeginTutorialEvent>(onBeginTutorial);
-		GameEventsManager.Instance.Register<TopicSelectedEvent>(onTopicSelected);
-		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+		Services.Events.Register<BeginGameEvent>(onBeginGame);
+		Services.Events.Register<BeginTutorialEvent>(onBeginTutorial);
+		Services.Events.Register<TopicSelectedEvent>(onTopicSelected);
+		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 
 	}
 

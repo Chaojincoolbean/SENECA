@@ -7,7 +7,6 @@ public class TitleSceneScript : Scene<TransitionData>
 {
 	internal override void OnEnter(TransitionData data)
 	{
-		Debug.Log ("Entered Title");
 	}
 
 	internal override void OnExit()

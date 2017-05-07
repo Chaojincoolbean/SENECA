@@ -19,7 +19,7 @@ public class RecordingManager : MonoBehaviour
 	{
 		audioSource = GetComponent<AudioSource>();
 		onRecordingSelected = new RecordingSelectedEvent.Handler(OnRecordingSelected);
-		GameEventsManager.Instance.Register<RecordingSelectedEvent>(onRecordingSelected);
+		Services.Events.Register<RecordingSelectedEvent>(onRecordingSelected);
 	}
 
 	void OnRecordingSelected(GameEvent e)
@@ -32,7 +32,7 @@ public class RecordingManager : MonoBehaviour
 	IEnumerator RecordingIsPlaying(float recordingLength)
 	{
 		yield return new WaitForSeconds(recordingLength);
-		GameEventsManager.Instance.Fire(new RecordingIsOverEvent());
+		Services.Events.Fire(new RecordingIsOverEvent());
 	}
 
 

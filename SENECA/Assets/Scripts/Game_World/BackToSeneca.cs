@@ -54,7 +54,7 @@ public class BackToSeneca : MonoBehaviour
 
 	public void RollCredits()
 	{
-		GameEventsManager.Instance.Fire(new SceneChangeEvent("_CreditScene"));
+		Services.Events.Fire(new SceneChangeEvent("_CreditScene"));
 		SceneManager.LoadScene("Utan_ForkPath");
 	}
 	

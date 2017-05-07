@@ -76,7 +76,7 @@ public class EventScript : MonoBehaviour
 	{
 		if(!topicName.Contains("Start_Game"))
 		{
-			GameEventsManager.Instance.Fire(new BeginDialogueEvent());
+			Services.Events.Fire(new BeginDialogueEvent());
 		}
 
 		totalLines = 0;
@@ -232,19 +232,19 @@ public class EventScript : MonoBehaviour
 
 		if(topicName != "Start_Game")
 		{
-			GameEventsManager.Instance.Fire(new EndDialogueEvent(topicName));
+			Services.Events.Fire(new EndDialogueEvent(topicName));
 			if (topicName == "Exit")
 			{
 				HARTO_UI_Interface.HARTOSystem.WaitForExitScript();
-				GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
+				Services.Events.Fire(new ToggleHARTOEvent());
 			}
 		}
 		else
 		{
 			if(!GameManager.instance.tabUIOnScreen)
 			{
-				SenecaCampsiteSceneScript.MakeTabAppear ();
-				//GameEventsManager.Instance.Fire(new TABUIButtonAppearEvent());
+				//SenecaCampsiteSceneScript.MakeTabAppear ();
+				Services.Events.Fire(new TABUIButtonAppearEvent());
 			}
 		}
 		yield return null;
