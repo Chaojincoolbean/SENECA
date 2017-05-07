@@ -170,12 +170,22 @@ public class EventScript : MonoBehaviour
 				//	set anim for talking to true...
 				//	if response == Astrid. set astrid talking anim to true
 				//	else set base class fo npc talking anim to true
+				if (response.characterName == "Astrid") 
+				{
+					GameManager.instance.player_Astrid.animator.SetBool ("IsTalking", true);
+				} 
+				else 
+				{
+					// other character istalking is true;
+				}
 				if(!GameManager.instance.inUtan)
 				{
 					gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
 				}
 				yield return new WaitForFixedUpdate();	
 			}
+			GameManager.instance.player_Astrid.animator.SetBool ("IsTalking", false);
+			//other charcter's istalking is false
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
 
 			if (response.characterName == ASTRID)
