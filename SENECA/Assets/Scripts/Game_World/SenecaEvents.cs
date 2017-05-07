@@ -29,8 +29,7 @@ namespace SenecaEvents
     public class ToggleHARTOEvent : GameEvent
     {
         public ToggleHARTOEvent ()
-        {
-            
+		{
         }
     }
 

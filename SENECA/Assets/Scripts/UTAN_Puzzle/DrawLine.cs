@@ -268,7 +268,7 @@ public class DrawLine : MonoBehaviour
 								//check if the end condition has been met
 								solved = true;
 								Debug.Log ("the extremely hard puzzle has been conquered");
-								GameEventsManager.Instance.Fire(new PuzzleCompletedEvent());
+								Services.Events.Fire(new PuzzleCompletedEvent());
 							}
 						}
 					}

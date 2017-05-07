@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class TransitionData
 {
+	private static TransitionData instance;
+	public static TransitionData Instance {
+		get {
+			if (instance == null)
+				instance = new TransitionData ();
+			
+				return instance;
+		}
+		private set{ }
+	}
+
     public TitleScreen TITLE;
     public PrologueScreen PROLOUGE;
     public SenecaCampsite SENECA_CAMPSITE;
@@ -16,6 +27,10 @@ public class TransitionData
 
     public readonly Dictionary<string, bool> difficulty;
     public readonly int score;
+
+	public TransitionData()
+	{
+	}
 
     public TransitionData(string scene, Vector3 _position, Vector3 _scale)
     {

@@ -202,19 +202,19 @@ public class RadialMenu : MonoBehaviour
 	{
 		if(icon.title.Contains(TOPIC_TAG))
 		{
-			GameEventsManager.Instance.Fire(new TopicSelectedEvent(icon.title, _player.npcAstridIsTalkingTo));
+			Services.Events.Fire(new TopicSelectedEvent(icon.title, _player.npcAstridIsTalkingTo));
 		}
 		else if (icon.title.Contains(EMOTION_TAG))
 		{
-			GameEventsManager.Instance.Fire(new EmotionSelectedEvent(((RadialEmotionIcon)icon).emotion));
+			Services.Events.Fire(new EmotionSelectedEvent(((RadialEmotionIcon)icon).emotion));
 		}
 		else if (icon.title.Contains(FOLDER_TAG))
 		{
-			GameEventsManager.Instance.Fire(new RecordingFolderSelectedEvent(icon.title));
+			Services.Events.Fire(new RecordingFolderSelectedEvent(icon.title));
 		}
 		else if (icon.title.Contains(RECORDING_TAG))
 		{
-			GameEventsManager.Instance.Fire(new RecordingSelectedEvent(icon.title));
+			Services.Events.Fire(new RecordingSelectedEvent(icon.title));
 		}
 
 		

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour 
 {
@@ -22,7 +21,6 @@ public class GameManager : MonoBehaviour
 	public Player player_Astrid;
 	public GameObject npc_Priya;
 	public GameObject uiTAB;
-	public GameObject uiMouse;
 
 	[SerializeField]
 	private int _sceneNumber;
@@ -48,15 +46,12 @@ public class GameManager : MonoBehaviour
 	public bool startedGame;
 	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 	private SceneChangeEvent.Handler onSceneChange;
-	private TABUIButtonAppearEvent.Handler onTABUIButtionAppear;
-	private ToggleHARTOEvent.Handler onToggleHARTO;
 
 	// Use this for initialization
 	void Start () 
 	{
 		startedGame = false;
 		inConversation = false;
-		//tabUIOnScreen = false;
 		hasPriyaSpoken = false;
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
@@ -69,9 +64,7 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(this.gameObject);
 		}
-
-		
-
+			
 		whoTalksFirst = new Dictionary<string, bool>();
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
 		whoTalksFirst.Add("Event_Tutorial1Priya", false);
@@ -89,15 +82,10 @@ public class GameManager : MonoBehaviour
 
 		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 
-		onTABUIButtionAppear = new TABUIButtonAppearEvent.Handler(OnTABUIButtonAppear);
-		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
-		onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
+		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 
-		GameEventsManager.Instance.Register<SceneChangeEvent>(onSceneChange);
-		GameEventsManager.Instance.Register<TABUIButtonAppearEvent>(onTABUIButtionAppear);
-		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
 
-		if (SceneManager.GetActiveScene().name.Contains("Test"))
+		if (sceneName.Contains("Test"))
 		{
 			isTestScene = true;
 		}
@@ -108,105 +96,12 @@ public class GameManager : MonoBehaviour
 
 		if(!isTestScene)
 		{
-			//GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
-		}
-
-		uiTAB = Resources.Load("Prefabs/HARTO/UI/TAB_UI") as GameObject;
-		uiMouse = Resources.Load("Prefabs/HARTO/UI/MOUSE_UI") as GameObject;
-		
-		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
-		{
-			//begin = true;
-			//npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
-
-			//npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
-			//startedGame = true;
-			//audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
-			//begin = false;
 		}
 		
-	}
-
-	void OnSceneChange(GameEvent e)
-	{
-		string newScene = ((SceneChangeEvent)e).sceneName;
+		if (sceneName.Contains("Seneca_Campsite") && !startedGame)
+		{
+		}
 		
-		if(newScene.Contains("Seneca_Campsite") && !startedGame)
-		{
-			RestartGame();
-		}
-	}
-
-	void RestartGame()
-	{
-		startedGame = false;
-		inConversation = false;
-		tabUIOnScreen = false;
-		hasPriyaSpoken = false;
-		completedOneTopic = false;
-		CurrentSceneNumber = 1;
-
-		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
-
-		if (SceneManager.GetActiveScene().name.Contains("Test"))
-		{
-			isTestScene = true;
-		}
-		else
-		{
-			isTestScene = false;
-		}
-
-		if(!isTestScene)
-		{
-			//GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
-		}
-
-		if (SceneManager.GetActiveScene().name.Contains("Seneca_Campsite") && !startedGame)
-		{
-			
-			begin = true;
-			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
-
-			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
-			startedGame = true;
-			audioSource.PlayOneShot(recordingManager.LoadHARTOVO("HARTO_VO1"));
-			begin = false;
-		}		
-	}
-
-	public void MakeTabAppear()
-	{
-		if (!tabUIOnScreen)
-		{
-			
-			tabUIOnScreen = true;
-			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
-			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
-			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
-		}
-	}
-
-	void OnTABUIButtonAppear(GameEvent e)
-	{
-		Debug.Log("Count!!!");
-		Debug.Log("Tab on Screen: " + tabUIOnScreen);
-		if (!tabUIOnScreen)
-		{
-			
-			tabUIOnScreen = true;
-			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
-			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
-			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
-		}
-	}
-
-	void OnToggleHARTO(GameEvent e)
-	{
-		if(tabUIOnScreen)
-		{
-			Destroy(GameObject.Find("TAB_UI(Clone)"));
-		}
 	}
 	
 	void FindPlayer()
@@ -217,7 +112,6 @@ public class GameManager : MonoBehaviour
 			if (result != null)
 			{
 				player_Astrid = result.GetComponent<Player>();
-				RestartGame();
 			}
 				nextTimeToSearch = Time.time + 2.0f;
 		}
@@ -226,7 +120,9 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (SceneManager.GetActiveScene().name.Contains("Test"))
+		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
+
+		if (sceneName.Contains("Test"))
 		{
 			isTestScene = true;
 		}
@@ -235,7 +131,7 @@ public class GameManager : MonoBehaviour
 			isTestScene = false;
 		}
 
-		if (SceneManager.GetActiveScene().name.Contains("Utan"))
+		if (sceneName.Contains("Utan"))
 		{
 			inUtan = true;
 		}
@@ -249,14 +145,5 @@ public class GameManager : MonoBehaviour
 			FindPlayer();
 			return;
 		}
-
-		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
-
-		if(!begin && !audioSource.isPlaying && !isTestScene && SceneManager.GetActiveScene().name.Contains("Seneca_Campsite"))
-		{
-			GameEventsManager.Instance.Fire(new MoveMomEvent());
-			begin = true;
-		}
-
 	}
 }

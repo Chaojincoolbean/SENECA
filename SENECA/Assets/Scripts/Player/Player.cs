@@ -51,9 +51,9 @@ public class Player : MonoBehaviour
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
-		GameEventsManager.Instance.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
-		GameEventsManager.Instance.Register<ToggleHARTOEvent>(onToggleHARTO);
-		GameEventsManager.Instance.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+		Services.Events.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
+		Services.Events.Register<ToggleHARTOEvent>(onToggleHARTO);
+		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 
 		currentScale = transform.localScale.y;
 		frontScaleFactor = 0.008f;

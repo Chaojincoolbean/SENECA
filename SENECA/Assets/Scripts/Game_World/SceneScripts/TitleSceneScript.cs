@@ -5,11 +5,11 @@ using GameScenes;
 
 public class TitleSceneScript : Scene<TransitionData> 
 {
-	void OnEnter(TransitionData data)
+	internal override void OnEnter(TransitionData data)
 	{
 	}
 
-	void OnExit()
+	internal override void OnExit()
 	{
 	}
 }

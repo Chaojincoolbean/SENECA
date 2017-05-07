@@ -33,14 +33,14 @@ public class ToggleDialogueMode : MonoBehaviour
 		onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
 		onEndDialogueEvent = new EndDialogueEvent.Handler(OnEndDialogueEvent);
 
-		GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
-		GameEventsManager.Instance.Register<EndDialogueEvent>(onEndDialogueEvent);
+		Services.Events.Register<BeginDialogueEvent>(onBeginDialogueEvent);
+		Services.Events.Register<EndDialogueEvent>(onEndDialogueEvent);
 	}
 
 	void OnDestroy()
 	{
-		GameEventsManager.Instance.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
-		GameEventsManager.Instance.Unregister<EndDialogueEvent>(onEndDialogueEvent);
+		Services.Events.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
+		Services.Events.Unregister<EndDialogueEvent>(onEndDialogueEvent);
 	}
 
 	void OnBeginDialogueEvent(GameEvent e)
@@ -63,7 +63,7 @@ public class ToggleDialogueMode : MonoBehaviour
 
 			onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
 
-			GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
+			Services.Events.Register<BeginDialogueEvent>(onBeginDialogueEvent);
 			
 		}
 

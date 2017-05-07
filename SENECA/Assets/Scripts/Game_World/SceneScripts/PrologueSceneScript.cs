@@ -6,11 +6,11 @@ using GameScenes;
 public class PrologueSceneScript : Scene<TransitionData> 
 {
 
-	void OnEnter(TransitionData data)
+	internal override void OnEnter(TransitionData data)
 	{
 	}
 
-	void OnExit()
+	internal override void OnExit()
 	{
 	}
 }

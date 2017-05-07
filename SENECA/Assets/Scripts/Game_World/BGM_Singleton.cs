@@ -41,7 +41,7 @@ public class BGM_Singleton : MonoBehaviour
 			}
 
 			onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
-			GameEventsManager.Instance.Register<SceneChangeEvent>(onSceneChange);
+			Services.Events.Register<SceneChangeEvent>(onSceneChange);
 			audioSource.PlayOneShot(clip, volume);
 			audioSource.volume = volume;
 		}

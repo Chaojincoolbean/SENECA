@@ -97,11 +97,11 @@ public class HARTO_UI_Interface : MonoBehaviour
 		onDialogueEnded = new EndDialogueEvent.Handler(OnDialogueEnded);
 		onRecordingEnded = new RecordingIsOverEvent.Handler(OnRecordingEnded);
 
-		GameEventsManager.Instance.Register<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
-		GameEventsManager.Instance.Register<TopicSelectedEvent>(onTopicSelecetd);
-		GameEventsManager.Instance.Register<BeginDialogueEvent>(onBeginDialogueEvent);
-		GameEventsManager.Instance.Register<EndDialogueEvent>(onDialogueEnded);
-		GameEventsManager.Instance.Register<RecordingIsOverEvent>(onRecordingEnded);
+		Services.Events.Register<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
+		Services.Events.Register<TopicSelectedEvent>(onTopicSelecetd);
+		Services.Events.Register<BeginDialogueEvent>(onBeginDialogueEvent);
+		Services.Events.Register<EndDialogueEvent>(onDialogueEnded);
+		Services.Events.Register<RecordingIsOverEvent>(onRecordingEnded);
 		
 	}
 
@@ -133,7 +133,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 			if(closingHARTOForFirstTime)
 			{
 
-				GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
+				Services.Events.Fire(new ClosingHARTOForTheFirstTimeEvent());
 				closingHARTOForFirstTime = false;
 				closedTutorialUsingRecordingSwitch = true;
 				// freeze mouse clicks here
@@ -240,7 +240,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		{
 			isHARTOActive = false;
 			RadialMenuSpawner.instance.DestroyMenu();
-			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(false));
+			Services.Events.Fire(new DisablePlayerMovementEvent(false));
 			inConversation = false;
 			GameManager.instance.inConversation = inConversation;
 			return;
@@ -249,7 +249,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		if(closedTutorialUsingRecordingSwitch)
 		{
 			ReloadMenu(recordingFolders);
-			GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(false));
+			Services.Events.Fire(new DisablePlayerMovementEvent(false));
 			closedTutorialUsingRecordingSwitch = false;
 		}
 		else
@@ -297,9 +297,10 @@ public class HARTO_UI_Interface : MonoBehaviour
 			return;
 		}
 
-		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene))
+		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (SenecaCampsiteSceneScript.hasPriyaSpoken || GameManager.instance.isTestScene))
 		{
-			GameEventsManager.Instance.Fire(new ToggleHARTOEvent());
+			
+			Services.Events.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
 			if (!isHARTOActive && !GameManager.instance.completedOneTopic && !GameManager.instance.isTestScene)
 			{
@@ -315,14 +316,14 @@ public class HARTO_UI_Interface : MonoBehaviour
 						topics = empty;
 					}
 					RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
-					GameEventsManager.Instance.Fire(new DisablePlayerMovementEvent(true));
+					Services.Events.Fire(new DisablePlayerMovementEvent(true));
 					isHARTOOn = true;
 				}
 				else
 				{
 					if (closingHARTOForFirstTime && !GameManager.instance.isTestScene)
 					{
-						GameEventsManager.Instance.Fire(new ClosingHARTOForTheFirstTimeEvent());
+						Services.Events.Fire(new ClosingHARTOForTheFirstTimeEvent());
 						closingHARTOForFirstTime = false;
 						isHARTOOn = false;
 						StartCoroutine(WaitForExitScript());

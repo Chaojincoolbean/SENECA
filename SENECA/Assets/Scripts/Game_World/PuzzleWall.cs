@@ -23,12 +23,12 @@ public class PuzzleWall : MonoBehaviour
 		utanPuzzle.anim.SetBool("IsActive", false);
 		puzzleWall.anim.SetBool("Solved", false);
 		onPuzzleCompleted = new PuzzleCompletedEvent.Handler(OnPuzzleCompleted);
-		GameEventsManager.Instance.Register<PuzzleCompletedEvent>(onPuzzleCompleted);
+		Services.Events.Register<PuzzleCompletedEvent>(onPuzzleCompleted);
 	}
 
 	void OnDestroy()
 	{
-		GameEventsManager.Instance.Unregister<PuzzleCompletedEvent>(onPuzzleCompleted);
+		Services.Events.Unregister<PuzzleCompletedEvent>(onPuzzleCompleted);
 	}
 
 	void OnPuzzleCompleted(GameEvent e)
