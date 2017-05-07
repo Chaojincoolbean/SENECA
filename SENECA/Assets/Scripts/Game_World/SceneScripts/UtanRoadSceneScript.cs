@@ -8,14 +8,14 @@ public class UtanRoadSceneScript : Scene<TransitionData>
 {
 	Player player;
 
-	void OnEnter(TransitionData data)
+	internal override void OnEnter(TransitionData data)
 	{
 		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0f;
 
 	}
 
-	void OnExit()
+	internal override void OnExit()
 	{
 		TransitionData.Instance.UTAN_ROAD.position = player.transform.position;
 		TransitionData.Instance.UTAN_ROAD.scale = player.transform.localScale;

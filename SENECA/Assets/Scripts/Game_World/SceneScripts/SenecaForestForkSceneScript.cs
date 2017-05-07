@@ -8,13 +8,13 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
 {
 	Player player;
 
-	void OnEnter(TransitionData data)
+	internal override void OnEnter(TransitionData data)
 	{
 		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0f;
 	}
 
-	void OnExit()
+	internal override void OnExit()
 	{
 		TransitionData.Instance.SENECA_FORK.position = player.transform.position;
 		TransitionData.Instance.SENECA_FORK.scale = player.transform.localScale;

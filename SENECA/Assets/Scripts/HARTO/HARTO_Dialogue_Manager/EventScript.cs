@@ -243,7 +243,7 @@ public class EventScript : MonoBehaviour
 		{
 			if(!GameManager.instance.tabUIOnScreen)
 			{
-				GameManager.instance.MakeTabAppear();
+				SenecaCampsiteSceneScript.MakeTabAppear ();
 				//GameEventsManager.Instance.Fire(new TABUIButtonAppearEvent());
 			}
 		}
