@@ -15,6 +15,6 @@ public class Main : MonoBehaviour
 		GameEventsManager();
 		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
 
-		Services.Scenes.PushScene<SenecaMeadowSceneSript>();
+		//Services.Scenes.PushScene<SenecaMeadowSceneSript>();
     }
 }
