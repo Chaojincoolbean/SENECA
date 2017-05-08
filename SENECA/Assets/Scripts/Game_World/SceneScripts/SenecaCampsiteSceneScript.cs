@@ -61,7 +61,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			npc_Priya.transform.parent = transform;
 			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
 			startedGame = true;
-			audioSource.PlayOneShot(GameManager.instance.recordingManager.LoadHARTOVO("HARTO_VO1"));
+			audioSource.PlayOneShot(GameManager.instance.recordingManager.LoadHARTOVO("HARTO_VO_1_Begin"));
 			begin = false;
 
 			Services.Events.Register<ToggleHARTOEvent> (onToggleHARTO);

@@ -35,7 +35,6 @@ public class RecordingManager : MonoBehaviour
 		Services.Events.Fire(new RecordingIsOverEvent());
 	}
 
-
 	public AudioClip LoadHARTORecording (string filename)
 	{
 		if (Resources.Load<AudioClip>("Audio/Recordings/" + filename) == null)

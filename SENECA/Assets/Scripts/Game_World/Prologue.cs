@@ -13,7 +13,7 @@ public class Prologue : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		clip = Resources.Load("Audio/VO/HARTO/HARTO_VO1") as AudioClip;
+		clip = Resources.Load("Audio/VO/Beorn/BEORN_VO_GAMEINTRO") as AudioClip;
 		audioSource = GetComponent<AudioSource>();
 
 		audioSource.PlayOneShot(clip);
