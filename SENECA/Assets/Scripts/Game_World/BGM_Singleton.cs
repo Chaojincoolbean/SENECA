@@ -30,15 +30,15 @@ public class BGM_Singleton : MonoBehaviour
 
 			if(sceneName.Contains("Utan"))
 			{
-				clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
+				clip = Resources.Load("Audio/Music/Utan_Theme") as AudioClip;
 			}
 			else if(sceneName.Contains("Seneca"))
 			{
-				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+				clip = Resources.Load("Audio/Music/Seneca_Theme") as AudioClip;
 			}
-			else if(sceneName.Contains("Title"))
+			else if(sceneName.Contains("Title") || sceneName.Contains("Credits"))
 			{
-				clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+				clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
 			}
 
 			onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
@@ -63,20 +63,20 @@ public class BGM_Singleton : MonoBehaviour
 		
 		if(sceneName.Contains("Utan") && newScene.Contains("Seneca"))
 		{
-			clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+			clip = Resources.Load("Audio/Music/Seneca_Theme") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, volume);
 		}
 		else if (sceneName.Contains("Seneca") && newScene.Contains("Utan"))
 		{
-			clip = Resources.Load("Audio/Music/Seneca - Diary - utan or title sketch 1 v2 mix v1") as AudioClip;
+			clip = Resources.Load("Audio/Music/Utan_theme") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, volume);
 			
 		}
-		else if (sceneName.Contains("Credits"))
+		else if (sceneName.Contains("Credits") || sceneName.Contains("Title"))
 		{
-			clip = Resources.Load("Audio/Music/Seneca - Diary - seneca theme v1") as AudioClip;
+			clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, volume);
 		}
