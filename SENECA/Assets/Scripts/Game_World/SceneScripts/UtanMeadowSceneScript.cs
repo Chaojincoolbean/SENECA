@@ -6,13 +6,41 @@ using ChrsUtils.ChrsCamera;
 
 public class UtanMeadowSceneScript : Scene<TransitionData> 
 {
-	Player player;
+	public Player player;
+	public float nextTimeToSearch = 0;	
 
 	internal override void OnEnter(TransitionData data)
 	{
-		player = GameManager.instance.player_Astrid;
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
+
+		Debug.Log (player.transform.position);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0f;
 
+	}
+
+	void FindPlayer()
+	{
+		if (nextTimeToSearch <= Time.time)
+		{
+			GameObject result = GameObject.FindGameObjectWithTag ("Player");
+			if (result != null)
+			{
+				player = result.GetComponent<Player>();
+			}
+			nextTimeToSearch = Time.time + 2.0f;
+		}
+	}
+
+
+	void Update()
+	{
+
+		if(player == null)
+		{
+			FindPlayer();
+			return;
+		}
+		player.transform.position = new Vector3 (player.transform.position.x, player.transform.position.y, -1);
 	}
 
 	internal override void OnExit()
