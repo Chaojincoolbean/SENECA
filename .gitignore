@@ -30,3 +30,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+SENECA/Assets/Resources/Audio/VO/Mali/SCENE_1\.meta
+
+SENECA/Assets/Resources/Audio/VO/Mali\.meta
