@@ -30,17 +30,30 @@ namespace ChrsUtils
 				return new Vector2(vec3.x, vec3.y);
 			}
 
-			/*--------------------------------------------------------------------------------------*/
-			/*																						*/
-			/*	ToDegree: turns a Vector3 into a Vecotr2											*/
-			/*		param: 																			*/
-			/* 			float radians																*/
-			/*																						*/
-			/*		returns: 																		*/
-			/* 			float: radians in degrees													*/
-			/*																						*/
-			/*--------------------------------------------------------------------------------------*/
-			public static float ToDegree(this float radians)
+            /*--------------------------------------------------------------------------------------*/
+            /*																						*/
+            /*	CreateVector3:creates a vector 3 of one float											*/
+            /*		param: Vector3 vec3																*/
+            /*		returns: the same Vector 3 without the z value in a Vector2						*/
+            /*																						*/
+            /*--------------------------------------------------------------------------------------*/
+            public static Vector2 CreateVector3(this float f)
+            {
+                return new Vector3(f, f, f);
+            }
+
+
+            /*--------------------------------------------------------------------------------------*/
+            /*																						*/
+            /*	ToDegree: turns a Vector3 into a Vecotr2											*/
+            /*		param: 																			*/
+            /* 			float radians																*/
+            /*																						*/
+            /*		returns: 																		*/
+            /* 			float: radians in degrees													*/
+            /*																						*/
+            /*--------------------------------------------------------------------------------------*/
+            public static float ToDegree(this float radians)
 			{
 				return radians * (180.0f / Mathf.PI);
 			}

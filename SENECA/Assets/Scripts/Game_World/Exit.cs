@@ -4,13 +4,30 @@ using UnityEngine;
 using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
-public class Exit : MonoBehaviour {
+public class Exit : MonoBehaviour 
+{
+	public const string SENECA_CAMPSITE = "To_SenecaCampsite";
+	public const string SENECA_FOREST_FORK= "To_SenecaForestFork";
+	public const string SENECA_MEADOW = "To_SenecaMeadow";
+	public const string UTAN_MEADOW = "To_UtanMeadow";
+	public const string UTAN_ROAD = "To_UtanRoad";
+	public const string UTAN_FOREST_FORK = "To_UtanForestFork";
+
+	public bool canTransferScene;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
+		canTransferScene = false;
+		StartCoroutine (CanTranferScene ());
 	}
-	
+
+	IEnumerator CanTranferScene()
+	{
+		yield return new WaitForSeconds (1.0f);
+		canTransferScene = true;
+	}
+
 	// Update is called once per frame
 	void Update () {
 
@@ -18,26 +35,64 @@ public class Exit : MonoBehaviour {
 	}
 
 	// Do not go to nuext scene until EndConvo topic has been played
-	void OnTriggerEnter2D(Collider2D coll){
-
-		if (coll.gameObject.tag == "Player") 
+	void OnTriggerEnter2D(Collider2D coll)
+	{
+		if (coll.gameObject.tag == "Player" && canTransferScene) 
 		{
-			if(GameManager.instance.sceneName == "UtanMeadow") // Find a new way to determine the scene
-			{
-				//	Pass in the scene you are going to
-				Services.Events.Fire(new SceneChangeEvent("Utan_ForkPath"));
-				TransitionData.Instance.UTAN_MEADOW.position = coll.transform.position;
-				TransitionData.Instance.UTAN_MEADOW.scale = coll.transform.localScale;
-				Services.Scenes.Swap<UtanRoadSceneScript>(TransitionData.Instance);
-			}
-			else
-			{
-				Services.Events.Fire(new SceneChangeEvent("Seneca_ForestForkPath"));
-				TransitionData.Instance.SENECA_CAMPSITE.position = coll.transform.position;
-				TransitionData.Instance.SENECA_CAMPSITE.scale = coll.transform.localScale;
-				Services.Scenes.Swap<SenecaForestForkSceneScript>(TransitionData.Instance);
-			}
-
+			TransferScene (coll.transform, transform.name);
+			canTransferScene = false;
 		}
 	}
+
+	void TransferScene(Transform player, string nextScene)
+	{
+		Debug.Log ("Transfer " + nextScene);
+		string newScene = nextScene.Replace ("To_", "");
+		Services.Events.Fire(new SceneChangeEvent(newScene));
+		SelectScene (player, nextScene);
+
+	}
+
+	void SelectScene(Transform player, string nextScene)
+	{
+		Debug.Log ("Select " + nextScene);
+		if (nextScene == SENECA_CAMPSITE) 
+		{
+			TransitionData.Instance.SENECA_CAMPSITE.position = player.position;
+			TransitionData.Instance.SENECA_CAMPSITE.scale = player.localScale;
+			Services.Scenes.Swap<SenecaCampsiteSceneScript>(TransitionData.Instance);
+		} 
+		else if (nextScene == SENECA_FOREST_FORK) 
+		{
+			TransitionData.Instance.SENECA_FORK.position = player.position;
+			TransitionData.Instance.SENECA_FORK.scale = player.localScale;
+			Services.Scenes.Swap<SenecaForestForkSceneScript>(TransitionData.Instance);
+		}
+		else if (nextScene == SENECA_MEADOW) 
+		{
+			TransitionData.Instance.SENECA_MEADOW.position = player.position;
+			TransitionData.Instance.SENECA_MEADOW.scale = player.localScale;
+			Services.Scenes.Swap<SenecaMeadowSceneSript>(TransitionData.Instance);
+		}
+		else if (nextScene == UTAN_MEADOW) 
+		{
+			TransitionData.Instance.UTAN_MEADOW.position = player.position;
+			TransitionData.Instance.UTAN_MEADOW.scale = player.localScale;
+			Services.Scenes.Swap<UtanMeadowSceneScript>(TransitionData.Instance);
+		}
+		else if (nextScene == UTAN_ROAD) 
+		{
+			TransitionData.Instance.UTAN_ROAD.position = player.position;
+			TransitionData.Instance.UTAN_ROAD.scale = player.localScale;
+			Services.Scenes.Swap<UtanRoadSceneScript>(TransitionData.Instance);
+		}
+		else if (nextScene == UTAN_FOREST_FORK) 
+		{
+			TransitionData.Instance.UTAN_FORK.position = player.position;
+			TransitionData.Instance.UTAN_FORK.scale = player.localScale;
+			Services.Scenes.Swap<UtanForkPathSceneScript>(TransitionData.Instance);
+		}
+	}
+
+
 }

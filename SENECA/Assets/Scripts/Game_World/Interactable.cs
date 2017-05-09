@@ -6,15 +6,21 @@ using UnityEngine;
 public class Interactable : MonoBehaviour 
 {
 	public Collider myCollider;
-	
+
+	public AudioSource myAudioSource;
+	public AudioClip clip;
 	// Use this for initialization
 	void Start () {
-		
+		myAudioSource = GetComponent<AudioSource> ();
+		clip = Resources.Load ("Audio/VO/Priya/SCENE_1/VO_EVENT/Priya_Hurry") as AudioClip;
 	}
 
 	void OnMouseDown()
 	{
-		Debug.Log("Clicked!");
+		if (transform.name == "Priya" && !myAudioSource.isPlaying) 
+		{
+			//myAudioSource.PlayOneShot (clip);
+		}
 	}
 	
 }
