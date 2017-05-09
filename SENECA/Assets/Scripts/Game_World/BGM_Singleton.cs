@@ -61,13 +61,13 @@ public class BGM_Singleton : MonoBehaviour
 	{
 		string newScene = ((SceneChangeEvent)e).sceneName;
 		
-		if(sceneName.Contains("Utan") && newScene.Contains("Seneca"))
+		if(!sceneName.Contains("Seneca") && newScene.Contains("Seneca"))
 		{
 			clip = Resources.Load("Audio/Music/Seneca_Theme") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, volume);
 		}
-		else if (sceneName.Contains("Seneca") && newScene.Contains("Utan"))
+		else if (!sceneName.Contains("Utan") && newScene.Contains("Utan"))
 		{
 			clip = Resources.Load("Audio/Music/Utan_theme") as AudioClip;
 			audioSource.Stop();
