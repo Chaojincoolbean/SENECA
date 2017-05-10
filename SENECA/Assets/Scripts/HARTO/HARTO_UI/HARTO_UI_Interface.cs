@@ -338,25 +338,5 @@ public class HARTO_UI_Interface : MonoBehaviour
 				}
 			}
 		}
-
-		// if(isHARTOActive)
-		// {
-		// 	//	dialogueModeActive = !dialogueModeActive;
-		// 	if(!dialogueModeActive)
-		// 	{
-		// 		ReloadMenu(recordingFolders);
-		// 	}
-		// 	else
-		// 	{
-		// 		if(!topicSelected)
-		// 		{
-		// 			ReloadMenu(topics);
-		// 		}
-		// 		else
-		// 		{
-		// 			ReloadMenu(emotions);
-		// 		}
-		// 	}
-		// }
 	}
 }
