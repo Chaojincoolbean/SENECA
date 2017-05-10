@@ -37,6 +37,11 @@ public class Prologue : MonoBehaviour
 		{
 			GameManager.instance.inConversation = false;
 			StartCoroutine(LoadNextScene());	
-		}	
+		}
+
+		if (Input.GetKey (KeyCode.Space)) {
+			GameManager.instance.inConversation = false;
+			StartCoroutine(LoadNextScene());
+		}
 	}
 }
