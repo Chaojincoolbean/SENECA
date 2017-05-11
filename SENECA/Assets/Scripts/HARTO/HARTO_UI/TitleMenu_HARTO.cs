@@ -154,5 +154,9 @@ public class TitleMenu_HARTO : MonoBehaviour
 		RotateIconWheel(rotateSelectionWheel);
 
 		SelectIcon();
+
+		for (int i = 0; i < iconList.Count; i++) {
+			iconList [i].color.CrossFadeAlpha (selectionArea.color.a, 0, true);
+		}
 	}
 }
