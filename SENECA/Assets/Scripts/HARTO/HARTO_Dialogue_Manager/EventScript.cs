@@ -2,17 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
+#region EventScript Overview
+/*
+    This script determines who talks using a Coroutine. 
+
+
+
+    This scipt is a part of the Dialogue System and is only called by DialogueManger.cs
+  
+ */
+#endregion
 public class EventScript : MonoBehaviour 
 {
-	public bool canAcess;
-	public bool waitingForEmotionalInput;
+	public bool waitingForEmotionalInput;                   //  Bool to check if we are waiting on emotional input
 
-	public const string ASTRID = "Astrid";
-	public const string VO = "VO";
-	public const string ASTRID_TALKS_FIRST = "@";
+	public const string ASTRID = "Astrid";                  //  Reference to player
+	public const string VO = "VO";                          //  
 	public const string NO_EMOTION_SELECTED = "None";
 	public const string HARTO = "HARTO";
 	public const string GIBBERISH = "Gibberish";

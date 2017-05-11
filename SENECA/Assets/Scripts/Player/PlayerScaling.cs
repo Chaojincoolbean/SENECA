@@ -27,12 +27,12 @@ public class PlayerScaling : MonoBehaviour
 
 		public float LerpBoundsMod(float t)
 		{
-			return (t - upperBound) / (upperBound - lowerBound);
+			return (t - lowerBound) / (upperBound - lowerBound);
 		}
 
 		public float LerpScaleMod(float t)
 		{
-			return (t - upperBoundScale) / (upperBoundScale - lowerBoundScale);
+			return (t - lowerBoundScale) / (upperBoundScale - lowerBoundScale);
 		}
 	}
 
