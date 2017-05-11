@@ -10,7 +10,7 @@ public class Main : MonoBehaviour
     {
         Assert.raiseExceptions = true;
 
-        Services.Prefabs = Resources.Load<PrefabDB>("Prefabs/PrefabDB");
+        Services.Prefabs = Resources.Load<PrefabDB>("Prefabs/ScenePrefab");
 		Debug.Log (Services.Prefabs.Scenes.Length);
         Services.Events = new GameEventsManager();
 

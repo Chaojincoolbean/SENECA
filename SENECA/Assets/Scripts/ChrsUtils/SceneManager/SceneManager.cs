@@ -28,6 +28,7 @@ namespace GameSceneManagerSystem
 			Debug.Log ("TEST");
 			foreach(var prefab in scenePrefabs)
 			{
+                Debug.Log(prefab.name);
 				var scene = prefab.GetComponent<Scene<TTransitionData>>();
 				Assert.IsNotNull(scene, "Could not find scene script in prefab used to initialize SceneManager");
 				_scenes.Add(scene.GetType(), prefab);
