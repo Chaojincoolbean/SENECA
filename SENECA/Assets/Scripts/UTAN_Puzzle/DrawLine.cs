@@ -296,6 +296,10 @@ public class DrawLine : MonoBehaviour
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			Application.Quit ();
 		}
+
+		if (Input.GetKey (KeyCode.Space)) {
+			Services.Events.Fire(new PuzzleCompletedEvent());
+		}
 	}
 
 	bool CheckIfAudioPlayedInOrder(){
