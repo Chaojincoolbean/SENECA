@@ -7,11 +7,23 @@ using SenecaEvents;
 public class Exit : MonoBehaviour 
 {
 	public const string SENECA_CAMPSITE = "To_SenecaCampsite";
+	public const string SENECA_FARM = "To_SenecaFarm";
 	public const string SENECA_FOREST_FORK= "To_SenecaForestFork";
+	public const string SENECA_Huntercamp = "To_SenecaHuntercamp";
 	public const string SENECA_MEADOW = "To_SenecaMeadow";
-	public const string UTAN_MEADOW = "To_UtanMeadow";
-	public const string UTAN_ROAD = "To_UtanRoad";
+	public const string SENECA_RADIOTOWER = "To_SenecaRadiotower";
+	public const string SENECA_ROAD = "To_SenecaRoad";
+	public const string SENECA_ROCK = "To_SenecaRocks";
+
+	public const string UTAN_CAMPSITE = "To_UtanCampsite";
+	public const string UTAN_FARM = "To_UtanFarm";
 	public const string UTAN_FOREST_FORK = "To_UtanForestFork";
+	public const string UTAN_Huntercamp = "To_UtanHuntercamp";
+	public const string UTAN_MEADOW = "To_UtanMeadow";
+	public const string UTAN_RADIOTOWER = "To_UtanRadioTower";
+	public const string UTAN_ROAD = "To_UtanRoad";
+	public const string UTAN_ROCK = "To_UtanRocks";
+
 
 	public bool canTransferScene;
 
@@ -91,6 +103,12 @@ public class Exit : MonoBehaviour
 			TransitionData.Instance.UTAN_FORK.position = player.position;
 			TransitionData.Instance.UTAN_FORK.scale = player.localScale;
 			Services.Scenes.Swap<UtanForkPathSceneScript>(TransitionData.Instance);
+		}
+		else if (nextScene == UTAN_RADIOTOWER) 
+		{
+			TransitionData.Instance.UTAN_RADIOTOWER.position = player.position;
+			TransitionData.Instance.UTAN_RADIOTOWER.scale = player.localScale;
+			Services.Scenes.Swap<UtanRadioTowerSceneScript>(TransitionData.Instance);
 		}
 	}
 

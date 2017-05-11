@@ -11,10 +11,12 @@ public class Main : MonoBehaviour
         Assert.raiseExceptions = true;
 
         Services.Prefabs = Resources.Load<PrefabDB>("Prefabs/PrefabDB");
-        Services.Events = new 
-		GameEventsManager();
-		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
+		Debug.Log (Services.Prefabs.Scenes.Length);
+        Services.Events = new GameEventsManager();
 
+		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
+		Debug.Log ("debug");
+	
 		Services.Scenes.PushScene<TitleSceneScript>();
     }
 }

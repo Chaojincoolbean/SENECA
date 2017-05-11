@@ -25,7 +25,7 @@ namespace GameSceneManagerSystem
 		public GameSceneManager(GameObject root, IEnumerable<GameObject> scenePrefabs)
 		{
 			SceneRoot = root;
-
+			Debug.Log ("TEST");
 			foreach(var prefab in scenePrefabs)
 			{
 				var scene = prefab.GetComponent<Scene<TTransitionData>>();

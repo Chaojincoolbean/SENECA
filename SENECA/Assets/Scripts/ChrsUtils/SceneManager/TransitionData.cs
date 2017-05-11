@@ -23,6 +23,7 @@ public class TransitionData
     public UtanMeadow UTAN_MEADOW;
     public UtanRoad UTAN_ROAD;
     public UtanFork UTAN_FORK;
+	public UtanRadioTower UTAN_RADIOTOWER;
 
 
     public readonly Dictionary<string, bool> difficulty;
@@ -79,6 +80,12 @@ public class TransitionData
            UTAN_FORK.position = _position;
            UTAN_FORK.scale = _scale;
        }
+		else if(scene == "Utan_RadioTower")
+		{
+			UTAN_RADIOTOWER.position = _position;
+			UTAN_RADIOTOWER.scale = _scale;
+		}
+	
     }
 
     public struct TitleScreen
@@ -143,4 +150,11 @@ public class TransitionData
         public Vector3 position;
         public Vector3 scale;
      }
+
+	public struct UtanRadioTower
+	{
+		public bool visitedScene;
+		public Vector3 position;
+		public Vector3 scale;
+	}
 }

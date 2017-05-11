@@ -80,10 +80,10 @@ public class GameManager : MonoBehaviour
 		HARTOInterface = GameObject.FindGameObjectWithTag(HARTO_UI_INTERFACE_TAG).GetComponent<HARTO_UI_Interface>();
 
 		audioSource = GetComponent<AudioSource>();
-		if (!isTestScene) 
-		{
+//		if (!isTestScene) 
+//		{
 			sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
-		}
+		//}
 
 		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 
