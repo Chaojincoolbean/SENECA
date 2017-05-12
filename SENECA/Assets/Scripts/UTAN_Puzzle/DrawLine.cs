@@ -268,7 +268,7 @@ public class DrawLine : MonoBehaviour
 								//check if the end condition has been met
 								solved = true;
 								Debug.Log ("the extremely hard puzzle has been conquered");
-								Services.Events.Fire(new PuzzleCompletedEvent());
+								
 							}
 						}
 					}
@@ -283,18 +283,12 @@ public class DrawLine : MonoBehaviour
 					CheckIfNoLongerDrawing ();
 				}
 
+                if (solved && !Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Services.Events.Fire(new PuzzleCompletedEvent());
+                }
 
 			}
-		}
-
-		if (Input.GetKeyDown (KeyCode.R)) {
-			//solved = false;
-			//CheckIfNoLongerDrawing ();
-			SceneManager.LoadScene("LineDrawPrototype");
-
-		}
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Application.Quit ();
 		}
 
 		if (Input.GetKey (KeyCode.Space)) {

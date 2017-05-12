@@ -36,7 +36,7 @@ public class PuzzleWall : MonoBehaviour
 		Debug.Log("Nice job!");
 		puzzleWall.anim.SetBool("Solved", true);
 		utanPuzzle.anim.SetBool("IsActive", false);
-		GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 0);
+		GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 1);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)

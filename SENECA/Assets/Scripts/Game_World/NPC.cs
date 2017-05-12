@@ -18,10 +18,6 @@ public class NPC : MonoBehaviour {
 		startPos = this.gameObject.transform.position;
 		endPos = this.gameObject.transform.position + Vector3.right * distance;
 
-
-
-
-
 	}
 	
 	// Update is called once per frame
@@ -50,7 +46,7 @@ public class NPC : MonoBehaviour {
 
 			float Perc = currentLerptime / lerptime;
 			this.transform.position = Vector3.Lerp (endPos, startPos, Perc);
-			//Debug.Log ("currenttime:" + currentLerptime);
+			
 		}
 
 			
@@ -61,13 +57,28 @@ public class NPC : MonoBehaviour {
 
 		if (this.gameObject.transform.position == startPos) {
 			n = true;
+            if (Random.Range(0, 100) < 80.0f)
+            {
+                RandomizeNPCMovement();
+            }
 			currentLerptime = 0;
 		}
 
-		if (this.gameObject.transform.position == endPos) {
-			n = false;
-			currentLerptime = 0;
-		}
+        if (this.gameObject.transform.position == endPos)
+        {
+            n = false;
+            if (Random.Range(0, 100) < 10.0f)
+            {
+                RandomizeNPCMovement();
+            }
+            currentLerptime = 0;
+        }
 		
 	}
+
+    void RandomizeNPCMovement()
+    {
+        lerptime = Random.Range(0.75f, 3.0f);
+        distance = Random.Range(0.75f, 8.0f);
+    }
 }
