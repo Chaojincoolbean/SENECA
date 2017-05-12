@@ -3,7 +3,7 @@ using UnityEngine;
 using GameScenes;
 using ChrsUtils.ChrsCamera;
 
-public class SenecaRoadTowerSceneScript : Scene<TransitionData>
+public class SenecaRoadSceneScript : Scene<TransitionData>
 {
     public Player player;
 
