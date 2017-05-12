@@ -37,7 +37,7 @@ namespace ChrsUtils
             /*		returns: the same Vector 3 without the z value in a Vector2						*/
             /*																						*/
             /*--------------------------------------------------------------------------------------*/
-            public static Vector2 CreateVector3(this float f)
+            public static Vector3 CreateVector3(this float f)
             {
                 return new Vector3(f, f, f);
             }
