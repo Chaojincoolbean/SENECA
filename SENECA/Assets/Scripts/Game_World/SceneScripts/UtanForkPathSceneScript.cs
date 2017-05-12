@@ -6,7 +6,7 @@ using ChrsUtils.ChrsCamera;
 
 public class UtanForkPathSceneScript : Scene<TransitionData> 
 {
-	Player player;
+	public Player player;
 
 	internal override void OnEnter(TransitionData data)
 	{

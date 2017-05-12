@@ -6,7 +6,7 @@ using ChrsUtils.ChrsCamera;
 
 public class UtanRadioTowerSceneScript : Scene<TransitionData> 
 {
-	Player player;
+	public Player player;
 
 	internal override void OnEnter(TransitionData data)
 	{
@@ -17,8 +17,8 @@ public class UtanRadioTowerSceneScript : Scene<TransitionData>
 
 	internal override void OnExit()
 	{
-		TransitionData.Instance.UTAN_RADIOTOWER.position = player.transform.position;
-		TransitionData.Instance.UTAN_RADIOTOWER.scale = player.transform.localScale;
-		TransitionData.Instance.UTAN_RADIOTOWER.visitedScene = true;
+		TransitionData.Instance.UTAN_RADIO_TOWER.position = player.transform.position;
+		TransitionData.Instance.UTAN_RADIO_TOWER.scale = player.transform.localScale;
+		TransitionData.Instance.UTAN_RADIO_TOWER.visitedScene = true;
 	}
 }
