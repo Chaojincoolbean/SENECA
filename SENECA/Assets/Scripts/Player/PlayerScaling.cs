@@ -101,7 +101,7 @@ public class PlayerScaling : MonoBehaviour
 		scalingReference [FARM] [6] = new ScaleBound (-6f, -5.84f, 0.63f, 0.59f);
 		scalingReference [FARM] [7] = new ScaleBound (-5.54f, -4.38f, 0.59f, 0.43f);
 		scalingReference [FARM] [8] = new ScaleBound (-4.28f, -3.7f, 0.43f, 0.31f);
-		scalingReference [FARM] [9] = new ScaleBound (-3.5f, -3f, 31f, 0.27f);
+		scalingReference [FARM] [9] = new ScaleBound (-3.5f, -3f, 0.31f, 0.27f);
 
 		scalingReference [FORK] [0] = new ScaleBound (-11.61f, -4.53f, 0.82f, 0.55f);
 		scalingReference [FORK] [1] = new ScaleBound (-4.03f, -2.38f, 0.55f, 0.4f);
