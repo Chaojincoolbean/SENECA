@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 	private AudioClip _clip;
 
 	private Rigidbody2D _rigidBody2D;
+    private SpriteRenderer _renderer;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
 	void Start () 
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
+        _renderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
 		_audioSource = GetComponent<AudioSource>();
 
@@ -81,20 +83,6 @@ public class Player : MonoBehaviour
 		animator.SetFloat("SpeedX", Mathf.Abs(dx));
 		animator.SetFloat("SpeedY", dy);
 
-		if (dx > 0 && !facingLeft)
-		{
-			
-			// Flips player
-			Flip ();
-		}
-		// Otherwise player should be facing left
-		else if (dx < 0 && facingLeft)
-		{
-			
-			// Flips player
-			Flip ();
-		}
-
 	}
 
 	public void PlayFootStepAudio()
@@ -108,29 +96,23 @@ public class Player : MonoBehaviour
 		}
 	}
 
-
-
-	/*--------------------------------------------------------------------------------------*/
-	/*																						*/
-	/*	Flip: FLips player sprite right or left												*/
-	/*																						*/
-	/*--------------------------------------------------------------------------------------*/
-	public void Flip ()
-	{
-		// Switch the way the player is labeled as facing
-		facingLeft = !facingLeft;
-
-		// Multiply the player's x local scale by -1
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
-	}
 	
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
+
+        if(Input.GetKeyDown(leftKey) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            _renderer.flipX = false;
+        }
+        else if(Input.GetKeyDown(rightKey) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            _renderer.flipX = true;
+        }
+
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
+        Debug.Log(x);
 		animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 		if(!diableMovement)
 		{

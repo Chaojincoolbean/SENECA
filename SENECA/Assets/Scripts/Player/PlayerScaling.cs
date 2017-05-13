@@ -142,14 +142,6 @@ public class PlayerScaling : MonoBehaviour
 		}
 	}
 
-    void Flip()
-    {
-        // Multiply the player's x local scale by -1
-        Vector3 theScale = player.localScale;
-        theScale.x *= -1;
-        player.localScale = theScale;
-    }
-
 	
 	// Update is called once per frame
 	void Update () 
@@ -166,14 +158,13 @@ public class PlayerScaling : MonoBehaviour
 		} 
 		else 
 		{
-			faceLeft = 1.0f;
+			faceLeft = -1.0f;
 		}
 
 		currentScene = root.transform.GetChild (0).tag;
 
-        Debug.Log(currentScene);
 
-		if (currentScene.Contains (CAMPSITE)) 
+		if (currentScene.Contains (CAMPSITE) || currentScene.Contains("Untagged")) 
 		{
 			// campsite scaling
 			currentScaleCurve = CampsiteScalingCurve;
@@ -236,20 +227,24 @@ public class PlayerScaling : MonoBehaviour
 		{
 			if (player.position.y < scalingReference [currentScene] [0].lowerBound) 
 			{
-				player.localScale = ExtensionMethods.CreateVector3 (scalingReference [currentScene] [0].lowerBoundScale);
-			}
+                player.localScale = new Vector3(scalingReference[currentScene][0].lowerBoundScale, scalingReference[currentScene][0].lowerBoundScale, scalingReference[currentScene][0].lowerBoundScale);
+
+            }
 			else if (scalingReference [currentScene] [i].lowerBound < player.position.y && player.position.y < scalingReference [currentScene] [i].upperBound) 
 			{
-				player.localScale = Vector3.Lerp(ExtensionMethods.CreateVector3(scalingReference[currentScene][i].lowerBoundScale), 
-												 ExtensionMethods.CreateVector3(scalingReference[currentScene][i].upperBoundScale), 
+                // new Vector3(scalingReference[currentScene][i].loweBoundScale * faceLeft, scalingReference[currentScene][i].loweBoundScale ,scalingReference[currentScene][i].loweBoundScale);
+                player.localScale = Vector3.Lerp(new Vector3(scalingReference[currentScene][i].lowerBoundScale, scalingReference[currentScene][i].lowerBoundScale, scalingReference[currentScene][i].lowerBoundScale),
+                                                 new Vector3(scalingReference[currentScene][i].upperBoundScale, scalingReference[currentScene][i].upperBoundScale, scalingReference[currentScene][i].upperBoundScale), 
 												 scalingReference[currentScene][i].LerpBoundsMod(player.position.y));
 			}
 			else if (scalingReference [currentScene] [scalingReference[currentScene].Length - 1].upperBound < player.position.y)
 			{
-				player.localScale = ExtensionMethods.CreateVector3 (scalingReference [currentScene] [scalingReference[currentScene].Length - 1].upperBoundScale);
+                player.localScale = new Vector3(scalingReference[currentScene][scalingReference[currentScene].Length - 1].upperBoundScale, scalingReference[currentScene][scalingReference[currentScene].Length - 1].upperBoundScale, scalingReference[currentScene][scalingReference[currentScene].Length - 1].upperBoundScale);
+
+                //player.localScale = ExtensionMethods.CreateVector3 (scalingReference [currentScene] [scalingReference[currentScene].Length - 1].upperBoundScale);
 			}
 
-			player.localScale = new Vector3 (player.localScale.x * faceLeft, player.localScale.y, player.localScale.z);
+			//player.localScale = new Vector3 (player.localScale.x * faceLeft, player.localScale.y, player.localScale.z);
 		}
 	}
 
