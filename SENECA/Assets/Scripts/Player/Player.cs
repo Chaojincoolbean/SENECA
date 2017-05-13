@@ -112,7 +112,6 @@ public class Player : MonoBehaviour
 
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
-        Debug.Log(x);
 		animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 		if(!diableMovement)
 		{
