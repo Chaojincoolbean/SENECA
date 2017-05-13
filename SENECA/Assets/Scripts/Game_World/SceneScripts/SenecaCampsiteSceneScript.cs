@@ -9,7 +9,7 @@ using SenecaEvents;
 
 public class SenecaCampsiteSceneScript : Scene<TransitionData> 
 {
-	Player player;
+	public Player player;
 
 	public bool startedGame;
 	public static bool hasPriyaSpoken;
@@ -36,7 +36,6 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 
 		player = GameManager.instance.player_Astrid;
-		//Debug.Log (player.transform.localScale);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 1.5f;
 
 		startedGame = false;
@@ -123,7 +122,14 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 	void Update()
 	{
-		if(!begin && !audioSource.isPlaying && !TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
+
+        if (player == null)
+        {
+            FindPlayer();
+            return;
+        }
+
+        if (!begin && !audioSource.isPlaying && !TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
 		{
 			Services.Events.Fire(new MoveMomEvent());
 			begin = true;

@@ -13,6 +13,31 @@ public class UtanRocksSceneScript : Scene<TransitionData>
 
     }
 
+    public float nextTimeToSearch = 0;
+
+    void FindPlayer()
+    {
+        if (nextTimeToSearch <= Time.time)
+        {
+            GameObject result = GameObject.FindGameObjectWithTag("Player");
+            if (result != null)
+            {
+                player = result.GetComponent<Player>();
+            }
+            nextTimeToSearch = Time.time + 2.0f;
+        }
+    }
+
+    void Update()
+    {
+
+        if (player == null)
+        {
+            FindPlayer();
+            return;
+        }
+    }
+
     internal override void OnExit()
     {
         TransitionData.Instance.UTAN_ROCKS.position = player.transform.position;

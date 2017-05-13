@@ -97,7 +97,7 @@ public class PlayerScaling : MonoBehaviour
 		scalingReference [FARM] [2] = new ScaleBound (-16.22f, -13.5f, 1.1f, 1f);
 		scalingReference [FARM] [3] = new ScaleBound (-13.0f, -9.97f, 0.85f, 0.71f);
 		scalingReference [FARM] [4] = new ScaleBound (-9.47f, -7.88f, 0.71f, 0.63f);
-		scalingReference [FARM] [5] = new ScaleBound (-7.38f, -6.5f, 1f, 0.7f);
+		scalingReference [FARM] [5] = new ScaleBound (-7.38f, -6.5f, 0.63f, 0.63f);
 		scalingReference [FARM] [6] = new ScaleBound (-6f, -5.84f, 0.63f, 0.59f);
 		scalingReference [FARM] [7] = new ScaleBound (-5.54f, -4.38f, 0.59f, 0.43f);
 		scalingReference [FARM] [8] = new ScaleBound (-4.28f, -3.7f, 0.43f, 0.31f);
@@ -141,6 +141,15 @@ public class PlayerScaling : MonoBehaviour
 			nextTimeToSearch = Time.time + 2.0f;
 		}
 	}
+
+    void Flip()
+    {
+        // Multiply the player's x local scale by -1
+        Vector3 theScale = player.localScale;
+        theScale.x *= -1;
+        player.localScale = theScale;
+    }
+
 	
 	// Update is called once per frame
 	void Update () 
@@ -161,6 +170,8 @@ public class PlayerScaling : MonoBehaviour
 		}
 
 		currentScene = root.transform.GetChild (0).tag;
+
+        Debug.Log(currentScene);
 
 		if (currentScene.Contains (CAMPSITE)) 
 		{

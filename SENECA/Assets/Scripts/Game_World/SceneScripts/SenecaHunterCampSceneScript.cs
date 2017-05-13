@@ -14,6 +14,31 @@ public class SenecaHunterCampSceneScript : Scene<TransitionData>
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow2D>().xPosBoundary = 0f;
     }
 
+    public float nextTimeToSearch = 0;
+
+    void FindPlayer()
+    {
+        if (nextTimeToSearch <= Time.time)
+        {
+            GameObject result = GameObject.FindGameObjectWithTag("Player");
+            if (result != null)
+            {
+                player = result.GetComponent<Player>();
+            }
+            nextTimeToSearch = Time.time + 2.0f;
+        }
+    }
+
+    void Update()
+    {
+
+        if (player == null)
+        {
+            FindPlayer();
+            return;
+        }
+    }
+
     internal override void OnExit()
     {
         TransitionData.Instance.SENECA_HUNTER_CAMP.position = player.transform.position;
