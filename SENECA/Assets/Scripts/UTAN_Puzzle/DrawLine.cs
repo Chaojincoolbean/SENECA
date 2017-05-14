@@ -99,7 +99,15 @@ public class DrawLine : MonoBehaviour
 		} 
 		else 
 		{
-			audiomanager = GameObject.Find ("AudioManager").GetComponent<AudioManager_prototype> ();
+            if(tag == "Puzzle1")
+            {
+                audiomanager = GameObject.Find("AudioManager").GetComponent<AudioManager_prototype>();
+            }
+            else
+            {
+                audiomanager = GameObject.Find("AudioManager2").GetComponent<AudioManager_prototype>();
+            }
+			
 			audios = new AudioSource[nodes.Count];
 			for(int i = 0; i < audios.Length; i++)
 			{
