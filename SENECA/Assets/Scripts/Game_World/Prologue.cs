@@ -22,7 +22,7 @@ public class Prologue : MonoBehaviour
 	
 	IEnumerator LoadNextScene()
 	{
-		yield return new WaitForSeconds(1.0f);
+		yield return new WaitForSeconds(4.0f);
 		Services.Events.Fire(new SceneChangeEvent("Seneca_Campsite"));
 		TransitionData.Instance.TITLE.visitedScene = true;
 		TransitionData.Instance.TITLE.position = Vector3.zero;

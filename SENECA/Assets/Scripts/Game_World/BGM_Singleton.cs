@@ -36,9 +36,13 @@ public class BGM_Singleton : MonoBehaviour
 			{
 				clip = Resources.Load("Audio/Music/Seneca_Theme") as AudioClip;
 			}
-			else if(sceneName.Contains("Title") || sceneName.Contains("Credits"))
+			else if(sceneName.Contains("Title"))
 			{
 				clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
+			}
+			else if(sceneName.Contains("Credits"))
+			{
+				clip = Resources.Load("Audio/Music/Credits_Theme") as AudioClip;
 			}
 
 			onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
@@ -74,9 +78,15 @@ public class BGM_Singleton : MonoBehaviour
 			audioSource.PlayOneShot(clip, volume);
 			
 		}
-		else if (sceneName.Contains("Credits") || sceneName.Contains("Title"))
+		else if (sceneName.Contains("Title"))
 		{
 			clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
+			audioSource.Stop();
+			audioSource.PlayOneShot(clip, volume);
+		}
+		else if (sceneName.Contains("Credits"))
+		{
+			clip = Resources.Load("Audio/Music/Credits_Theme") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, volume);
 		}
