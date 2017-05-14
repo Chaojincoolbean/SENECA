@@ -61,7 +61,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			begin = true;
 			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
 			npc_Priya.transform.parent = transform;
-			npc_Priya.gameObject.transform.position = new Vector3 (-10f, -3.5f, 0);
+			npc_Priya.gameObject.transform.position = new Vector3 (-13f, -3.5f, 0);
 			startedGame = true;
 			audioSource.PlayOneShot(GameManager.instance.recordingManager.LoadHARTOVO("HARTO_VO_Begin"));
 			begin = false;

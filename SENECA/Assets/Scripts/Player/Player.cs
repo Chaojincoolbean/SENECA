@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 	private Rigidbody2D _rigidBody2D;
     private SpriteRenderer _renderer;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
+    private BeginTutorialEvent.Handler onBeginTutorial;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
 
@@ -45,10 +46,12 @@ public class Player : MonoBehaviour
 		_audioSource = GetComponent<AudioSource>();
 
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
+        onBeginTutorial = new BeginTutorialEvent.Handler(OnBeginTutorial);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
 		Services.Events.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
+        Services.Events.Register<BeginTutorialEvent>(onBeginTutorial);
 		Services.Events.Register<ToggleHARTOEvent>(onToggleHARTO);
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
@@ -68,6 +71,11 @@ public class Player : MonoBehaviour
 		npcAstridIsTalkingTo = "";
 		
 	}
+
+    void OnBeginTutorial(GameEvent e)
+    {
+        npcAstridIsTalkingTo = "Priya";
+    }
 
 	/*--------------------------------------------------------------------------------------*/
 	/*																						*/

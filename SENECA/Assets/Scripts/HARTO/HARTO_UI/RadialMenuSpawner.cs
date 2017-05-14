@@ -126,7 +126,7 @@ public class RadialMenuSpawner : MonoBehaviour
 			closing = true;
 			newMenu._anim.SetBool("Inactive", true);
 			closing = false;
-			StartCoroutine(Animate(false));
+			//StartCoroutine(Animate(false));
 			Destroy(newMenu.gameObject);
 		}
 	}

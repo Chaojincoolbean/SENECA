@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 			
 		whoTalksFirst = new Dictionary<string, bool>();
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
-		whoTalksFirst.Add("Event_Tutorial1Priya", false);
+		whoTalksFirst.Add("Event_Tutorial1Priya", true);
 		whoTalksFirst.Add("Event_Exit1Priya", true);
 		whoTalksFirst.Add("Event_Meeting1Priya", true);
 		whoTalksFirst.Add("Event_Broca1Priya", true);

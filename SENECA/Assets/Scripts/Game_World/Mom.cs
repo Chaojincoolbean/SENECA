@@ -76,7 +76,7 @@ public class Mom : MonoBehaviour
 
 		}
 
-		if (x < -10f) {
+		if (x < -20f) {
 			Destroy (this);
 		
 		}
@@ -84,7 +84,7 @@ public class Mom : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D col)
 	{	
-		if(col.gameObject.tag == "Player" && !beginGame)
+		if(col.gameObject.name == "Marker" && !beginGame)
 		{
 			beginGame = true;
 			Services.Events.Fire(new BeginGameEvent());
