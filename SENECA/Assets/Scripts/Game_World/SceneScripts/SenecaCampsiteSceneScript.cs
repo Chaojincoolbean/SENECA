@@ -36,7 +36,10 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 
 		player = GameManager.instance.player_Astrid;
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 1.5f;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.67f;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.72f;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.43f;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.39f;
 
 		startedGame = false;
 		audioSource = GetComponent<AudioSource>();

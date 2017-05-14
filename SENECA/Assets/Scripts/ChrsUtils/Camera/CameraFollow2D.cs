@@ -7,7 +7,7 @@ namespace ChrsUtils
 	{
 		/*--------------------------------------------------------------------------------------*/
 		/*																						*/
-		/*	CameraCollow2D: Camera movement script												*/
+		/*	CameraFollow2D: Camera movement script												*/
 		/*																						*/
 		/*		Functions:																		*/
 		/*			Start ()																	*/
@@ -25,10 +25,10 @@ namespace ChrsUtils
 			public float lookAheadFactor = 3.0f;			//	how far ahead the camera can be
 			public float lookAheadReturnSpeed = 0.5f;		//	How fast the camera snaps back to the target
 			public float lookAheadMoveThreshold = 0.1f;		//	How far ahead the camera goes ahead of the target
-			public float yPosBoundary = 9.0f;				//	The highest the camera can go in the y direction
-			public float yNegBoundary = -5.0f;				//	The lowest the camera can go in the y direction
-			public float xPosBoundary = 50.0f;				//	The furthest the camera can go in the x direction
-			public float xNegBoundary = 0.0f;				//	The lowest the camera can go in the x direction
+			public float yPosBoundary = 0f;				//	The highest the camera can go in the y direction
+			public float yNegBoundary = 0f;				//	The lowest the camera can go in the y direction
+			public float xPosBoundary = 0f;				//	The furthest the camera can go in the x direction
+			public float xNegBoundary = 0f;				//	The lowest the camera can go in the x direction
 			public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 
 			//	Private Variabels
