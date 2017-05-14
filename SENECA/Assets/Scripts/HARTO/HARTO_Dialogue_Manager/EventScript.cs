@@ -39,6 +39,9 @@ public class EventScript : MonoBehaviour
 	public AudioController gibberishPlayer;
 	public AudioSource[] thisEventsAudioSources;
 	private HARTO astridHARTO;
+
+	public GameObject Priya;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -54,6 +57,7 @@ public class EventScript : MonoBehaviour
 		topicName = transform.name.Replace("Event_", "");
 
 		gibberishPlayer = GameObject.Find(BROCA_PARTICLES).GetComponent<AudioController>();
+
 	
 	}
 
@@ -180,17 +184,24 @@ public class EventScript : MonoBehaviour
 				if (response.characterName == "Astrid") 
 				{
 					GameManager.instance.player_Astrid.animator.SetBool ("IsTalking", true);
+					Priya = GameObject.FindGameObjectWithTag ("Priya");
+					Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 				} 
-				else 
+
+				else if (response.characterName == "Priya") 
 				{
 					// other character istalking is true;
+					Priya = GameObject.FindGameObjectWithTag ("Priya");
+					Priya.GetComponent<Animator>().SetBool("IsTalking", true);
+
 				}
 				if(!GameManager.instance.inUtan)
 				{
-					gibberishPlayer.GetComponent<AudioSource>().volume = 0.2f;
+					gibberishPlayer.GetComponent<AudioSource>().volume = 0f;
 				}
 				yield return new WaitForFixedUpdate();	
 			}
+
 			GameManager.instance.player_Astrid.animator.SetBool ("IsTalking", false);
 			//other charcter's istalking is false
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
