@@ -53,7 +53,7 @@ public class RadialMenuSpawner : MonoBehaviour
 		newMenu.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 		newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
 		newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
-		StartCoroutine(Animate(true));
+		//StartCoroutine(Animate(true));
 		newMenu.Init(player);
 		newMenu.SpawnIcons(obj, topicSelected);
 		

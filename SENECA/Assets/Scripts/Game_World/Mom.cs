@@ -58,6 +58,7 @@ public class Mom : MonoBehaviour
 	{
 		if (!tutorialBegan && !GameManager.instance.isTestScene)
 		{
+            GameManager.instance.hasPriyaSpoken = true;
 			tutorialBegan = true;
 			Services.Events.Fire(new BeginTutorialEvent());	
 		}

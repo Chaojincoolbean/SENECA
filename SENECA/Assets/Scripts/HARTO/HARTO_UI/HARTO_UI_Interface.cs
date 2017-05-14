@@ -297,7 +297,12 @@ public class HARTO_UI_Interface : MonoBehaviour
 			return;
 		}
 
-		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (SenecaCampsiteSceneScript.hasPriyaSpoken || GameManager.instance.isTestScene))
+        if(!isHARTOActive)
+        {
+            Services.Events.Fire(new DisablePlayerMovementEvent(false));
+        }
+
+		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene))
 		{
 			
 			Services.Events.Fire(new ToggleHARTOEvent());
@@ -334,8 +339,9 @@ public class HARTO_UI_Interface : MonoBehaviour
 						isHARTOOn = false;
 						RadialMenuSpawner.instance.DestroyMenu();
 					}
-					
-				}
+
+
+                }
 			}
 		}
 	}

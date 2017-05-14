@@ -94,8 +94,8 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	{
 		if (!tabUIOnScreen)
 		{
-
-			tabUIOnScreen = true;
+            GameManager.instance.hasPriyaSpoken = true;
+            tabUIOnScreen = true;
 			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
 			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
 			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);

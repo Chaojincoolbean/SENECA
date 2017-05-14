@@ -187,7 +187,7 @@ public class EventScript : MonoBehaviour
 				}
 				if(!GameManager.instance.inUtan)
 				{
-					gibberishPlayer.GetComponent<AudioSource>().volume = 0.4f;
+					gibberishPlayer.GetComponent<AudioSource>().volume = 0.2f;
 				}
 				yield return new WaitForFixedUpdate();	
 			}
