@@ -22,7 +22,6 @@ public class BGM_Singleton : MonoBehaviour
 		if(instance == null)
 		{
 			instance = this;
-			DontDestroyOnLoad(this.gameObject);
 			sceneName = GameManager.instance.sceneName;
 			audioSource = GetComponent<AudioSource>();
 			volume = 0.5f;
@@ -50,16 +49,14 @@ public class BGM_Singleton : MonoBehaviour
 			audioSource.PlayOneShot(clip, volume);
 			audioSource.volume = volume;
 		}
-		else
-		{
-			Destroy(gameObject);
-		}
 	
 		onSceneChange = new SceneChangeEvent.Handler(OnSceneChange);
 		Services.Events.Register<SceneChangeEvent>(onSceneChange);
 		audioSource.PlayOneShot(clip, volume);
 		audioSource.volume = volume;
 	}
+
+
 
 	void OnSceneChange(GameEvent e)
 	{
@@ -86,7 +83,7 @@ public class BGM_Singleton : MonoBehaviour
 		}
 		else if (sceneName.Contains("Credits"))
 		{
-			clip = Resources.Load("Audio/Music/Credits_Theme") as AudioClip;
+			clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
 			audioSource.Stop();
 			audioSource.PlayOneShot(clip, volume);
 		}
@@ -95,6 +92,10 @@ public class BGM_Singleton : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+        if(sceneName != GameManager.instance.sceneName)
+        {
+
+        }
 		sceneName = GameManager.instance.sceneName;
 
 		if (GameManager.instance.inConversation)

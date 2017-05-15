@@ -85,7 +85,6 @@ public class EventScript : MonoBehaviour
             }
         }
 
-        Debug.Log(transform.FindChild("Ruth"));
         if (gibberishPlayer == null)
 		{
 			FindBrocaParticles();
@@ -108,7 +107,6 @@ public class EventScript : MonoBehaviour
         
 		if (transform.FindChild(characterSearchKey))
 		{
-            Debug.Log(characterSearchKey + "here");
             for (int i = 0; i < myCharacters.Count; i++)
 			{
 				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == ASTRID)
@@ -137,7 +135,6 @@ public class EventScript : MonoBehaviour
 				GameObject firstResponse = GameObject.Find(characterName + "_" + VO + "_" + npcLines + "_" + scene + "_" + topicName).gameObject;
 				if (firstResponse.transform.childCount > 1)
 				{
-					Debug.Log("NO!");
 					response = firstResponse.GetComponent<EmotionalResponseScript>();
 					waitingForEmotionalInput = true;
 				}
@@ -176,16 +173,12 @@ public class EventScript : MonoBehaviour
 
 			if (response.transform.childCount > 1)
 			{
-				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, GIBBERISH, scene, topicName);
-				yield return new WaitForSeconds(1.5f);
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, scene, topicName);
 				waitingForEmotionalInput = false;
 				GameManager.instance.waitingForInput = waitingForEmotionalInput;
 			}
 			else
-			{	
-				response.PlayLine(GIBBERISH, scene, topicName);
-				yield return new WaitForSeconds(1.5f);
+			{
 				Debug.Log("Playing the line NOW: " + response.characterName);
 				response.PlayLine(HARTO, scene, topicName);
 			}

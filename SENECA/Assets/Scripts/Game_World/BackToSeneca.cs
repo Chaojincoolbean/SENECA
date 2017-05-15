@@ -51,8 +51,9 @@ public class BackToSeneca : MonoBehaviour
 
 	public void RollCredits()
 	{
-		Services.Events.Fire(new SceneChangeEvent("_CreditScene"));
-
+        //Services.Events.Fire(new SceneChangeEvent("Credits"));
+        Services.Scenes.PopScene();
+        Services.Scenes.PushScene<CreditSceneScript>(TransitionData.Instance);
         Services.Scenes.Swap<CreditSceneScript>(TransitionData.Instance);
     }
 	
@@ -64,6 +65,11 @@ public class BackToSeneca : MonoBehaviour
             // put this in an event. probably EndGameEvent
 			anim.SetBool("Flash", true);
 		}
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            RollCredits();
+        }
 
 		
 	}
