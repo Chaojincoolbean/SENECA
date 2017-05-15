@@ -104,8 +104,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		RadialMenuSpawner.instance.DestroyMenu();
 		options = newOptions;
-		Debug.Log(newOptions[0].title);
-		Debug.Log("Talking To: " + player.npcAstridIsTalkingTo);
 		if(player.npcAstridIsTalkingTo == null)
 		{
 				newOptions = empty;
@@ -230,7 +228,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void OnDialogueEnded(GameEvent e)
 	{
-		Debug.Log(((EndDialogueEvent)e).topicName);
 		if(((EndDialogueEvent)e).topicName.Contains("Exit") && !closedTutorialUsingRecordingSwitch)
 		{
 			isHARTOActive = false;
@@ -249,7 +246,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("In here");
 			ReloadMenu(topics);
 		}
 		topicSelected = false;
@@ -267,7 +263,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		yield return new WaitForSeconds(14.0f);
 		RadialMenuSpawner.instance.DestroyMenu();
-	}
+        Services.Events.Fire(new DisablePlayerMovementEvent(false));
+    }
 
 	void FindPlayer()
 	{
@@ -291,11 +288,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 			FindPlayer ();
 			return;
 		}
-
-        if(!isHARTOActive)
-        {
-            Services.Events.Fire(new DisablePlayerMovementEvent(false));
-        }
 
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene))
 		{
@@ -333,7 +325,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 						recordingFolderSelected = false;
 						isHARTOOn = false;
 						RadialMenuSpawner.instance.DestroyMenu();
-					}
+                        Services.Events.Fire(new DisablePlayerMovementEvent(false));
+                    }
 
 
                 }

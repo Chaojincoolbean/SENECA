@@ -34,7 +34,6 @@ public class ResponseScript : MonoBehaviour {
 	{
 		if (dialogueType == HARTO)
 		{
-			Debug.Log("Playing HARTO LINE: " + scene + " " + transform.name);
 			characterAudioSource.PlayOneShot(myLine.LoadAudioClip(characterName, scene, topic, transform.name), volume);
 			elapsedHARTOSeconds = myLine.LoadAudioClip(characterName, scene, topic,transform.name).length;
 		}
