@@ -81,9 +81,12 @@ namespace GameSceneManagerSystem
 			Scene<TTransitionData> previousScene = null;
 			if(_sceneStack.Count > 0)
 			{
+                
 				previousScene = _sceneStack.Peek();
-				_sceneStack.Pop();
-			}
+                Debug.Log("Before Pop: " + previousScene.name);
+                _sceneStack.Pop();
+                
+            }
 
 			var nextScene = GetScene<T>();
 			_sceneStack.Push(nextScene);
@@ -91,7 +94,8 @@ namespace GameSceneManagerSystem
 
 			if(previousScene != null)
 			{
-				previousScene._OnExit();
+                Debug.Log("After Pop: " + previousScene.name);
+                previousScene._OnExit();
 				Object.Destroy(previousScene.Root);
 			}
 		}
