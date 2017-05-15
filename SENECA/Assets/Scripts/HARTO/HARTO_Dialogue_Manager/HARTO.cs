@@ -40,12 +40,8 @@ public class HARTO : MonoBehaviour
 		if(instance == null)
 		{
 			instance = this;
-			DontDestroyOnLoad(this.gameObject);
 		}
-		else
-		{
-			Destroy(this.gameObject);
-		}
+
 		onEmotionSelected = new EmotionSelectedEvent.Handler(OnEmotionSelected);
 		Services.Events.Register<EmotionSelectedEvent>(onEmotionSelected);
 	}

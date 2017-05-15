@@ -67,11 +67,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 		if(HARTOSystem == null)
 		{
 			HARTOSystem = this;
-			DontDestroyOnLoad(gameObject);
-		}
-		else
-		{
-			Destroy(gameObject);
 		}
 
 		closingHARTOForFirstTime = true;

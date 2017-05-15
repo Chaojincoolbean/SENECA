@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.ChrsEventSystem.EventsManager;
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
 
 	public Dictionary<string, bool> whoTalksFirst;
 
+    public KeyCode RestartGame = KeyCode.Backspace;
 	public string sceneName;
 	public HARTO astridHARTO;
 	public DialogueManager dialogueManager;
@@ -125,6 +127,13 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+
+        if(Input.GetKeyDown(RestartGame))
+        {
+            TransitionData.Instance = null;
+            SceneManager.LoadScene("_Main");
+
+        }
 		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 
 		if (sceneName.Contains("Test"))

@@ -38,11 +38,6 @@ public class ResponseScript : MonoBehaviour {
 			characterAudioSource.PlayOneShot(myLine.LoadAudioClip(characterName, scene, topic, transform.name), volume);
 			elapsedHARTOSeconds = myLine.LoadAudioClip(characterName, scene, topic,transform.name).length;
 		}
-		else if (dialogueType == GIBBERISH)
-		{
-			myLine.LoadGibberishAudio(characterName, scene, topic, transform.name);
-			//elapsedGibberishSeconds = myLine.LoadGibberishAudio(characterName, scene, topic, transform.name).length;
-		}
 	}
 
 	virtual public void PlayLine(Emotions myEmotion)
@@ -70,27 +65,5 @@ public class ResponseScript : MonoBehaviour {
 			return;
 		}
 	}
-	/*
-	
-		if(mainCamera == null)
-		{
-			FindMainCamera();
-			return;
-		}
-
-
-		void FindMainCamera()
-		{
-			if (nextTimeToSearch <= Time.time)
-			{
-				GameObject result = GameObject.FindGameObjectWithTag ("MainCamera");
-				if (result != null)
-				{
-					mainCamera = result.GetComponent<Camera>();
-				}
-				nextTimeToSearch = Time.time + 2.0f;
-		}
-		}
-	 */
 	
 }

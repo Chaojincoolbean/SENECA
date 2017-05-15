@@ -11,7 +11,7 @@ public class TransitionData
 			
 				return instance;
 		}
-		private set{ }
+		set{ }
 	}
 
     public TitleScreen TITLE;
