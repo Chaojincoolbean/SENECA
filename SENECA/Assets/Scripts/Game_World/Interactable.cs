@@ -5,13 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Interactable : MonoBehaviour 
 {
-	public Collider myCollider;
+	public Collider2D myCollider;
 
 	public AudioSource myAudioSource;
 	public AudioClip clip;
 	// Use this for initialization
 	void Start () {
 		myAudioSource = GetComponent<AudioSource> ();
+        myCollider = GetComponent<Collider2D>();
 		
 	}
 
@@ -19,41 +20,46 @@ public class Interactable : MonoBehaviour
 	{
 		if (transform.name == "Priya" && !myAudioSource.isPlaying) 
 		{
+            //  done
             clip = Resources.Load("Audio/VO/Priya/SCENE_1/VO_EVENT/Priya_Hurry") as AudioClip;
-            myAudioSource.PlayOneShot (clip);
 		}   
         else if(tag == "Rocks")
         {
+            // done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rocks") as AudioClip;
         }
         else if (tag == "Radio")
         {
+            //  done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Radio") as AudioClip;
-        }
-        else if (tag == "Rocks")
-        {
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rocks") as AudioClip;
         }
         else if (tag == "Sign")
         {
+            // done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Sign") as AudioClip;
         }
         else if (tag == "Racks")
         {
+            //  done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Racks") as AudioClip;
         }
         else if (tag == "Fence")
         {
+            //  done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Fence") as AudioClip;
         }
         else if (tag == "Carving")
         {
+            // done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Carving") as AudioClip;
         }
         else if (tag == "Backpack")
         {
+            //  done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Backpack") as AudioClip;
         }
+
+        myAudioSource.PlayOneShot(clip);
     }
 	
 }

@@ -42,7 +42,9 @@ public class BackToSeneca : MonoBehaviour
 		{
 			//	Play Ruth Audio and flash the screen.
 			clip = Resources.Load("Audio/VO/Ruth/Ruth-AUDITION-AbigailWahl") as AudioClip;
+            
 
+            //  Init dialogue event Ruth topic scene 2
 			if(!audioSource.isPlaying)
 			{
 				audioSource.PlayOneShot(clip);
@@ -63,6 +65,7 @@ public class BackToSeneca : MonoBehaviour
 	{
 		if (beganTalking && !audioSource.isPlaying)
 		{
+            // put this in an event. probably EndGameEvent
 			anim.SetBool("Flash", true);
 		}
 

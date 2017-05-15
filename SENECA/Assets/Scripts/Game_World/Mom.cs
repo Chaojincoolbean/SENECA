@@ -8,11 +8,11 @@ using ChrsUtils.ChrsEventSystem.GameEvents;
 public class Mom : MonoBehaviour 
 {
 
-	bool beginGame;
+	public bool beginGame;
 	public bool moveMom;
 	public bool tutorialBegan;
 	float x;
-	bool onposition;
+	public bool onposition;
 	private MoveMomEvent.Handler onMoveMomEvent;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
@@ -84,9 +84,11 @@ public class Mom : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
-	{	
+	{
+        Debug.Log("NO");
 		if(col.gameObject.name == "Marker" && !beginGame)
 		{
+            Debug.Log("Hit");
 			beginGame = true;
 			Services.Events.Fire(new BeginGameEvent());
 			SenecaCampsiteSceneScript.hasPriyaSpoken = true;

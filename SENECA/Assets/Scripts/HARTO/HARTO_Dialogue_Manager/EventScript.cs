@@ -41,6 +41,7 @@ public class EventScript : MonoBehaviour
 	private HARTO astridHARTO;
 
 	public GameObject Priya;
+    public GameObject Ruth;
 
 	// Use this for initialization
 	void Start () 
@@ -154,7 +155,12 @@ public class EventScript : MonoBehaviour
 
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
-				GameManager.instance.waitingForInput = waitingForEmotionalInput;
+                if (!GameManager.instance.inUtan)
+                {
+                    GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
+                    GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
+                }
+                GameManager.instance.waitingForInput = waitingForEmotionalInput;
 				yield return new WaitForFixedUpdate();
 			}
 
@@ -173,21 +179,25 @@ public class EventScript : MonoBehaviour
 				Debug.Log("Playing the line NOW: " + response.characterName);
 				response.PlayLine(HARTO, scene, topicName);
 			}
-			
 
-			while(response.characterAudioSource.isPlaying)
+            
+            while (response.characterAudioSource.isPlaying)
 			{
-				//	TODO: Talking animations
-				//	set anim for talking to true...
-				//	if response == Astrid. set astrid talking anim to true
-				//	else set base class fo npc talking anim to true
-				if (response.characterName == "Astrid") 
+                //	TODO: Talking animations
+
+                //	if response == Astrid. set astrid talking anim to true
+                //	else set base class fo npc talking anim to true
+                
+				if (response.characterName == "Astrid")
 				{
-					GameManager.instance.player_Astrid.animator.SetBool ("IsTalking", true);
-					Priya = GameObject.FindGameObjectWithTag ("Priya");
+                    if (!GameManager.instance.inUtan)
+                    {
+                        GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
+                        GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
+                    }
+                    Priya = GameObject.FindGameObjectWithTag ("Priya");
 					Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 				} 
-
 				else if (response.characterName == "Priya") 
 				{
 					// other character istalking is true;
@@ -195,14 +205,21 @@ public class EventScript : MonoBehaviour
 					Priya.GetComponent<Animator>().SetBool("IsTalking", true);
 
 				}
-				if(!GameManager.instance.inUtan)
+                else if (response.characterName == "Ruth")
+                {
+                    // other character istalking is true;
+                    Ruth = GameObject.FindGameObjectWithTag("Ruth");
+                    Ruth.GetComponent<Animator>().SetBool("IsTalking", true);
+
+                }
+                if (!GameManager.instance.inUtan)
 				{
 					gibberishPlayer.GetComponent<AudioSource>().volume = 0f;
 				}
 				yield return new WaitForFixedUpdate();	
 			}
 
-			GameManager.instance.player_Astrid.animator.SetBool ("IsTalking", false);
+			//GameManager.instance.player_Astrid._animator.SetBool ("IsTalking", false);
 			//other charcter's istalking is false
 			gibberishPlayer.GetComponent<AudioSource>().volume = 0.0f;
 

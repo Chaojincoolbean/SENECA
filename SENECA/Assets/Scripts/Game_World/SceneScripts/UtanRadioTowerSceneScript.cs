@@ -7,8 +7,10 @@ using ChrsUtils.ChrsCamera;
 public class UtanRadioTowerSceneScript : Scene<TransitionData> 
 {
 	public Player player;
+    public AudioClip clip;
+    public AudioSource audioSouorce;
 
-	internal override void OnEnter(TransitionData data)
+    internal override void OnEnter(TransitionData data)
 	{
 		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
@@ -16,7 +18,14 @@ public class UtanRadioTowerSceneScript : Scene<TransitionData>
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 22.37f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = 0f;
 
-	}
+        if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
+        {
+            audioSouorce = GetComponent<AudioSource>();
+            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+            audioSouorce.PlayOneShot(clip);
+        }
+
+    }
 
     public float nextTimeToSearch = 0;
 

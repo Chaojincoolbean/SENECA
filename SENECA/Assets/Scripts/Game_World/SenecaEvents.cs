@@ -118,9 +118,25 @@ namespace SenecaEvents
         }
     }
 
-    public class BeginGameEvent :GameEvent
+    public class BeginGameEvent : GameEvent
     {
         public BeginGameEvent()
+        {
+        }
+    }
+
+    public class AstridTalksToHARTOEvent :GameEvent
+    {
+        public readonly bool talkingToHARTO;
+        public AstridTalksToHARTOEvent(bool _talkingToHARTO)
+        {
+            talkingToHARTO = _talkingToHARTO;
+        }
+    }
+
+    public class EndGameEvent : GameEvent
+    {
+        public EndGameEvent()
         {
         }
     }

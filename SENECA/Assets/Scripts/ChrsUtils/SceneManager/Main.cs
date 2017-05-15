@@ -14,7 +14,6 @@ public class Main : MonoBehaviour
         Services.Events = new GameEventsManager();
 
 		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
-		Debug.Log ("debug");
 	
 		Services.Scenes.PushScene<TitleSceneScript>();
     }
