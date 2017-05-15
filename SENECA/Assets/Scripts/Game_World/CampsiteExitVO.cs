@@ -21,20 +21,21 @@ public class CampsiteExitVO : MonoBehaviour
     {
         if(collision.tag == "Player" && GameManager.instance.hasPriyaSpoken && !hasPlayedOnce)
         {
-            Services.Events.Fire(new DisablePlayerMovementEvent(true));
+            Debug.Log("Locking movement");
             Services.Events.Fire(new AstridTalksToHARTOEvent(true));
             
             audioSource.PlayOneShot(clip);
             hasPlayedOnce = true;
+            Debug.Log(hasPlayedOnce);
         }
     }
 
     // Update is called once per frame
     void Update ()
     {
-		if(!audioSource.isPlaying)
+		if(!audioSource.isPlaying && hasPlayedOnce)
         {
-            Services.Events.Fire(new DisablePlayerMovementEvent(false));
+            Debug.Log(hasPlayedOnce + "!!!!!!!");
             Services.Events.Fire(new AstridTalksToHARTOEvent(false));
         }
 	}

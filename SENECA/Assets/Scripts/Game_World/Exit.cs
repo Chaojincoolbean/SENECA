@@ -43,7 +43,7 @@ public class Exit : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-
+        Debug.Log("Can transfer scenes: " + canTransferScene);
 	}
 
 	// Do not go to nuext scene until EndConvo topic has been played
@@ -58,8 +58,8 @@ public class Exit : MonoBehaviour
 
 	void TransferScene(Transform player, string nextScene)
 	{
-		Debug.Log ("Transfer " + nextScene);
 		string newScene = nextScene.Replace ("To_", "");
+        StartCoroutine(CanTranferScene());
 		Services.Events.Fire(new SceneChangeEvent(newScene));
 		SelectScene (player, nextScene);
 
@@ -67,7 +67,6 @@ public class Exit : MonoBehaviour
 
 	void SelectScene(Transform player, string nextScene)
 	{
-		Debug.Log ("Select " + nextScene);
 		if (nextScene == SENECA_CAMPSITE) 
 		{
 			TransitionData.Instance.SENECA_CAMPSITE.position = player.position;
@@ -135,7 +134,6 @@ public class Exit : MonoBehaviour
             TransitionData.Instance.UTAN_FORK.position = player.position;
             TransitionData.Instance.UTAN_FORK.scale = player.localScale;
             Services.Scenes.Swap<UtanForkPathSceneScript>(TransitionData.Instance);
-			Debug.Log ("Utan_ForkPath");
         }
         else if (nextScene == UTAN_HUNTER_CAMP)
         {

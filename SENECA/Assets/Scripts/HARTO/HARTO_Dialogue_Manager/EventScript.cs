@@ -180,7 +180,6 @@ public class EventScript : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("Playing the line NOW: " + response.characterName);
 				response.PlayLine(HARTO, scene, topicName);
 			}
 
@@ -205,8 +204,10 @@ public class EventScript : MonoBehaviour
 				} 
 				else if (response.characterName == "Priya") 
 				{
-					// other character istalking is true;
-					Priya = GameObject.FindGameObjectWithTag ("Priya");
+                    GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", false);
+                    GameManager.instance.player_Astrid._animator.SetBool("IsTalking", false);
+                    // other character istalking is true;
+                    Priya = GameObject.FindGameObjectWithTag ("Priya");
 					Priya.GetComponent<Animator>().SetBool("IsTalking", true);
 
 				}

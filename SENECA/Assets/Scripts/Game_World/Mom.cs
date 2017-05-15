@@ -85,10 +85,8 @@ public class Mom : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-        Debug.Log("NO");
 		if(col.gameObject.name == "Marker" && !beginGame)
 		{
-            Debug.Log("Hit");
 			beginGame = true;
 			Services.Events.Fire(new BeginGameEvent());
 			SenecaCampsiteSceneScript.hasPriyaSpoken = true;
