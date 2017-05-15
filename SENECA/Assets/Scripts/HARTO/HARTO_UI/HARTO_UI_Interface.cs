@@ -109,7 +109,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 				newOptions = empty;
 		}
 		RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
-		Debug.Log("Done");
 	}
 
 	public void ToggleDialogueMode()

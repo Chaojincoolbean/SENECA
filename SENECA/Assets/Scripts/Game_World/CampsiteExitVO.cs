@@ -19,6 +19,7 @@ public class CampsiteExitVO : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // fix this
         if(collision.tag == "Player" && GameManager.instance.hasPriyaSpoken && !hasPlayedOnce)
         {
             Debug.Log("Locking movement");

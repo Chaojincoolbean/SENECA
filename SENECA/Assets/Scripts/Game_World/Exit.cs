@@ -40,17 +40,20 @@ public class Exit : MonoBehaviour
 		canTransferScene = true;
 	}
 
+    public float t = 0;
 	// Update is called once per frame
 	void Update () {
 
         Debug.Log("Can transfer scenes: " + canTransferScene);
+
+
 	}
 
 	// Do not go to nuext scene until EndConvo topic has been played
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll.gameObject.tag == "Player" && GameManager.instance.hasPriyaSpoken) 
-		{
+		if (coll.gameObject.tag == "Player" && GameManager.instance.hasPriyaSpoken && canTransferScene)
+        { 
 			TransferScene (coll.transform, transform.name);
 			canTransferScene = false;
 		}
@@ -59,7 +62,7 @@ public class Exit : MonoBehaviour
 	void TransferScene(Transform player, string nextScene)
 	{
 		string newScene = nextScene.Replace ("To_", "");
-        StartCoroutine(CanTranferScene());
+        //StartCoroutine(CanTranferScene());
 		Services.Events.Fire(new SceneChangeEvent(newScene));
 		SelectScene (player, nextScene);
 

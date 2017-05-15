@@ -125,10 +125,25 @@ public class TitleMenu_HARTO : MonoBehaviour
 				Services.Scenes.Swap<PrologueSceneScript>(TransitionData.Instance);
 			}
 	}
+
+    void ForceStart()
+    {
+        Services.Events.Fire(new SceneChangeEvent("_Prologue"));
+        TransitionData.Instance.TITLE.visitedScene = true;
+        TransitionData.Instance.TITLE.position = Vector3.zero;
+        TransitionData.Instance.TITLE.scale = Vector3.zero;
+        Services.Scenes.Swap<PrologueSceneScript>(TransitionData.Instance);
+    }
 	
 	// Update is called once per frame
 	void Update () 
 	{
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            ForceStart();
+        }
+
 		if (screenHARTO == null)
 		{
 			screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
