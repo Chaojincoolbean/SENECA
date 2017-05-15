@@ -7,7 +7,7 @@ using SenecaEvents;
 
 public class BackToSeneca : MonoBehaviour 
 {
-
+    public bool fireOnce;
 	public Animator anim;
 	public AudioClip clip;
 	public AudioSource audioSource;
@@ -18,6 +18,7 @@ public class BackToSeneca : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+        fireOnce = false;
 		beganTalking = false;
 		audioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
@@ -38,18 +39,12 @@ public class BackToSeneca : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
-		if (collider.tag == "Player")
+		if (collider.tag == "Player" && !fireOnce)
 		{
-			//	Play Ruth Audio and flash the screen.
-			clip = Resources.Load("Audio/VO/Ruth/Ruth-AUDITION-AbigailWahl") as AudioClip;
-            
-
-            //  Init dialogue event Ruth topic scene 2
-			if(!audioSource.isPlaying)
-			{
-				audioSource.PlayOneShot(clip);
-				beganTalking = true;
-			}
+            fireOnce = true;
+            Debug.Log("Hit");
+            //	Play Ruth Audio and flash the screen.
+            Services.Events.Fire(new EndGameEvent());
 			
 		}
 	}
@@ -57,13 +52,14 @@ public class BackToSeneca : MonoBehaviour
 	public void RollCredits()
 	{
 		Services.Events.Fire(new SceneChangeEvent("_CreditScene"));
-		SceneManager.LoadScene("Utan_ForkPath");
-	}
+
+        Services.Scenes.Swap<CreditSceneScript>(TransitionData.Instance);
+    }
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (beganTalking && !audioSource.isPlaying)
+		if (GameManager.instance.endGame)
 		{
             // put this in an event. probably EndGameEvent
 			anim.SetBool("Flash", true);

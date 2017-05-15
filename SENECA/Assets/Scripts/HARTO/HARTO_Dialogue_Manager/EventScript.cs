@@ -77,7 +77,16 @@ public class EventScript : MonoBehaviour
 
 	void Update()
 	{
-		if(gibberishPlayer == null)
+        if(GameManager.instance.inUtan)
+        {
+           if(name.Contains("SCENE_1"))
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        Debug.Log(transform.FindChild("Ruth"));
+        if (gibberishPlayer == null)
 		{
 			FindBrocaParticles();
 			return;
@@ -94,12 +103,13 @@ public class EventScript : MonoBehaviour
 		totalLines = 0;
 		astridLines = 0;
 		npcLines = 0;
-
-		characterSearchKey = characterName;
-
+        
+        characterSearchKey = characterName;
+        
 		if (transform.FindChild(characterSearchKey))
 		{
-			for (int i = 0; i < myCharacters.Count; i++)
+            Debug.Log(characterSearchKey + "here");
+            for (int i = 0; i < myCharacters.Count; i++)
 			{
 				if (myCharacters[i].name  == characterSearchKey || myCharacters[i].name  == ASTRID)
 				{
@@ -194,9 +204,10 @@ public class EventScript : MonoBehaviour
                     {
                         GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
                         GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
+                        Priya = GameObject.FindGameObjectWithTag("Priya");
+                        Priya.GetComponent<Animator>().SetBool("IsTalking", false);
                     }
-                    Priya = GameObject.FindGameObjectWithTag ("Priya");
-					Priya.GetComponent<Animator>().SetBool("IsTalking", false);
+                    
 				} 
 				else if (response.characterName == "Priya") 
 				{
@@ -208,8 +219,8 @@ public class EventScript : MonoBehaviour
                 else if (response.characterName == "Ruth")
                 {
                     // other character istalking is true;
-                    Ruth = GameObject.FindGameObjectWithTag("Ruth");
-                    Ruth.GetComponent<Animator>().SetBool("IsTalking", true);
+                   // Ruth = GameObject.FindGameObjectWithTag("Ruth");
+                    //Ruth.GetComponent<Animator>().SetBool("IsTalking", true);
 
                 }
                 if (!GameManager.instance.inUtan)
@@ -275,7 +286,7 @@ public class EventScript : MonoBehaviour
 			
 		}
 
-		if(topicName != "Start_Game")
+		if(topicName != "Start_Game" && !scene.Contains("2"))
 		{
 			Services.Events.Fire(new EndDialogueEvent(topicName));
 			if (topicName == "Exit")
@@ -284,6 +295,10 @@ public class EventScript : MonoBehaviour
 				Services.Events.Fire(new ToggleHARTOEvent());
 			}
 		}
+        else if(scene.Contains("2") && topicName == "Ruth")
+        {
+            GameManager.instance.endGame = true;
+        }
 		else
 		{
 			if(!GameManager.instance.tabUIOnScreen)

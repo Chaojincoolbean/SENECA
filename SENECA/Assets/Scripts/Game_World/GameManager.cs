@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 	public bool tabUIOnScreen;
 	public bool waitingForInput;
 	public bool completedOneTopic;
+    public bool endGame;
 
 	public bool startedGame;
 	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
@@ -56,14 +57,11 @@ public class GameManager : MonoBehaviour
 		hasPriyaSpoken = false;
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
+        endGame = false;
 		if (instance == null)
 		{
 			instance = this;
-			DontDestroyOnLoad(this.gameObject);
-		}
-		else
-		{
-			Destroy(this.gameObject);
+			//DontDestroyOnLoad(this.gameObject);
 		}
 			
 		whoTalksFirst = new Dictionary<string, bool>();
@@ -73,8 +71,11 @@ public class GameManager : MonoBehaviour
 		whoTalksFirst.Add("Event_Meeting1Priya", true);
 		whoTalksFirst.Add("Event_Broca1Priya", true);
 		whoTalksFirst.Add("Event_Ruth1Priya", true);
+        whoTalksFirst.Add("Event_Beorn2Beorn", true);
+        whoTalksFirst.Add("Event_Ruth2Ruth", true);
 
-		astridHARTO = GameObject.FindGameObjectWithTag(HARTO_TAG).GetComponent<HARTO>();
+
+        astridHARTO = GameObject.FindGameObjectWithTag(HARTO_TAG).GetComponent<HARTO>();
 		dialogueManager = GameObject.FindGameObjectWithTag(DIALOUGE_MANAGER_TAG).GetComponent<DialogueManager>();
 		recordingManager = GameObject.FindGameObjectWithTag(RECORDING_MANAGER_TAG).GetComponent<RecordingManager>();
 		HARTOInterface = GameObject.FindGameObjectWithTag(HARTO_UI_INTERFACE_TAG).GetComponent<HARTO_UI_Interface>();

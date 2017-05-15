@@ -41,7 +41,7 @@ public class ResponseScript : MonoBehaviour {
 		else if (dialogueType == GIBBERISH)
 		{
 			myLine.LoadGibberishAudio(characterName, scene, topic, transform.name);
-			elapsedGibberishSeconds = myLine.LoadGibberishAudio(characterName, scene, topic, transform.name).length;
+			//elapsedGibberishSeconds = myLine.LoadGibberishAudio(characterName, scene, topic, transform.name).length;
 		}
 	}
 

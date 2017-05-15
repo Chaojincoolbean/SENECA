@@ -107,9 +107,7 @@ public class BufferShuffler : MonoBehaviour
         _clipChannels = clip.channels;
         _clipLengthSamples = clip.samples;
         _clipSampleRate = clip.frequency;
-        Debug.Log(clip.name);
-        Debug.Log("Clip Sample Rate: " + _clipSampleRate);
-        Debug.Log("Output Smaple Rate: " + _outputSampleRate);
+     
         if (_clipSampleRate != _outputSampleRate)
         {
             Debug.LogError("Clip sample rate doesn't match output sample rate. Alter clip sample rate in clip import settings, or output sample rate in Project->Preferences->Audio");

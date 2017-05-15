@@ -38,9 +38,13 @@ public class DialogueManager : MonoBehaviour
     public const string EVENT_START_GAME = "Event_Start_Game";      //  Hard coded key for the first dialogue exchange
 	public const string EVENT_MEETING_TUTORIAL = "Event_Tutorial";  //  Hard coded key for the dialogue exchanges before topics can be choosen
 	public const string EVENT_EXIT = "Event_Exit";                  //  Hard coded key for the dialogue exchange before the player can explore
+    public const string EVENT_RUTH = "Event_Ruth";
 
 	public const string PRIYA = "Priya";                            //  Hard coded key for Priya
+    public const string RUTH = "Ruth";
+    public const string BEORN = "Beorn";
 
+    private EndGameEvent.Handler onEndGame;
 	private BeginGameEvent.Handler onBeginGame;                                             //  A delegate connected to the Event System.
 	private BeginTutorialEvent.Handler onBeginTutorial;                                     //  A delegate connected to the Event System.
     private TopicSelectedEvent.Handler onTopicSelected;                                     //  A delegate connected to the Event System.
@@ -51,8 +55,9 @@ public class DialogueManager : MonoBehaviour
     void Start () 
 	{
 		SceneNumber = 1;
-        
+
         //  Sets up delegates for events
+        onEndGame = new EndGameEvent.Handler(OnEndGame);
 		onBeginGame = new BeginGameEvent.Handler(OnBeginGame);
 		onBeginTutorial = new BeginTutorialEvent.Handler(OnBeginTutorial);
 		onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
@@ -74,11 +79,18 @@ public class DialogueManager : MonoBehaviour
         #endregion
 
         //  Registers delegates for events
+        Services.Events.Register<EndGameEvent>(onEndGame);
         Services.Events.Register<BeginGameEvent>(onBeginGame);
 		Services.Events.Register<BeginTutorialEvent>(onBeginTutorial);
 		Services.Events.Register<TopicSelectedEvent>(onTopicSelected);
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
+
+    void OnEndGame(GameEvent e)
+    {
+        SceneNumber = 2;
+        InitDialogueEvent(EVENT_RUTH, SceneNumber, RUTH, GameManager.instance.whoTalksFirst["Event_Ruth2Ruth"]);
+    }
 
     #region OnBeginGame Overview
     /*
@@ -138,13 +150,14 @@ public class DialogueManager : MonoBehaviour
     void InitDialogueEvent(string topic, int sceneNumber ,string npcName, bool astridTralksFirst)
 	{
 		GameObject sceneFolder = GameObject.Find(SCENE + SceneNumber);
-
-		if (sceneFolder != null)
+        
+        if (sceneFolder != null)
 		{
-			EventScript thisEvent = sceneFolder.transform.FindChild(topic).GetComponent<EventScript>();
+            
+            EventScript thisEvent = sceneFolder.transform.FindChild(topic).GetComponent<EventScript>();
 			if (thisEvent != null)
 			{
-				thisEvent.InitResponseScriptWith(npcName, astridTralksFirst);
+                thisEvent.InitResponseScriptWith(npcName, astridTralksFirst);
 			}
 			else
 			{
