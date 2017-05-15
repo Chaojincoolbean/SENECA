@@ -5,8 +5,16 @@ using ChrsUtils.ChrsCamera;
 public class SenecaRocksSceneScript : Scene<TransitionData>
 {
     public Player player;
+
     public AudioClip clip;
-    public AudioSource audioSouorce;
+    public AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+
+    }
 
     internal override void OnEnter(TransitionData data)
     {
@@ -18,9 +26,7 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
 
         if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
         {
-            audioSouorce = GetComponent<AudioSource>();
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
-            audioSouorce.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip);
         }
 
     }

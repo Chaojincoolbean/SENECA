@@ -9,8 +9,15 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
     public AudioClip clip;
     public AudioSource audioSouorce;
 
+    private void Start()
+    {
+        audioSouorce = GetComponent<AudioSource>();
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;
+    }
+
     internal override void OnEnter(TransitionData data)
     {
+        
         player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 3.88f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -3.88f;
@@ -18,9 +25,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.41f;
 
         if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
-        {
-            audioSouorce = GetComponent<AudioSource>();
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+        {   
             audioSouorce.PlayOneShot(clip);
         }
     }

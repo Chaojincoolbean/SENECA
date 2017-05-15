@@ -6,7 +6,14 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
 {
     public Player player;
     public AudioClip clip;
-    public AudioSource audioSouorce;
+    public AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+
+    }
 
     internal override void OnEnter(TransitionData data)
     {
@@ -14,9 +21,9 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
 
         if(!TransitionData.Instance.SENECA_FORK.visitedScene)
         {
-            audioSouorce = GetComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>();
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
-            audioSouorce.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip);
         }
 
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 3.93f;

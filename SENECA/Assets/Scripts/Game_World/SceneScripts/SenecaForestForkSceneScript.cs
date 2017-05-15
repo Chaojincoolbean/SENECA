@@ -8,6 +8,15 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
 {
 	public Player player;
     public float nextTimeToSearch = 0;
+    public AudioClip clip;
+    public AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+
+    }
 
     internal override void OnEnter(TransitionData data)
 	{

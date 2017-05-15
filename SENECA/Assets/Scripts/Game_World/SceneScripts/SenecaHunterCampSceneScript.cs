@@ -7,6 +7,14 @@ using ChrsUtils.ChrsCamera;
 public class SenecaHunterCampSceneScript : Scene<TransitionData>
 {
     public Player player;
+    public AudioClip clip;
+    public AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+    }
 
     internal override void OnEnter(TransitionData data)
     {

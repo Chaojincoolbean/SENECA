@@ -31,7 +31,12 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	private TABUIButtonAppearEvent.Handler onTABUIButtonAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 
-	internal override void OnEnter(TransitionData data)
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    internal override void OnEnter(TransitionData data)
 	{
 
 

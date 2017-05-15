@@ -7,14 +7,28 @@ using ChrsUtils.ChrsCamera;
 public class SenecaMeadowSceneSript : Scene<TransitionData>
 {
 	public Player player;
+    public AudioClip clip;
+    public AudioSource audioSource;
 
-	internal override void OnEnter(TransitionData data)
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_MeadowWitchLight") as AudioClip;
+
+    }
+
+    internal override void OnEnter(TransitionData data)
 	{
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.35f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.35f;
+
+        if(!TransitionData.Instance.SENECA_MEADOW.visitedScene)
+        {
+            audioSource.PlayOneShot(clip);
+        }
 
 	}
 
