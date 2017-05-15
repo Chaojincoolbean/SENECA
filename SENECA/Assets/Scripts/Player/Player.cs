@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
 
     void OnAstridTalksToHARTO(GameEvent e)
     {
+        Debug.Log("Here we go: " + ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         _animator.SetBool("HARTOActive", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         _animator.SetBool("IsTalking", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         disableMovement = ((AstridTalksToHARTOEvent)e).talkingToHARTO;
@@ -97,6 +98,7 @@ public class Player : MonoBehaviour
 	/*--------------------------------------------------------------------------------------*/
 	void Move(float dx, float dy)
 	{
+        
 		//	Adds force to rigidbody based on the input
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
 		_animator.SetFloat("SpeedX", Mathf.Abs(dx));
@@ -136,7 +138,11 @@ public class Player : MonoBehaviour
 		{
 			Move(x, y);
 		}
-	}
+        else
+        {
+            Move(0, 0);
+        }
+    }
 
 	void OnTriggerEnter2D(Collider2D other) 
 	{

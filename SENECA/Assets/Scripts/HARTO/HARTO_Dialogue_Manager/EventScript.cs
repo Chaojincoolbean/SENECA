@@ -163,7 +163,7 @@ public class EventScript : MonoBehaviour
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
                 Debug.Log(scene);
-                if (scene == "SCENE_1")
+                if (scene == "SCENE_1" && !GameManager.instance.playerAnimationLock)
                 {
                     GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
                     GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
@@ -193,7 +193,7 @@ public class EventScript : MonoBehaviour
                 
 				if (response.characterName == "Astrid")
 				{
-                    if (scene == "SCENE_1")
+                    if (scene == "SCENE_1" && !GameManager.instance.playerAnimationLock && topicName != "Start_Game")
                     {
                         GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
                         GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
@@ -204,8 +204,11 @@ public class EventScript : MonoBehaviour
 				} 
 				else if (response.characterName == "Priya") 
 				{
-                    GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", false);
-                    GameManager.instance.player_Astrid._animator.SetBool("IsTalking", false);
+                    if (!GameManager.instance.playerAnimationLock)
+                    {
+                        GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", false);
+                        GameManager.instance.player_Astrid._animator.SetBool("IsTalking", false);
+                    }
                     // other character istalking is true;
                     Priya = GameObject.FindGameObjectWithTag ("Priya");
 					Priya.GetComponent<Animator>().SetBool("IsTalking", true);

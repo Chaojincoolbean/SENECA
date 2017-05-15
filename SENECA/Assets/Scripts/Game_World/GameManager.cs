@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
 	public bool isTestScene;
     public bool tutorialIsDone;
+    public bool playerAnimationLock;
 	public bool inUtan;
 	public bool hasPriyaSpoken;
 	public bool begin;
@@ -56,12 +57,14 @@ public class GameManager : MonoBehaviour
 	{
 		
 		startedGame = false;
+        playerAnimationLock = false;
         tutorialIsDone = false;
 		inConversation = false;
 		hasPriyaSpoken = false;
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
         endGame = false;
+
 		if (instance == null)
 		{
 			instance = this;

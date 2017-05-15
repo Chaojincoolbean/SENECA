@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour
 
 	void OnMouseDown()
 	{
-		if (transform.name == "Priya" && !myAudioSource.isPlaying && GameManager.instance.tutorialIsDone) 
+		if (transform.name == "Priya"&& GameManager.instance.tutorialIsDone) 
 		{
             //  done
             clip = Resources.Load("Audio/VO/Priya/SCENE_1/VO_EVENT/Priya_Hurry") as AudioClip;
@@ -41,7 +41,7 @@ public class Interactable : MonoBehaviour
         else if (tag == "Racks")
         {
             //  done
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Racks") as AudioClip;
+            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rack") as AudioClip;
         }
         else if (tag == "Fence")
         {
@@ -53,13 +53,15 @@ public class Interactable : MonoBehaviour
             // done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Carving") as AudioClip;
         }
-        else if (tag == "Backpack")
+        else if (tag == "Backpack" && GameManager.instance.tutorialIsDone)
         {
             //  done
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Backpack") as AudioClip;
         }
 
-        myAudioSource.PlayOneShot(clip);
+ 
+            myAudioSource.PlayOneShot(clip);
+
     }
 	
 }

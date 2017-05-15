@@ -22,7 +22,7 @@ public class CampsiteExitVO : MonoBehaviour
         // fix this
         if(collision.tag == "Player" && GameManager.instance.hasPriyaSpoken && !hasPlayedOnce)
         {
-            Debug.Log("Locking movement");
+            GameManager.instance.playerAnimationLock = true;
             Services.Events.Fire(new AstridTalksToHARTOEvent(true));
             
             audioSource.PlayOneShot(clip);
