@@ -56,7 +56,8 @@ public class RadialMenu : MonoBehaviour
 		{
 			_anim.SetBool("Inactive", true);
 		}
-		activeSFXPlayedOnce = false;
+        audioSource.volume = 0.3f;
+        activeSFXPlayedOnce = false;
 		notActive = true;
 	}
 
@@ -174,7 +175,7 @@ public class RadialMenu : MonoBehaviour
 						clip = Resources.Load("Audio/SFX/HARTO_SFX/LV-HTIS Beeps Simple 03") as AudioClip;
 						if(!audioSource.isPlaying)
 						{
-							audioSource.PlayOneShot(clip, 0.5f);
+							audioSource.PlayOneShot(clip);
 						}
 						_anim.SetBool("Confirm", true);
 						DetermineEvent(iconList[i]);
@@ -298,7 +299,7 @@ public class RadialMenu : MonoBehaviour
 
 				if(!audioSource.isPlaying)
 				{
-					audioSource.PlayOneShot(clip, 0.5f);
+					audioSource.PlayOneShot(clip, 0.3f);
 				}
 			}
 

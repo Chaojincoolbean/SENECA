@@ -96,12 +96,12 @@ public class BGM_Singleton : MonoBehaviour
 
 		if (GameManager.instance.inConversation)
 		{
-			volume = 0.25f;
+			volume = 0.2f;
 			
 		}
 		else if(!GameManager.instance.endGame)
 		{
-			volume = 0.5f;
+			volume = 0.3f;
 		}
 		audioSource.volume = volume;
 

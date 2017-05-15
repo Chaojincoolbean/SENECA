@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour
 
 	void OnMouseDown()
 	{
-		if (transform.name == "Priya" && !myAudioSource.isPlaying) 
+		if (transform.name == "Priya" && !myAudioSource.isPlaying && GameManager.instance.tutorialIsDone) 
 		{
             //  done
             clip = Resources.Load("Audio/VO/Priya/SCENE_1/VO_EVENT/Priya_Hurry") as AudioClip;

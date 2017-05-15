@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 	private const string HARTO_TAG = "HARTO";
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
 	public bool isTestScene;
+    public bool tutorialIsDone;
 	public bool inUtan;
 	public bool hasPriyaSpoken;
 	public bool begin;
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
 	{
 		
 		startedGame = false;
+        tutorialIsDone = false;
 		inConversation = false;
 		hasPriyaSpoken = false;
 		completedOneTopic = false;

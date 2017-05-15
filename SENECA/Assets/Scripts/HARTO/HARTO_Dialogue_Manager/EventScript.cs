@@ -162,7 +162,8 @@ public class EventScript : MonoBehaviour
 
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
-                if (!GameManager.instance.inUtan)
+                Debug.Log(scene);
+                if (scene == "SCENE_1")
                 {
                     GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
                     GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
@@ -193,7 +194,7 @@ public class EventScript : MonoBehaviour
                 
 				if (response.characterName == "Astrid")
 				{
-                    if (!GameManager.instance.inUtan)
+                    if (scene == "SCENE_1")
                     {
                         GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
                         GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
@@ -284,6 +285,7 @@ public class EventScript : MonoBehaviour
 			Services.Events.Fire(new EndDialogueEvent(topicName));
 			if (topicName == "Exit")
 			{
+                GameManager.instance.tutorialIsDone = true;
 				HARTO_UI_Interface.HARTOSystem.WaitForExitScript();
 				Services.Events.Fire(new ToggleHARTOEvent());
 			}

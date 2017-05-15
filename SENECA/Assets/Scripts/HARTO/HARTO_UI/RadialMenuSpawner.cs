@@ -36,6 +36,7 @@ public class RadialMenuSpawner : MonoBehaviour
 
 		spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
 		audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
 	}
 
 	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)

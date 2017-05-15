@@ -25,11 +25,15 @@ public class RecordingManager : MonoBehaviour
 	void OnRecordingSelected(GameEvent e)
 	{
 		string recording = ((RecordingSelectedEvent)e).recording.Replace("Recording_", "");
-		audioSource.PlayOneShot(LoadHARTORecording(recording), volume);
+        if (!audioSource.isPlaying)
+        { 
+            audioSource.PlayOneShot(LoadHARTORecording(recording), volume);
+        }
 		StartCoroutine(RecordingIsPlaying(LoadHARTORecording(recording).length));
 	}
+        
 
-	IEnumerator RecordingIsPlaying(float recordingLength)
+    IEnumerator RecordingIsPlaying(float recordingLength)
 	{
 		yield return new WaitForSeconds(recordingLength);
 		Services.Events.Fire(new RecordingIsOverEvent());
