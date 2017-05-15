@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 	public KeyCode rightKey = KeyCode.D;
 	
 	public float moveSpeed;
-	public Animator animator;
+	public Animator _animator;
 
 	private const float MAX_SCALE = 0.7f;
 	private const float MIN_SCALE = 0.2f;
@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D _rigidBody2D;
     private SpriteRenderer _renderer;
+    private AstridTalksToHARTOEvent.Handler onAstridTalksToHARTO;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
     private BeginTutorialEvent.Handler onBeginTutorial;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
@@ -42,19 +43,27 @@ public class Player : MonoBehaviour
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
         _renderer = GetComponent<SpriteRenderer>();
-		animator = GetComponent<Animator>();
+		_animator = GetComponent<Animator>();
 		_audioSource = GetComponent<AudioSource>();
 
+        onAstridTalksToHARTO = new AstridTalksToHARTOEvent.Handler(OnAstridTalksToHARTO);
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
         onBeginTutorial = new BeginTutorialEvent.Handler(OnBeginTutorial);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
+        Services.Events.Register<AstridTalksToHARTOEvent>(onAstridTalksToHARTO);
 		Services.Events.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
         Services.Events.Register<BeginTutorialEvent>(onBeginTutorial);
 		Services.Events.Register<ToggleHARTOEvent>(onToggleHARTO);
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
+
+    void OnAstridTalksToHARTO(GameEvent e)
+    {
+        _animator.SetBool("HARTOActive", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
+        _animator.SetBool("IsTalking", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
+    }
 
 	void OnToggleDisableMovement(GameEvent e)
 	{
@@ -63,7 +72,7 @@ public class Player : MonoBehaviour
 
 	void OnToggleHARTO(GameEvent e)
 	{
-		//_animator.SetBool("HARTOActive", !HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+		_animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 	}
 
 	void OnClosingHARTOForTheFirstTime(GameEvent e)
@@ -88,8 +97,8 @@ public class Player : MonoBehaviour
 	{
 		//	Adds force to rigidbody based on the input
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
-		animator.SetFloat("SpeedX", Mathf.Abs(dx));
-		animator.SetFloat("SpeedY", dy);
+		_animator.SetFloat("SpeedX", Mathf.Abs(dx));
+		_animator.SetFloat("SpeedY", dy);
 
 	}
 
@@ -120,7 +129,8 @@ public class Player : MonoBehaviour
 
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
-		animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+        Debug.Log(HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+		_animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 		if(!diableMovement)
 		{
 			Move(x, y);

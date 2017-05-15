@@ -51,8 +51,6 @@ public class Exit : MonoBehaviour
 	{
 		if (coll.gameObject.tag == "Player" && GameManager.instance.hasPriyaSpoken) 
 		{
-			Debug.Log ("newScene:" + transform.name);
-
 			TransferScene (coll.transform, transform.name);
 			canTransferScene = false;
 		}
