@@ -46,6 +46,7 @@ public class BackToSeneca : MonoBehaviour
 		{
             fireOnce = true;
             //	Play Ruth Audio and flash the screen.
+            Services.Events.Fire(new DisablePlayerMovementEvent(true));
             Services.Events.Fire(new EndGameEvent());
 			
 		}
