@@ -8,6 +8,7 @@ using SenecaEvents;
 public class BackToSeneca : MonoBehaviour 
 {
     public bool fireOnce;
+    public float volume;
 	public Animator anim;
 	public AudioClip clip;
 	public AudioSource audioSource;
@@ -15,6 +16,7 @@ public class BackToSeneca : MonoBehaviour
 	public BoxCollider2D triggerArea;
 	private bool beganTalking;
 	private BoxCollider2D[] colliders;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -23,8 +25,9 @@ public class BackToSeneca : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
 		colliders = GetComponents<BoxCollider2D>();
+        volume = BGM_Singleton.instance.audioSource.volume;
 
-		for(int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < colliders.Length; i++)
 		{
 			if(colliders[i].isTrigger)
 			{
@@ -42,18 +45,21 @@ public class BackToSeneca : MonoBehaviour
 		if (collider.tag == "Player" && !fireOnce)
 		{
             fireOnce = true;
-            Debug.Log("Hit");
             //	Play Ruth Audio and flash the screen.
             Services.Events.Fire(new EndGameEvent());
 			
 		}
 	}
 
+
 	public void RollCredits()
 	{
-        //Services.Events.Fire(new SceneChangeEvent("Credits"));
-        Services.Scenes.PopScene();
-        Services.Scenes.PushScene<CreditSceneScript>(TransitionData.Instance);
+        Services.Events.Fire(new SceneChangeEvent("Credits"));
+       // Services.Scenes.PopScene();
+        //Services.Scenes.PushScene<CreditSceneScript>(TransitionData.Instance);
+        BGM_Singleton.instance.clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
+        BGM_Singleton.instance.audioSource.Stop();
+        BGM_Singleton.instance.audioSource.volume = 0.3f;
         Services.Scenes.Swap<CreditSceneScript>(TransitionData.Instance);
     }
 	
@@ -62,8 +68,15 @@ public class BackToSeneca : MonoBehaviour
 	{
 		if (GameManager.instance.endGame)
 		{
+            volume -= 0.08f;
+            BGM_Singleton.instance.audioSource.volume = volume;
+            Debug.Log(BGM_Singleton.instance.audioSource.volume);
+            if(BGM_Singleton.instance.audioSource.volume < 0)
+            {
+                BGM_Singleton.instance.audioSource.volume = 0;
+            }
             // put this in an event. probably EndGameEvent
-			anim.SetBool("Flash", true);
+            anim.SetBool("Flash", true);
 		}
 
         if(Input.GetKeyDown(KeyCode.C))

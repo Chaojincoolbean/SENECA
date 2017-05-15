@@ -92,10 +92,6 @@ public class BGM_Singleton : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-        if(sceneName != GameManager.instance.sceneName)
-        {
-
-        }
 		sceneName = GameManager.instance.sceneName;
 
 		if (GameManager.instance.inConversation)
@@ -103,7 +99,7 @@ public class BGM_Singleton : MonoBehaviour
 			volume = 0.25f;
 			
 		}
-		else
+		else if(!GameManager.instance.endGame)
 		{
 			volume = 0.5f;
 		}
