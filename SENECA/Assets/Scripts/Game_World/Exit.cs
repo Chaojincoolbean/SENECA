@@ -43,7 +43,7 @@ public class Exit : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-
+        Debug.Log("Can transfer scenes: " + canTransferScene);
 	}
 
 	// Do not go to nuext scene until EndConvo topic has been played
