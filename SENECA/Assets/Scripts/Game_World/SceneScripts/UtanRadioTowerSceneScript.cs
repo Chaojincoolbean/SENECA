@@ -46,6 +46,7 @@ public class UtanRadioTowerSceneScript : Scene<TransitionData>
 
     internal override void OnExit()
 	{
+		FindPlayer(); 
 		TransitionData.Instance.UTAN_RADIO_TOWER.position = player.transform.position;
 		TransitionData.Instance.UTAN_RADIO_TOWER.scale = player.transform.localScale;
 		TransitionData.Instance.UTAN_RADIO_TOWER.visitedScene = true;

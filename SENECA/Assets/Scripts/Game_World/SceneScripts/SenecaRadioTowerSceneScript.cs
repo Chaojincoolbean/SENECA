@@ -17,11 +17,12 @@ public class SenecaRadioTowerSceneScript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
     {
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 1.31f;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = 0f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 22.37f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = 0f;
-        if(!TransitionData.Instance.SENECA_RADIO_TOWER.visitedScene)
+        
+		if(!TransitionData.Instance.SENECA_RADIO_TOWER.visitedScene)
         {
             GameObject.Find("witchlightRadio").GetComponent<Animator>().SetBool("ChaseMe", true);
             audioSource = GetComponent<AudioSource>();
@@ -72,6 +73,8 @@ public class SenecaRadioTowerSceneScript : Scene<TransitionData>
 
     internal override void OnExit()
     {
+
+		FindPlayer(); 
         TransitionData.Instance.SENECA_RADIO_TOWER.position = player.transform.position;
         TransitionData.Instance.SENECA_RADIO_TOWER.scale = player.transform.localScale;
         TransitionData.Instance.SENECA_RADIO_TOWER.visitedScene = true;
