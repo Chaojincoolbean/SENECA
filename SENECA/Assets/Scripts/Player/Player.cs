@@ -129,11 +129,11 @@ public class Player : MonoBehaviour
 	void FixedUpdate () 
 	{
 
-        if(Input.GetKeyDown(leftKey) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKey(leftKey) || Input.GetKey(KeyCode.LeftArrow))
         {
             _renderer.flipX = false;
         }
-        else if(Input.GetKeyDown(rightKey) || Input.GetKeyDown(KeyCode.RightArrow))
+        else if(Input.GetKey(rightKey) || Input.GetKey(KeyCode.RightArrow))
         {
             _renderer.flipX = true;
         }
