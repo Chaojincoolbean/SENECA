@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class RadialMenuSpawner : MonoBehaviour 
 {
-
+    
 	public bool closing;
 	public AudioClip clip;
 	public AudioSource audioSource;
@@ -34,7 +34,7 @@ public class RadialMenuSpawner : MonoBehaviour
 
     public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
-
+        
         spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.3f;

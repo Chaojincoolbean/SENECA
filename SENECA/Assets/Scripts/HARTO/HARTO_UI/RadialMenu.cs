@@ -10,6 +10,7 @@ using SenecaEvents;
 
 public class RadialMenu : MonoBehaviour 
 {
+    public bool iconSelected;
 	public bool activeSFXPlayedOnce;
 	public bool notActive;
 	public bool clipHasBeenPlayed;
@@ -46,7 +47,7 @@ public class RadialMenu : MonoBehaviour
 	public void Init(Player player, RadialMenuSpawner thisMenu)
 	{
         menuSpawner = thisMenu;
-
+        iconSelected = false;
         _anim = GetComponent<Animator>();
 		canSelect = true;
 		_player = player;
@@ -170,7 +171,7 @@ public class RadialMenu : MonoBehaviour
 							audioSource.PlayOneShot(clip);
 						}
 						_anim.SetBool("Confirm", true);
-						DetermineEvent(iconList[i]);
+                        iconSelected = true;
 						
 					}
 					else
@@ -181,8 +182,13 @@ public class RadialMenu : MonoBehaviour
 							audioSource.PlayOneShot(clip);
 						}
 					}
-				}			
-			}
+				}
+
+                if (iconSelected && !audioSource.isPlaying)
+                {
+                    DetermineEvent(iconList[i]);
+                }
+            }
 		}
 	}
 

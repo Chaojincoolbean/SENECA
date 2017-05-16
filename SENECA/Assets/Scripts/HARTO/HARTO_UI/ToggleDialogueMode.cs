@@ -14,8 +14,10 @@ public class ToggleDialogueMode : MonoBehaviour
 	public Vector3 dialogueRotation;
 	public RectTransform recordingPosition;
 	public Vector3 recordingRotation;
+    public Texture2D hoverCursor;
+    public CursorMode cursorMode = CursorMode.Auto;
 
-	private BeginDialogueEvent.Handler onBeginDialogueEvent;
+    private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onEndDialogueEvent;
 	// Use this for initialization
 	void Start () 
@@ -42,6 +44,8 @@ public class ToggleDialogueMode : MonoBehaviour
 		Services.Events.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
 		Services.Events.Unregister<EndDialogueEvent>(onEndDialogueEvent);
 	}
+
+
 
 	void OnBeginDialogueEvent(GameEvent e)
 	{
@@ -96,8 +100,23 @@ public class ToggleDialogueMode : MonoBehaviour
 			GetComponent<RectTransform>().rotation = Quaternion.Euler(recordingPosition.rotation.x, recordingPosition.rotation.y, recordingPosition.rotation.z - 20.0f);
 		}
 	}
-	
-	void TaskOnClick()
+
+
+    public void OnMouseEnter()
+    {
+        if (thisButton.interactable)
+        {
+            hoverCursor = Resources.Load("Sprites/UI_Images/handcursor") as Texture2D;
+            Cursor.SetCursor(hoverCursor, Vector2.zero, cursorMode);
+        }
+    }
+
+    public void OnMouseExit()
+    {
+        Cursor.SetCursor(null, Vector2.zero, cursorMode);
+    }
+
+    void TaskOnClick()
 	{
 
 		ui.ToggleDialogueMode();
