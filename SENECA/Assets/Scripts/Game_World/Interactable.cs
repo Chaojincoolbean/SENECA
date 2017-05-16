@@ -6,8 +6,9 @@ using UnityEngine;
 public class Interactable : MonoBehaviour 
 {
 	public Collider2D myCollider;
-
-	public AudioSource myAudioSource;
+    public Texture2D hoverCursor;
+    public CursorMode cursorMode = CursorMode.Auto;
+    public AudioSource myAudioSource;
 	public AudioClip clip;
 	// Use this for initialization
 	void Start () {
@@ -16,7 +17,18 @@ public class Interactable : MonoBehaviour
 		
 	}
 
-	void OnMouseDown()
+    void OnMouseEnter()
+    {
+        hoverCursor = Resources.Load("Sprites/HARTO_Images/Icons_Emotions/Confused") as Texture2D;
+        Cursor.SetCursor(hoverCursor, Vector2.zero, cursorMode);
+    }
+
+    void OnMouseExit()
+    {
+        Cursor.SetCursor(null, Vector2.zero, cursorMode);
+    }
+
+    void OnMouseDown()
 	{
 		if (transform.name == "Priya"&& GameManager.instance.tutorialIsDone) 
 		{
