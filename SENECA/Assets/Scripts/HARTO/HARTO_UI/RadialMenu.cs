@@ -19,8 +19,10 @@ public class RadialMenu : MonoBehaviour
 	public RadialIcon radialIconPrefab;
 	public RadialEmotionIcon radialEmotionIconPrefab;
 	public RadialIcon selected;
+    public RadialMenuSpawner menuSpawner;
 
-	public Image selectionArea;
+
+    public Image selectionArea;
 	public Image screenHARTO;		
 	public Sprite defaultDisplay;
 	public Sprite emptyAreaSprite;
@@ -41,9 +43,11 @@ public class RadialMenu : MonoBehaviour
 	public Color inactiveColor = new Color (0.39f, 0.39f, 0.39f, 1.0f);
 	public Animator _anim;
 
-	public void Init(Player player)
+	public void Init(Player player, RadialMenuSpawner thisMenu)
 	{
-		_anim = GetComponent<Animator>();
+        menuSpawner = thisMenu;
+
+        _anim = GetComponent<Animator>();
 		canSelect = true;
 		_player = player;
 		displayAreaPrefab = GetComponentInChildren<DisplayArea>();
@@ -57,12 +61,6 @@ public class RadialMenu : MonoBehaviour
         audioSource.volume = 0.3f;
         activeSFXPlayedOnce = false;
 		notActive = true;
-	}
-
-	void OnWaitingForEmotionalInput(GameEvent e)
-	{
-		//	screenHARTO.color = new Color that is different!
-		//	screenHARTO.color = Color.white;
 	}
 
 	public void SpawnIcons (HARTO_UI_Interface obj, bool topicSelected) 
@@ -145,16 +143,13 @@ public class RadialMenu : MonoBehaviour
 		for (int i = 0; i < iconList.Count; i++)
 		{	
 			if(Vector3.Distance(iconList[i].icon.rectTransform.localPosition, selectionArea.rectTransform.localPosition) < 115.3f)
-			{
-				//Debug.Log("Name: " + iconList[i].title + " " + Vector3.Distance(iconList[i].icon.rectTransform.localPosition, selectionArea.rectTransform.localPosition));
-
-				
+			{	
 				if (displayAreaPrefab.displayIcon.sprite != iconList[i].icon.sprite)
 				{
 					clipHasBeenPlayed = false;
 				}
 
-				clip = Resources.Load("Audio/SFX/HARTO_SFX/SWEEPS_0015") as AudioClip;
+				clip = Resources.Load("Audio/SFX/HARTO_Icon_Passes_Into_Circle") as AudioClip;
 
 				if(!audioSource.isPlaying && !clipHasBeenPlayed)
 				{
@@ -162,7 +157,6 @@ public class RadialMenu : MonoBehaviour
 					audioSource.PlayOneShot(clip);
 					clipHasBeenPlayed = true;
 				}
-		
 
 				displayAreaPrefab.displayIcon.sprite = iconList[i].icon.sprite;
 
@@ -170,7 +164,7 @@ public class RadialMenu : MonoBehaviour
 				{
 					if(!iconList[i].alreadySelected)
 					{
-						clip = Resources.Load("Audio/SFX/HARTO_SFX/LV-HTIS Beeps Simple 03") as AudioClip;
+						clip = Resources.Load("Audio/SFX/HARTO_Select") as AudioClip;
 						if(!audioSource.isPlaying)
 						{
 							audioSource.PlayOneShot(clip);
@@ -181,18 +175,13 @@ public class RadialMenu : MonoBehaviour
 					}
 					else
 					{
-						clip = Resources.Load("Audio/SFX/HARTO_SFX/Tune AM Radio 04") as AudioClip;
+						clip = Resources.Load("Audio/SFX/HARTO_Negative_Feedback") as AudioClip;
 						if(!audioSource.isPlaying)
 						{
 							audioSource.PlayOneShot(clip);
 						}
 					}
-				}
-						
-			}
-			else
-			{
-				//displayAreaPrefab.displayIcon.sprite = defaultDisplay;
+				}			
 			}
 		}
 	}
@@ -215,8 +204,6 @@ public class RadialMenu : MonoBehaviour
 		{
 			Services.Events.Fire(new RecordingSelectedEvent(icon.title));
 		}
-
-		
 	}
 	
 	// Update is called once per frame
@@ -231,23 +218,22 @@ public class RadialMenu : MonoBehaviour
 			}
 			if(notActive)
 			{
-				clip = Resources.Load("Audio/SFX/HARTO_SFX/HARTOInactive") as AudioClip;
+				clip = Resources.Load("Audio/SFX/HARTO_Inactive") as AudioClip;
 				if(!audioSource.isPlaying)
 				{
-					//audioSource.PlayOneShot(clip);
+					audioSource.PlayOneShot(clip);
 				}
 				_anim.SetBool("Inactive", true);
 			}
 			else
 			{
-				clip = Resources.Load("Audio/SFX/HARTO_SFX/HARTOActive") as AudioClip;
+				clip = Resources.Load("Audio/SFX/HARTO_Active") as AudioClip;
 				if(!audioSource.isPlaying)
 				{
 					audioSource.PlayOneShot(clip);
 				}
 				_anim.SetBool("Inactive", false);
-			}
-			
+			}	
 		}
 
 		if (screenHARTO == null)
@@ -259,11 +245,8 @@ public class RadialMenu : MonoBehaviour
 		{
 			selectionArea = GameObject.Find("SelectionArea").GetComponent<Image>();
 		}
-		
 
-		
-
-		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !RadialMenuSpawner.instance.closing)
+		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !menuSpawner.closing)
 		{
 			_anim.SetBool("Inactive", false);
 		}
@@ -275,7 +258,7 @@ public class RadialMenu : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)
 		{
-			clip = Resources.Load("Audio/SFX/HARTO_SFX/BB_DRL__003") as AudioClip;
+			clip = Resources.Load("Audio/SFX/HARTO_Negative_Feedback") as AudioClip;
 			if(!audioSource.isPlaying)
 			{
 				audioSource.PlayOneShot(clip);
@@ -293,11 +276,11 @@ public class RadialMenu : MonoBehaviour
 
 			if(rotateSelectionWheel != rotate)
 			{
-				clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 03") as AudioClip;
+				clip = Resources.Load("Audio/SFX/HARTO_Scroll") as AudioClip;
 
 				if(!audioSource.isPlaying)
 				{
-					audioSource.PlayOneShot(clip, 0.3f);
+					audioSource.PlayOneShot(clip, Mathf.Abs(Input.GetAxis(SCROLLWHEEL)));
 				}
 			}
 

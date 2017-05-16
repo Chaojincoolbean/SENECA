@@ -13,7 +13,6 @@ public class RadialMenuSpawner : MonoBehaviour
 	public bool closing;
 	public AudioClip clip;
 	public AudioSource audioSource;
-	public static RadialMenuSpawner instance;
 
 	public GameObject uiMouse;
 	public RadialMenu menuPrefab;
@@ -23,25 +22,24 @@ public class RadialMenuSpawner : MonoBehaviour
 	public EasingProperties easing;
 	private static bool firstPass = true;
 	private RectTransform spawnPosition;
-	
 
-	void Awake()
-	{
-		if (instance == null)
-		{
-			instance = this;
-		}
+    private void Start()
+    {
+        easing = ScriptableObject.CreateInstance("EasingProperties") as EasingProperties;
 
-		easing = ScriptableObject.CreateInstance("EasingProperties") as EasingProperties;
-
-		spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
-		audioSource = GetComponent<AudioSource>();
+        spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
+        audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.3f;
-	}
+    }
 
-	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
+    public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
-		if (audioSource != null) {
+
+        spawnPosition = GameObject.Find("HARTO_UI_Location").GetComponent<RectTransform>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
+
+        if (audioSource != null) {
 			audioSource.Stop ();
 		}
 		clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
@@ -57,7 +55,7 @@ public class RadialMenuSpawner : MonoBehaviour
 		newMenu.transform.position = new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z);
 		newMenu.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0);
 		//StartCoroutine(Animate(true));
-		newMenu.Init(player);
+		newMenu.Init(player, this);
 		newMenu.SpawnIcons(obj, topicSelected);
 		
 		if(firstPass)

@@ -28,7 +28,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public bool topicSelected;
 	public bool dialogueModeActive;
 	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
-	private const string PLAYER_TAG = "Player";
+    public float nextTimeToSearch2 = 0;              //	How long unitl the camera searches for the target again
+    private const string PLAYER_TAG = "Player";
 	public KeyCode toggleHARTO = KeyCode.Tab;
 	public AudioClip clip;
 	public AudioSource audioSource;
@@ -47,6 +48,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public Action[] recordings_Ruth;
 	public Action[] recordings_ABC;
 	public Action[] recordings_Note;
+
+    public RadialMenuSpawner menuSpawner;
 
 
 	//	If closing HARTO for the first time, wait until Exit dialouge event finishes.
@@ -111,13 +114,13 @@ public class HARTO_UI_Interface : MonoBehaviour
 
     void ReloadMenu(Action[] newOptions)
 	{
-		RadialMenuSpawner.instance.DestroyMenu();
+		menuSpawner.DestroyMenu();
 		options = newOptions;
 		if(player.npcAstridIsTalkingTo == null)
 		{
 				newOptions = empty;
 		}
-		RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+        menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 	}
 
 	public void ToggleDialogueMode()
@@ -161,7 +164,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 	void OnRecordingFolderSelected(GameEvent e)
 	{
-		RadialMenuSpawner.instance.DestroyMenu();
+        menuSpawner.DestroyMenu();
 		if(((RecordingFolderSelectedEvent)e).folder.Contains("Dad"))
 		{
 			ReloadMenu(recordings_Dad);
@@ -239,7 +242,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		if(((EndDialogueEvent)e).topicName.Contains("Exit") && !closedTutorialUsingRecordingSwitch)
 		{
 			isHARTOActive = false;
-			RadialMenuSpawner.instance.DestroyMenu();
+            menuSpawner.DestroyMenu();
 			Services.Events.Fire(new DisablePlayerMovementEvent(false));
 			inConversation = false;
 			GameManager.instance.inConversation = inConversation;
@@ -270,7 +273,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public IEnumerator WaitForExitScript()
 	{
 		yield return new WaitForSeconds(14.0f);
-		RadialMenuSpawner.instance.DestroyMenu();
+        menuSpawner.DestroyMenu();
         Services.Events.Fire(new DisablePlayerMovementEvent(false));
     }
 
@@ -287,8 +290,21 @@ public class HARTO_UI_Interface : MonoBehaviour
 		}
 	}
 
-	// Update is called once per frame
-	void Update () 
+    void FindRadialMenuSpawner()
+    {
+        if (nextTimeToSearch <= Time.time)
+        {
+            GameObject result = GameObject.Find("HARTOCanvas");
+            if (result != null)
+            {
+                menuSpawner = result.GetComponent<RadialMenuSpawner>();
+            }
+            nextTimeToSearch2 = Time.time + 2.0f;
+        }
+    }
+
+    // Update is called once per frame
+    void Update () 
 	{
 
 		if (player == null)
@@ -296,6 +312,12 @@ public class HARTO_UI_Interface : MonoBehaviour
 			FindPlayer ();
 			return;
 		}
+
+        if(menuSpawner == null)
+        {
+            FindRadialMenuSpawner();
+            return;
+        }
 
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene))
 		{
@@ -315,7 +337,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 					{
 						topics = empty;
 					}
-					RadialMenuSpawner.instance.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+                    menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected);
 					Services.Events.Fire(new DisablePlayerMovementEvent(true));
 					isHARTOOn = true;
 				}
@@ -332,7 +354,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 					{
 						recordingFolderSelected = false;
 						isHARTOOn = false;
-						RadialMenuSpawner.instance.DestroyMenu();
+                        menuSpawner.DestroyMenu();
                         Services.Events.Fire(new DisablePlayerMovementEvent(false));
                     }
 

@@ -24,18 +24,14 @@ public class TitleMenu_HARTO : MonoBehaviour
 
 	public List<RadialIcon> iconList;
 	private float rotateSelectionWheel;
-	private const string SCROLLWHEEL = "Mouse ScrollWheel";
+    private const string SCROLLWHEEL = "Mouse ScrollWheel";
 	private const string HARTO_SCREEN = "HARTO_Screen";
 	public Animator _anim;
 
 	public void Start()
 	{
-
-
-		//radialIconPrefab = Resources.Load ("Prefabs/HARTO/UI/RadialIcon") as RadialIcon;
 		_anim = GetComponent<Animator>();
 		canSelect = true;
-		//emptyAreaSprite = selectionArea.sprite;
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
@@ -78,28 +74,34 @@ public class TitleMenu_HARTO : MonoBehaviour
 		
 		for (int i = 0; i < iconList.Count; i++)
 		{	
-			
-			if (Vector3.Distance (iconList [i].icon.rectTransform.localPosition, selectionArea.rectTransform.localPosition) < 4.0f) {
-				
-				_anim.SetBool ("IconInRange", true);
-				clip = Resources.Load ("Audio/SFX/HARTO_SFX/SWEEPS_0015") as AudioClip;
-
-				if (!audioSource.isPlaying && !clipHasBeenPlayed) {
-					//audioSource.PlayOneShot(clip);
+			if (Vector3.Distance (iconList [i].icon.rectTransform.localPosition, selectionArea.rectTransform.localPosition) < 4.0f)
+            {
+                _anim.SetBool ("IconInRange", true);
+				clip = Resources.Load ("Audio/SFX/HARTO_Icon_Passes_Into_Circle") as AudioClip;
+               
+                if (!audioSource.isPlaying && clipHasBeenPlayed)
+                {
+                    //audioSource.PlayOneShot(clip);
 					clipHasBeenPlayed = true;
 				}
 
-				if (Input.GetKeyDown (KeyCode.Mouse0)) {
-					if (!iconList [i].alreadySelected) {
-						clip = Resources.Load ("Audio/SFX/HARTO_SFX/LV-HTIS Beeps Simple 03") as AudioClip;
-						if (!audioSource.isPlaying) {
+                if (Input.GetKeyDown (KeyCode.Mouse0))
+                {
+					if (!iconList [i].alreadySelected)
+                    {
+						clip = Resources.Load ("Audio/SFX/HARTO_Select") as AudioClip;
+						if (!audioSource.isPlaying)
+                        {
 							audioSource.PlayOneShot (clip, 0.5f);
 						}
 						StartGame (iconList [i]);
 						
-					} else {
-						clip = Resources.Load ("Audio/SFX/HARTO_SFX/Tune AM Radio 04") as AudioClip;
-						if (!audioSource.isPlaying) {
+					}
+                    else
+                    {
+						clip = Resources.Load ("Audio/SFX/HARTO_Negative_Feedback") as AudioClip;
+						if (!audioSource.isPlaying)
+                        {
 							audioSource.PlayOneShot (clip);
 						}
 					}
@@ -108,9 +110,9 @@ public class TitleMenu_HARTO : MonoBehaviour
 			else 
 			{
 				_anim.SetBool ("IconInRange", false);
-			}
+            }
 		}
-	}
+    }
 
 	void StartGame(RadialIcon icon)
 	{
@@ -155,7 +157,7 @@ public class TitleMenu_HARTO : MonoBehaviour
 		float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
 		if(rotateSelectionWheel != rotate)
 		{
-			clip = Resources.Load("Audio/SFX/HARTO_SFX/RotaryTelephone Dial 03") as AudioClip;
+			clip = Resources.Load("Audio/SFX/HARTO_Scroll") as AudioClip;
 
 			if(!audioSource.isPlaying)
 			{
