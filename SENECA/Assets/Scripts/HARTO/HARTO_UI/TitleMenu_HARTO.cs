@@ -9,8 +9,9 @@ using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
-public class TitleMenu_HARTO : MonoBehaviour 
-{
+public class TitleMenu_HARTO : MonoBehaviour
+{ 
+    public bool iconSelected;
 	public bool clipHasBeenPlayed;
 	public bool canSelect;
 	public float rotationSpeed = 5.0f;
@@ -30,6 +31,11 @@ public class TitleMenu_HARTO : MonoBehaviour
 
 	public void Start()
 	{
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            rotationSpeed = 70.0f;
+        }
+        iconSelected = false;
 		_anim = GetComponent<Animator>();
 		canSelect = true;
 		clipHasBeenPlayed = false;
@@ -94,8 +100,9 @@ public class TitleMenu_HARTO : MonoBehaviour
                         {
 							audioSource.PlayOneShot (clip, 0.5f);
 						}
-						StartGame (iconList [i]);
+                        iconSelected = true;
 						
+
 					}
                     else
                     {
@@ -105,7 +112,12 @@ public class TitleMenu_HARTO : MonoBehaviour
 							audioSource.PlayOneShot (clip);
 						}
 					}
-				}						
+				}
+                
+                if (iconSelected && !audioSource.isPlaying)
+                {
+                    StartGame(iconList[i]);
+                }
 			} 
 			else 
 			{
