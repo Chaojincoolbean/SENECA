@@ -21,6 +21,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		public string title;
 	}
 
+    public bool clipHasBeenPlayed;
     public bool canDisableHARTO;
     public bool allRuthRecordingsPlayed;
 	public bool isHARTOOn;
@@ -72,7 +73,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 			HARTOSystem = this;
 		}
 
-		closingHARTOForFirstTime = true;
+        clipHasBeenPlayed = false;
+        closingHARTOForFirstTime = true;
         allRuthRecordingsPlayed = false;
 		isHARTOActive = false;
 		dialogueModeActive = true;
@@ -388,7 +390,18 @@ public class HARTO_UI_Interface : MonoBehaviour
 						topics = empty;
 					}
                     menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected);
-					Services.Events.Fire(new DisablePlayerMovementEvent(true));
+                    clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
+
+                    if (!audioSource.isPlaying && !clipHasBeenPlayed)
+                    {
+                        //audioSource.PlayOneShot(clip);
+                    }
+                    Services.Events.Fire(new DisablePlayerMovementEvent(true));
+                    if(!audioSource.isPlaying)
+                    {
+                        clipHasBeenPlayed = true;
+                        audioSource.PlayOneShot(clip);
+                    }
 					isHARTOOn = true;
 				}
 				else
