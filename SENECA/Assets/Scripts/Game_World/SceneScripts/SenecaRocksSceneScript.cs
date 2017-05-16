@@ -12,13 +12,12 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RocksWitchLight") as AudioClip;
 
     }
 
     internal override void OnEnter(TransitionData data)
     {
-        player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.41f;
@@ -26,7 +25,16 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
 
         if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
         {
-            audioSource.PlayOneShot(clip);
+            if (clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+            else
+            {
+                audioSource = GetComponent<AudioSource>();
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RocksWitchLight") as AudioClip;
+                audioSource.PlayOneShot(clip);
+            }
         }
 
     }

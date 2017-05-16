@@ -266,7 +266,8 @@ public class DrawLine : MonoBehaviour
 								usedNodes.Add (hit.collider.transform.gameObject);
 								//finish drawing the previous line
 								lineRenderer.SetPosition (1, usedNodes [usedNodes.Count - 1].transform.position);
-								DrawNewLine ();
+                                lineRenderer.transform.parent = transform;
+                                DrawNewLine ();
 								particleSystem.GetComponent<ParticleSystem>().Play();
 								particleSystem.transform.position = hit.collider.transform.position;
 							} 
@@ -379,6 +380,7 @@ public class DrawLine : MonoBehaviour
 
 		//	Have lineRenderer reference the LineRenderer component on the new line
 		lineRenderer = newLine.GetComponent<LineRenderer> ();
+        lineRenderer.transform.parent = transform;
 
 		//	Sets the starting and end width of the line
 		lineRenderer.startWidth = 0.06f;

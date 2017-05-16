@@ -36,7 +36,14 @@ public class Mom : MonoBehaviour
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
-	void OnClosingHARTOForTheFirstTime(GameEvent e)
+    private void OnDestroy()
+    {
+        Services.Events.Unregister<MoveMomEvent>(onMoveMomEvent);
+        Services.Events.Unregister<ToggleHARTOEvent>(onToggleHARTO);
+        Services.Events.Unregister<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+    }
+
+    void OnClosingHARTOForTheFirstTime(GameEvent e)
 	{
 		Collider2D[] colliders = GetComponents<Collider2D>();
 		for(int i = 0;i < colliders.Length; i++)

@@ -100,7 +100,16 @@ public class HARTO_UI_Interface : MonoBehaviour
 		
 	}
 
-	void ReloadMenu(Action[] newOptions)
+    private void OnDestroy()
+    {
+        Services.Events.Unregister<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
+        Services.Events.Unregister<TopicSelectedEvent>(onTopicSelecetd);
+        Services.Events.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
+        Services.Events.Unregister<EndDialogueEvent>(onDialogueEnded);
+        Services.Events.Unregister<RecordingIsOverEvent>(onRecordingEnded);
+    }
+
+    void ReloadMenu(Action[] newOptions)
 	{
 		RadialMenuSpawner.instance.DestroyMenu();
 		options = newOptions;

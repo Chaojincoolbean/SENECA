@@ -162,7 +162,6 @@ public class EventScript : MonoBehaviour
 
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
-                Debug.Log(scene);
                 if (scene == "SCENE_1" && !GameManager.instance.playerAnimationLock)
                 {
                     GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
@@ -273,7 +272,6 @@ public class EventScript : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Debug.Log ("Could not find " + "Astrid VO_" +  astridLines + "_" + scene + "_" + topicName);
 				}
 			}
 

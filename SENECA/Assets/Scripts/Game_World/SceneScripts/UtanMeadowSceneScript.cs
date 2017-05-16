@@ -11,9 +11,7 @@ public class UtanMeadowSceneScript : Scene<TransitionData>
 
 	internal override void OnEnter(TransitionData data)
 	{
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 
-		Debug.Log (player.transform.position);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0f;
 
 	}

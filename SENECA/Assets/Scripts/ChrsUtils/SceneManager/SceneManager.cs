@@ -83,7 +83,6 @@ namespace GameSceneManagerSystem
 			{
                 
 				previousScene = _sceneStack.Peek();
-                Debug.Log("Before Pop: " + previousScene.name);
                 _sceneStack.Pop();
                 
             }
@@ -94,7 +93,6 @@ namespace GameSceneManagerSystem
 
 			if(previousScene != null)
 			{
-                Debug.Log("After Pop: " + previousScene.name);
                 previousScene._OnExit();
 				Object.Destroy(previousScene.Root);
 			}

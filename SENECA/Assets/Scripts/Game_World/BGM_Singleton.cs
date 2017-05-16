@@ -56,9 +56,14 @@ public class BGM_Singleton : MonoBehaviour
 		audioSource.volume = volume;
 	}
 
+    private void OnDestroy()
+    {
+        Services.Events.Unregister<SceneChangeEvent>(onSceneChange);
+    }
 
 
-	void OnSceneChange(GameEvent e)
+
+    void OnSceneChange(GameEvent e)
 	{
 		string newScene = ((SceneChangeEvent)e).sceneName;
 		

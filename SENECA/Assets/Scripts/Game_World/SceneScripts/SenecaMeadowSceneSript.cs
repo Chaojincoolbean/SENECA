@@ -19,7 +19,6 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
 	{
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.35f;
@@ -27,7 +26,18 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
 
         if(!TransitionData.Instance.SENECA_MEADOW.visitedScene)
         {
-            audioSource.PlayOneShot(clip);
+            audioSource = GetComponent<AudioSource>();
+            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_MeadowWitchLight") as AudioClip;
+            if (clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+            else
+            {
+                audioSource = GetComponent<AudioSource>();
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_MeadowWitchLight") as AudioClip;
+                audioSource.PlayOneShot(clip);
+            }
         }
 
 	}

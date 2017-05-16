@@ -36,7 +36,7 @@ public class Exit : MonoBehaviour
 
 	IEnumerator CanTranferScene()
 	{
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (2.0f);
 		canTransferScene = true;
 	}
 
@@ -44,7 +44,6 @@ public class Exit : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-        Debug.Log("Can transfer scenes: " + canTransferScene);
 
 
 	}

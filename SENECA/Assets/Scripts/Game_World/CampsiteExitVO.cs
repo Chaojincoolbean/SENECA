@@ -27,7 +27,6 @@ public class CampsiteExitVO : MonoBehaviour
             
             audioSource.PlayOneShot(clip);
             hasPlayedOnce = true;
-            Debug.Log(hasPlayedOnce);
         }
     }
 
@@ -36,7 +35,6 @@ public class CampsiteExitVO : MonoBehaviour
     {
 		if(!audioSource.isPlaying && hasPlayedOnce)
         {
-            Debug.Log(hasPlayedOnce + "!!!!!!!");
             Services.Events.Fire(new AstridTalksToHARTOEvent(false));
         }
 	}

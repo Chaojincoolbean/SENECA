@@ -59,9 +59,17 @@ public class Player : MonoBehaviour
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
+    private void OnDestroy()
+    {
+        Services.Events.Unregister<AstridTalksToHARTOEvent>(onAstridTalksToHARTO);
+        Services.Events.Unregister<DisablePlayerMovementEvent>(onToggleDisableMovement);
+        Services.Events.Unregister<BeginTutorialEvent>(onBeginTutorial);
+        Services.Events.Unregister<ToggleHARTOEvent>(onToggleHARTO);
+        Services.Events.Unregister<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+    }
+
     void OnAstridTalksToHARTO(GameEvent e)
     {
-        Debug.Log("Here we go: " + ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         _animator.SetBool("HARTOActive", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         _animator.SetBool("IsTalking", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         disableMovement = ((AstridTalksToHARTOEvent)e).talkingToHARTO;
@@ -69,7 +77,6 @@ public class Player : MonoBehaviour
 
 	void OnToggleDisableMovement(GameEvent e)
 	{
-        Debug.Log("Movement Disabled: " + ((DisablePlayerMovementEvent)e).disableMovement);
 		disableMovement = ((DisablePlayerMovementEvent)e).disableMovement;
 	}
 

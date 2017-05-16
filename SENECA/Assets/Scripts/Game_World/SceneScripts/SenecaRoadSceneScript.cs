@@ -18,15 +18,25 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
     internal override void OnEnter(TransitionData data)
     {
         
-        player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 3.88f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -3.88f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.41f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.41f;
 
         if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
-        {   
-            audioSouorce.PlayOneShot(clip);
+        {
+            audioSouorce = GetComponent<AudioSource>();
+            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;
+            if (clip != null)
+            {
+                audioSouorce.PlayOneShot(clip);
+            }
+            else
+            {
+                audioSouorce = GetComponent<AudioSource>();
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;
+                audioSouorce.PlayOneShot(clip);
+            }
         }
     }
 

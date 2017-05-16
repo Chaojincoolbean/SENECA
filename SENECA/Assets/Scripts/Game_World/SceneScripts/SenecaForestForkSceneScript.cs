@@ -20,7 +20,6 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
 	{
-		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.35f;
@@ -51,8 +50,8 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
 
     internal override void OnExit()
 	{
-		TransitionData.Instance.SENECA_FORK.position = player.transform.position;
-		TransitionData.Instance.SENECA_FORK.scale = player.transform.localScale;
+		//TransitionData.Instance.SENECA_FORK.position = player.transform.position;
+		//TransitionData.Instance.SENECA_FORK.scale = player.transform.localScale;
 		TransitionData.Instance.SENECA_FORK.visitedScene = true;
 	}
 }

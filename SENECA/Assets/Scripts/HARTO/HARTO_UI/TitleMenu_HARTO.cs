@@ -24,7 +24,6 @@ public class TitleMenu_HARTO : MonoBehaviour
 
 	public List<RadialIcon> iconList;
 	private float rotateSelectionWheel;
-	private RectTransform _rectTransform;
 	private const string SCROLLWHEEL = "Mouse ScrollWheel";
 	private const string HARTO_SCREEN = "HARTO_Screen";
 	public Animator _anim;
@@ -40,7 +39,6 @@ public class TitleMenu_HARTO : MonoBehaviour
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
-		_rectTransform = GetComponent<RectTransform>();
 		SpawnIcons(HARTO_UI_Interface.HARTOSystem.titleMenu);
 	}
 

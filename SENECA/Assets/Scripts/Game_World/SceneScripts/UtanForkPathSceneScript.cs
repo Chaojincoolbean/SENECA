@@ -10,7 +10,6 @@ public class UtanForkPathSceneScript : Scene<TransitionData>
 
 	internal override void OnEnter(TransitionData data)
 	{
-		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0f;
 
 	}

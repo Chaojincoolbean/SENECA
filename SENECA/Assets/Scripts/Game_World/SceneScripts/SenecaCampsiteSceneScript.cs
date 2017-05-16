@@ -40,7 +40,6 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	{
 
 
-		player = GameManager.instance.player_Astrid;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.67f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.72f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.43f;
@@ -83,7 +82,16 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			
 	}
 
-	public static void MakeTabAppear()
+    private void OnDestroy()
+    {
+        if (!TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
+        {
+            Services.Events.Unregister<ToggleHARTOEvent>(onToggleHARTO);
+            Services.Events.Unregister<TABUIButtonAppearEvent>(onTABUIButtonAppear);
+        }
+    }
+
+    public static void MakeTabAppear()
 	{
 		if (!tabUIOnScreen)
 		{

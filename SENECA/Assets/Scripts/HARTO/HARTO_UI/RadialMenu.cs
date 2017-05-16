@@ -29,7 +29,6 @@ public class RadialMenu : MonoBehaviour
 
 	public List<RadialIcon> iconList;
 	private float rotateSelectionWheel;
-	private RectTransform _rectTransform;
 	public Player _player;
 	private const string SCROLLWHEEL = "Mouse ScrollWheel";
 	private const string PLAYER_TAG = "Player";
@@ -51,7 +50,6 @@ public class RadialMenu : MonoBehaviour
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
-		_rectTransform = GetComponent<RectTransform>();
 		if (!GameManager.instance.inConversation)
 		{
 			_anim.SetBool("Inactive", true);

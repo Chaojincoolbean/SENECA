@@ -22,7 +22,12 @@ public class RecordingManager : MonoBehaviour
 		Services.Events.Register<RecordingSelectedEvent>(onRecordingSelected);
 	}
 
-	void OnRecordingSelected(GameEvent e)
+    private void OnDestroy()
+    {
+        Services.Events.Unregister<RecordingSelectedEvent>(onRecordingSelected);
+    }
+
+    void OnRecordingSelected(GameEvent e)
 	{
 		string recording = ((RecordingSelectedEvent)e).recording.Replace("Recording_", "");
         if (!audioSource.isPlaying)

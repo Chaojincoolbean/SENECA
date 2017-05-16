@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
 	public bool startedGame;
 	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
-	private SceneChangeEvent.Handler onSceneChange;
+
 
 	// Use this for initialization
 	void Start () 
@@ -95,8 +95,6 @@ public class GameManager : MonoBehaviour
 
 		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 
-		Services.Events.Register<SceneChangeEvent>(onSceneChange);
-
 //		if (sceneName.Contains("Test"))
 //		{
 //			isTestScene = true;
@@ -115,8 +113,9 @@ public class GameManager : MonoBehaviour
 		}
 		
 	}
-	
-	void FindPlayer()
+
+
+    void FindPlayer()
 	{
 		if (nextTimeToSearch <= Time.time)
 		{

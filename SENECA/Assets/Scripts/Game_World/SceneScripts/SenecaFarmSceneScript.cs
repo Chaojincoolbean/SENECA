@@ -17,8 +17,6 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
     {
-        player = GameManager.instance.player_Astrid;
-
         if(!TransitionData.Instance.SENECA_FORK.visitedScene)
         {
             audioSource = GetComponent<AudioSource>();

@@ -14,14 +14,12 @@ public class BackToSeneca : MonoBehaviour
 	public AudioSource audioSource;
 	public BoxCollider2D characterCollider;
 	public BoxCollider2D triggerArea;
-	private bool beganTalking;
 	private BoxCollider2D[] colliders;
 
 	// Use this for initialization
 	void Start () 
 	{
         fireOnce = false;
-		beganTalking = false;
 		audioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
 		colliders = GetComponents<BoxCollider2D>();

@@ -86,6 +86,15 @@ public class DialogueManager : MonoBehaviour
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
+    private void OnDestroy()
+    {
+        Services.Events.Unregister<EndGameEvent>(onEndGame);
+        Services.Events.Unregister<BeginGameEvent>(onBeginGame);
+        Services.Events.Unregister<BeginTutorialEvent>(onBeginTutorial);
+        Services.Events.Unregister<TopicSelectedEvent>(onTopicSelected);
+        Services.Events.Unregister<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+    }
+
     void OnEndGame(GameEvent e)
     {
         SceneNumber = 2;
