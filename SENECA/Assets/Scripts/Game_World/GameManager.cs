@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
 			inUtan = false;
 		}
 
-        if(!sceneName.Contains("SenecaCampsite"))
+        if(!sceneName.Contains("SenecaCampsite") && !sceneName.Contains("Title") && !sceneName.Contains("Prologue"))
         {
             hasPriyaSpoken = true;
         }

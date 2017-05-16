@@ -76,6 +76,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		} 
 		else
 		{
+            FindPlayer();
 			player.transform.position = TransitionData.Instance.SENECA_CAMPSITE.position;
 			player.transform.localScale = TransitionData.Instance.SENECA_CAMPSITE.scale;
 		}
