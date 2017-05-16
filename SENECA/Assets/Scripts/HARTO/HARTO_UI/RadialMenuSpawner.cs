@@ -41,7 +41,9 @@ public class RadialMenuSpawner : MonoBehaviour
 
 	public void SpawnMenu(HARTO_UI_Interface obj, Player player, bool dialogueModeActive, bool topicSelected)
 	{
-		audioSource.Stop();
+		if (audioSource != null) {
+			audioSource.Stop ();
+		}
 		clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
 
 		if(!audioSource.isPlaying)

@@ -202,7 +202,9 @@ public class DrawLine : MonoBehaviour
 			else 
 			{ //music puzzle
 				//	Connects mose position on screen to game screen
-				hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+				if (Camera.main != null) {
+					hit = Physics2D.Raycast (Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
+				}
 
 				//	If the mouse ray collides with something go into this if-statement
 				if (hit.collider != null) 
