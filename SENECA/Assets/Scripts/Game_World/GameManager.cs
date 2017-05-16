@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager instance;
 
+
 	public Dictionary<string, bool> whoTalksFirst;
 
     public KeyCode RestartGame = KeyCode.Backspace;
@@ -157,6 +158,11 @@ public class GameManager : MonoBehaviour
 		{
 			inUtan = false;
 		}
+
+        if(!sceneName.Contains("SenecaCampsite"))
+        {
+            hasPriyaSpoken = true;
+        }
 
 		if(player_Astrid == null)
 		{
