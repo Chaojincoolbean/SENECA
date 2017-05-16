@@ -16,6 +16,6 @@ public class Main : MonoBehaviour
 		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
 	
 		//Services.Scenes.PushScene<UtanRoadSceneScript>();
-		Services.Scenes.PushScene<TitleSceneScript>();
+		Services.Scenes.PushScene<UtanHunterCampSceneScript>();
     }
 }

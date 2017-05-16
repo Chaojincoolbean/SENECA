@@ -20,7 +20,23 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
 	{
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
+
+        if (!TransitionData.Instance.SENECA_FORK.visitedScene)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+            else
+            {
+                audioSource = GetComponent<AudioSource>();
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+                audioSource.PlayOneShot(clip);
+            }
+        }
+
+        GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.35f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.35f;

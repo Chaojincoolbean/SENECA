@@ -23,7 +23,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.41f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.41f;
 
-        if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
+        if (!TransitionData.Instance.SENECA_ROAD.visitedScene)
         {
             audioSouorce = GetComponent<AudioSource>();
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;

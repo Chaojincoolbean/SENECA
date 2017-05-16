@@ -18,6 +18,7 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
     {
+
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.41f;
@@ -25,6 +26,7 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
 
         if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
         {
+            audioSource = GetComponent<AudioSource>();
             if (clip != null)
             {
                 audioSource.PlayOneShot(clip);
