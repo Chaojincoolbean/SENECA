@@ -202,6 +202,7 @@ public class RadialMenu : MonoBehaviour
 		}
 		else if (icon.title.Contains(RECORDING_TAG))
 		{
+            icon.alreadySelected = true;
 			Services.Events.Fire(new RecordingSelectedEvent(icon.title));
 		}
 	}

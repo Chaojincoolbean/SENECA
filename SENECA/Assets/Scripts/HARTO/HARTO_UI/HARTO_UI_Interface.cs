@@ -21,6 +21,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 		public string title;
 	}
 
+    public bool canDisableHARTO;
+    public bool allRuthRecordingsPlayed;
 	public bool isHARTOOn;
 	public bool inConversation;
 	public bool isHARTOActive;
@@ -57,26 +59,26 @@ public class HARTO_UI_Interface : MonoBehaviour
 	private bool closedTutorialUsingRecordingSwitch;
 	public string currentNPC;
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
-	private TopicSelectedEvent.Handler onTopicSelecetd;
+    private RecordingSelectedEvent.Handler onRecordingSelected;
+    private TopicSelectedEvent.Handler onTopicSelecetd;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onDialogueEnded;
 	private RecordingIsOverEvent.Handler onRecordingEnded;
 
 	void Start()
 	{
-
-		//	TODO: HARTO SCREEN
-		//			When not talking to anyone and opening HARTO only make end convo button appear
 		if(HARTOSystem == null)
 		{
 			HARTOSystem = this;
 		}
 
 		closingHARTOForFirstTime = true;
+        allRuthRecordingsPlayed = false;
 		isHARTOActive = false;
 		dialogueModeActive = true;
 		recordingFolderSelected = false;
 		closedTutorialUsingRecordingSwitch = false;
+        canDisableHARTO = true;
 		audioSource = GetComponent<AudioSource>();
 
 		if (!GameManager.instance.isTestScene)
@@ -90,13 +92,15 @@ public class HARTO_UI_Interface : MonoBehaviour
 		}
 
 		onRecordingFolderSelecetd = new RecordingFolderSelectedEvent.Handler(OnRecordingFolderSelected);
-		onTopicSelecetd = new TopicSelectedEvent.Handler(OnTopicSelected);
+        onRecordingSelected = new RecordingSelectedEvent.Handler(OnRecordingSelected);
+        onTopicSelecetd = new TopicSelectedEvent.Handler(OnTopicSelected);
 		onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
 		onDialogueEnded = new EndDialogueEvent.Handler(OnDialogueEnded);
 		onRecordingEnded = new RecordingIsOverEvent.Handler(OnRecordingEnded);
 
 		Services.Events.Register<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
-		Services.Events.Register<TopicSelectedEvent>(onTopicSelecetd);
+        Services.Events.Register<RecordingSelectedEvent>(onRecordingSelected);
+        Services.Events.Register<TopicSelectedEvent>(onTopicSelecetd);
 		Services.Events.Register<BeginDialogueEvent>(onBeginDialogueEvent);
 		Services.Events.Register<EndDialogueEvent>(onDialogueEnded);
 		Services.Events.Register<RecordingIsOverEvent>(onRecordingEnded);
@@ -106,6 +110,7 @@ public class HARTO_UI_Interface : MonoBehaviour
     private void OnDestroy()
     {
         Services.Events.Unregister<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
+        Services.Events.Unregister<RecordingSelectedEvent>(onRecordingSelected);
         Services.Events.Unregister<TopicSelectedEvent>(onTopicSelecetd);
         Services.Events.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
         Services.Events.Unregister<EndDialogueEvent>(onDialogueEnded);
@@ -264,10 +269,55 @@ public class HARTO_UI_Interface : MonoBehaviour
 		GameManager.instance.inConversation = inConversation;
 	}
 
-	void OnRecordingEnded(GameEvent e)
+    void OnRecordingSelected(GameEvent e)
+    {
+        //canDisableHARTO = false;
+        if (allRuthRecordingsPlayed)
+        {
+
+        }
+        else
+        {
+            if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[0].title))
+            {
+                recordings_Ruth[0].alreadySelected = true;
+                recordings_Ruth[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                recordings_Ruth[1].alreadySelected = false;
+                recordings_Ruth[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                recordings_Ruth[2].alreadySelected = true;
+                recordings_Ruth[2].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+            }
+            else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[1].title))
+            {
+                recordings_Ruth[0].alreadySelected = true;
+                recordings_Ruth[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                recordings_Ruth[1].alreadySelected = true;
+                recordings_Ruth[1].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                recordings_Ruth[2].alreadySelected = false;
+                recordings_Ruth[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+            else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[2].title))
+            {
+                recordings_Ruth[0].alreadySelected = false;
+                recordings_Ruth[0].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                recordings_Ruth[1].alreadySelected = false;
+                recordings_Ruth[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                recordings_Ruth[2].alreadySelected = false;
+                recordings_Ruth[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+                allRuthRecordingsPlayed = true;
+            }
+
+            ReloadMenu(recordings_Ruth);
+        }
+    }
+
+    void OnRecordingEnded(GameEvent e)
 	{
 		recordingFolderSelected = false;
-		ReloadMenu(recordingFolders);
+        canDisableHARTO = true;
+		//ReloadMenu(recordingFolders);
 	}
 
 	public IEnumerator WaitForExitScript()
@@ -319,7 +369,7 @@ public class HARTO_UI_Interface : MonoBehaviour
             return;
         }
 
-		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene))
+		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene) && canDisableHARTO)
 		{
 			
 			Services.Events.Fire(new ToggleHARTOEvent());

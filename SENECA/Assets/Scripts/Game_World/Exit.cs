@@ -60,9 +60,11 @@ public class Exit : MonoBehaviour
 
 	void TransferScene(Transform player, string nextScene)
 	{
+        Debug.Log(nextScene);   
 		string newScene = nextScene.Replace ("To_", "");
         //StartCoroutine(CanTranferScene());
-		Services.Events.Fire(new SceneChangeEvent(newScene));
+        Debug.Log(newScene);
+        Services.Events.Fire(new SceneChangeEvent(newScene));
 		SelectScene (player, nextScene);
 
 	}
