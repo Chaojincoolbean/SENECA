@@ -25,6 +25,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 
         if (!TransitionData.Instance.SENECA_ROAD.visitedScene)
         {
+            GameObject.Find("witchlightRoad").GetComponent<Animator>().SetBool("ChaseMe", true);
             audioSouorce = GetComponent<AudioSource>();
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;
             if (clip != null)
@@ -37,6 +38,10 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
                 clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;
                 audioSouorce.PlayOneShot(clip);
             }
+        }
+        else
+        {
+            GameObject.Find("witchlightRoad").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
     }
 

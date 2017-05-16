@@ -18,7 +18,6 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
     {
-
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.41f;
@@ -26,6 +25,7 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
 
         if (!TransitionData.Instance.SENECA_ROCKS.visitedScene)
         {
+            GameObject.Find("witchlightRocks").GetComponent<Animator>().SetBool("ChaseMe", true);
             audioSource = GetComponent<AudioSource>();
             if (clip != null)
             {
@@ -37,6 +37,10 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
                 clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RocksWitchLight") as AudioClip;
                 audioSource.PlayOneShot(clip);
             }
+        }
+        else
+        {
+            GameObject.Find("witchlightRocks").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
 
     }

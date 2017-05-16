@@ -23,6 +23,7 @@ public class SenecaRadioTowerSceneScript : Scene<TransitionData>
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = 0f;
         if(!TransitionData.Instance.SENECA_RADIO_TOWER.visitedScene)
         {
+            GameObject.Find("witchlightRadio").GetComponent<Animator>().SetBool("ChaseMe", true);
             audioSource = GetComponent<AudioSource>();
             clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RadioWitchLight") as AudioClip;
             if (clip != null)
@@ -35,6 +36,11 @@ public class SenecaRadioTowerSceneScript : Scene<TransitionData>
                 clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RadioWitchLight") as AudioClip;
                 audioSource.PlayOneShot(clip);
             }
+
+        }
+        else
+        {
+            GameObject.Find("witchlightRadios").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
 
     }
