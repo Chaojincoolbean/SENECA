@@ -52,11 +52,12 @@ public class GameManager : MonoBehaviour
 	public bool startedGame;
 	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
 
+	public string currentScene;
 
 	// Use this for initialization
 	void Start () 
 	{
-		
+		currentScene = "null";
 		startedGame = false;
         playerAnimationLock = false;
         tutorialIsDone = false;

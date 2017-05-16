@@ -26,12 +26,15 @@ public class Exit : MonoBehaviour
 
 
 	public bool canTransferScene;
+	public string currentScene;
+	public GameObject mainCamera;
 
 	// Use this for initialization
 	void Start () 
 	{
 		canTransferScene = false;
 		StartCoroutine (CanTranferScene ());
+		mainCamera = GameObject.Find("Main Camera");
 	}
 
 	IEnumerator CanTranferScene()
@@ -43,7 +46,6 @@ public class Exit : MonoBehaviour
     public float t = 0;
 	// Update is called once per frame
 	void Update () {
-
 
 
 	}
@@ -71,6 +73,9 @@ public class Exit : MonoBehaviour
 
 	void SelectScene(Transform player, string nextScene)
 	{
+		currentScene = this.transform.parent.name;
+		mainCamera.GetComponent<GameManager> ().currentScene = currentScene;
+
 		if (nextScene == SENECA_CAMPSITE) 
 		{
 			TransitionData.Instance.SENECA_CAMPSITE.position = player.position;
@@ -85,9 +90,8 @@ public class Exit : MonoBehaviour
 		}
 		else if (nextScene == SENECA_FOREST_FORK) 
 		{
-			TransitionData.Instance.SENECA_FORK.position = player.position;
-			TransitionData.Instance.SENECA_FORK.scale = player.localScale;
-			Services.Scenes.Swap<SenecaForestForkSceneScript>(TransitionData.Instance);
+			Services.Scenes.Swap<SenecaForestForkSceneScript> (TransitionData.Instance);
+
 		}
 
         else if (nextScene == SENECA_HUNTER_CAMP)
