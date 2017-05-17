@@ -158,6 +158,8 @@ public class EventScript : MonoBehaviour
 			if (response.transform.childCount > 1)
 			{
 				waitingForEmotionalInput = true;
+				Priya = GameObject.FindGameObjectWithTag("Priya");
+				Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 			}
 
 
@@ -170,6 +172,8 @@ public class EventScript : MonoBehaviour
                 }
                 GameManager.instance.waitingForInput = waitingForEmotionalInput;
 				yield return new WaitForFixedUpdate();
+				Priya = GameObject.FindGameObjectWithTag("Priya");
+				Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 			}
 
 			if (response.transform.childCount > 1)
@@ -177,6 +181,8 @@ public class EventScript : MonoBehaviour
 				((EmotionalResponseScript)response).PlayEmotionLine(astridHARTO.CurrentEmotion, HARTO, scene, topicName);
 				waitingForEmotionalInput = false;
 				GameManager.instance.waitingForInput = waitingForEmotionalInput;
+				Priya = GameObject.FindGameObjectWithTag("Priya");
+				Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 			}
 			else
 			{
@@ -197,13 +203,15 @@ public class EventScript : MonoBehaviour
                     {
                         GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", true);
                         GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
-                        Priya = GameObject.FindGameObjectWithTag("Priya");
-                        Priya.GetComponent<Animator>().SetBool("IsTalking", false);
+
                     }
                     else
                     {
                         GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
                     }
+
+					Priya = GameObject.FindGameObjectWithTag("Priya");
+					Priya.GetComponent<Animator>().SetBool("IsTalking", false);
                     
 				} 
 				else if (response.characterName == "Priya") 
@@ -291,6 +299,8 @@ public class EventScript : MonoBehaviour
 		if(topicName != "Start_Game" && !scene.Contains("2"))
 		{
 			Services.Events.Fire(new EndDialogueEvent(topicName));
+			Priya = GameObject.FindGameObjectWithTag("Priya");
+			Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 			if (topicName == "Exit")
 			{
                 GameManager.instance.tutorialIsDone = true;
@@ -308,6 +318,8 @@ public class EventScript : MonoBehaviour
 			{
 				//SenecaCampsiteSceneScript.MakeTabAppear ();
 				Services.Events.Fire(new TABUIButtonAppearEvent());
+				Priya = GameObject.FindGameObjectWithTag("Priya");
+				Priya.GetComponent<Animator>().SetBool("IsTalking", false);
 
 			}
 		}
