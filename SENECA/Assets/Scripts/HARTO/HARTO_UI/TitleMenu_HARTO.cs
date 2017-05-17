@@ -33,7 +33,7 @@ public class TitleMenu_HARTO : MonoBehaviour
 	{
         if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
-            rotationSpeed = 70.0f;
+            rotationSpeed = 50.0f;
         }
         iconSelected = false;
 		_anim = GetComponent<Animator>();

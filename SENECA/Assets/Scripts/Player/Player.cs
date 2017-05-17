@@ -75,10 +75,10 @@ public class Player : MonoBehaviour
 
     void OnInteractable(GameEvent e)
     {
-        Debug.Log("!@#@#@$");
-        _animator.SetBool("HARTOActive", ((InteractableEvent)e).talkingToHARTO);
+        Debug.Log("!@$@#$32");
+        _animator.SetBool("HARTOActive", ((InteractableEvent)e).armUp);
         _animator.SetBool("IsTalking", ((InteractableEvent)e).talkingToHARTO);
-        disableMovement = ((InteractableEvent)e).talkingToHARTO;
+        disableMovement = ((InteractableEvent)e).armUp;
     }
 
     void OnAstridTalksToHARTO(GameEvent e)

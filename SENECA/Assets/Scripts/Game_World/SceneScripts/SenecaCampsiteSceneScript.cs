@@ -77,7 +77,9 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			npc_Priya.gameObject.transform.position = new Vector3 (-13f, -3.5f, 0);
 			startedGame = true;
 			audioSource.PlayOneShot(GameManager.instance.recordingManager.LoadHARTOVO("HARTO_VO_Begin"));
-			begin = false;
+            GameManager.instance.HARTOIsTalking = true;
+            
+            begin = false;
 
 			Services.Events.Register<ToggleHARTOEvent> (onToggleHARTO);
 			Services.Events.Register<TABUIButtonAppearEvent> (onTABUIButtonAppear);
@@ -152,6 +154,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 				}
 				player = result.GetComponent<Player>();
+                
 			}
 			nextTimeToSearch = Time.time + 2.0f;
 		}
@@ -166,9 +169,16 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
             return;
         }
 
+        if (GameManager.instance.HARTOIsTalking)
+        {
+            Services.Events.Fire(new InteractableEvent(false, true));
+        }
+
         if (!begin && !audioSource.isPlaying && !TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
 		{
-			Services.Events.Fire(new MoveMomEvent());
+            GameManager.instance.HARTOIsTalking = false;
+            Services.Events.Fire(new InteractableEvent(false, false));
+            Services.Events.Fire(new MoveMomEvent());
 			begin = true;
 		}
 	}

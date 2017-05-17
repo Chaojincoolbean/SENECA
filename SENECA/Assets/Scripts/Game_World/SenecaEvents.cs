@@ -137,9 +137,11 @@ namespace SenecaEvents
     public class InteractableEvent : GameEvent
     {
         public readonly bool talkingToHARTO;
-        public InteractableEvent(bool _talkingToHARTO)
+        public readonly bool armUp;
+        public InteractableEvent(bool _talkingToHARTO, bool _armUp)
         {
             talkingToHARTO = _talkingToHARTO;
+            armUp = _armUp;
         }
     }
 

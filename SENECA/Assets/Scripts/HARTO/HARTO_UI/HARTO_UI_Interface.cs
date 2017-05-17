@@ -134,7 +134,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		if (isHARTOActive)
 		{
-			clip = Resources.Load("Audio/SFX/HARTO_SFX/Technology Electronic Joystick Stick Moving 21") as AudioClip;
+			clip = Resources.Load("Audio/SFX/HARTO_Click_To_Recording") as AudioClip;
 
 			if(!audioSource.isPlaying)
 			{

@@ -23,7 +23,7 @@ public class CampsiteExitVO : MonoBehaviour
         if(collision.tag == "Player" && GameManager.instance.hasPriyaSpoken && !hasPlayedOnce)
         {
             GameManager.instance.playerAnimationLock = true;
-            Services.Events.Fire(new AstridTalksToHARTOEvent(true));
+            Services.Events.Fire(new InteractableEvent(true, true));
             
             audioSource.PlayOneShot(clip);
             hasPlayedOnce = true;
@@ -33,9 +33,9 @@ public class CampsiteExitVO : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-		if(!audioSource.isPlaying && hasPlayedOnce)
+		if(!audioSource.isPlaying && hasPlayedOnce && !GameManager.instance.tutorialIsDone)
         {
-            Services.Events.Fire(new AstridTalksToHARTOEvent(false));
+            Services.Events.Fire(new InteractableEvent(true, true));
         }
 	}
 }
