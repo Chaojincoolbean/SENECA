@@ -20,9 +20,6 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
     internal override void OnEnter(TransitionData data)
 	{
 
-        FindPlayer();
-        player.transform.position = new Vector3(GameObject.Find("SenecaMeadowSpawnPoint").transform.position.x, GameObject.Find("SenecaMeadowSpawnPoint").transform.position.y, GameObject.Find("SenecaMeadowSpawnPoint").transform.position.z);
-
         GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.35f;
@@ -44,7 +41,9 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
             }
         }
 
-	}
+        FindPlayer();
+
+    }
 
     public float nextTimeToSearch = 0;
 
@@ -56,6 +55,8 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
             if (result != null)
             {
                 player = result.GetComponent<Player>();
+                player.transform.position = new Vector3(GameObject.Find("SenecaMeadowSpawnPoint").transform.position.x, GameObject.Find("SenecaMeadowSpawnPoint").transform.position.y, GameObject.Find("SenecaMeadowSpawnPoint").transform.position.z);
+
             }
             nextTimeToSearch = Time.time + 2.0f;
         }

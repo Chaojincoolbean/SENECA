@@ -65,7 +65,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
             {
 
 				if (lastScene == "SenecaRadioTowerSceneScript") {
-					Debug.Log ("I am here.");
+					Debug.Log ("I am here!!@@#@!.");
 					result.transform.position = fromSenecaRadiotower.position;
 					result.transform.localScale = fromSenecaRadiotower.localScale;
 
@@ -73,7 +73,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 				if (lastScene == "SenecaHunterCampSceneScript") {
 					result.transform.position = fromSenecaHuntercamp.position;
 					result.transform.localScale = fromSenecaHuntercamp.localScale;
-					Debug.Log ("I am here.");
+					
 
 				}
 				if (lastScene == "SenecaRocksSceneScript") {
