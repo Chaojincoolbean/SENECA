@@ -67,30 +67,28 @@ public class BGM_Singleton : MonoBehaviour
 	{
 		string newScene = ((SceneChangeEvent)e).sceneName;
 		
-		if(!sceneName.Contains("Seneca") && newScene.Contains("Seneca"))
-		{
-			clip = Resources.Load("Audio/Music/Seneca_Theme") as AudioClip;
-			audioSource.Stop();
-			audioSource.PlayOneShot(clip, volume);
-		}
-		else if (!sceneName.Contains("Utan") && newScene.Contains("Utan"))
-		{
-			clip = Resources.Load("Audio/Music/Utan_theme") as AudioClip;
-			audioSource.Stop();
-			audioSource.PlayOneShot(clip, volume);
+		if (!sceneName.Contains ("Seneca") && newScene.Contains ("Seneca")) {
+
+			audioSource.loop = true;
+			clip = Resources.Load ("Audio/Music/Seneca_Theme") as AudioClip;
+			audioSource.Stop ();
+			audioSource.PlayOneShot (clip, volume);
+		} else if (!sceneName.Contains ("Utan") && newScene.Contains ("Utan")) {
+			audioSource.loop = true;
+			clip = Resources.Load ("Audio/Music/Utan_theme") as AudioClip;
+			audioSource.Stop ();
+			audioSource.PlayOneShot (clip, volume);
 			
-		}
-		else if (sceneName.Contains("Title"))
-		{
-			clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
-			audioSource.Stop();
-			audioSource.PlayOneShot(clip, volume);
-		}
-		else if (sceneName.Contains("Credits"))
-		{
-			clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
-			audioSource.Stop();
-			audioSource.PlayOneShot(clip, volume);
+		} else if (sceneName.Contains ("Title")) {
+			clip = Resources.Load ("Audio/Music/Title_Theme") as AudioClip;
+			audioSource.Stop ();
+			audioSource.loop = false;
+			audioSource.PlayOneShot (clip, volume);
+		} else if (sceneName.Contains ("Credits")) {
+			audioSource.loop = true;
+			clip = Resources.Load ("Audio/Music/Title_Theme") as AudioClip;
+			audioSource.Stop ();
+			audioSource.PlayOneShot (clip, volume);
 		}
 	}
 
@@ -110,7 +108,7 @@ public class BGM_Singleton : MonoBehaviour
 		}
 		audioSource.volume = volume;
 
-		if (audioSource.isPlaying == false) 
+		if (!audioSource.isPlaying && audioSource.loop) 
 		{
 			audioSource.PlayOneShot (clip, volume);
 		}
