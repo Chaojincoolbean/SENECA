@@ -33,15 +33,25 @@ public class Prologue : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		/*
+		//change this to animation event
 		if(!audioSource.isPlaying)
 		{
 			GameManager.instance.inConversation = false;
 			StartCoroutine(LoadNextScene());	
 		}
+		*/
 
 		if (Input.GetKey (KeyCode.Space)) {
 			GameManager.instance.inConversation = false;
 			StartCoroutine(LoadNextScene());
 		}
 	}
+
+	public void LoadNext(){
+		GameManager.instance.inConversation = false;
+		StartCoroutine(LoadNextScene());
+	}
+
+
 }
