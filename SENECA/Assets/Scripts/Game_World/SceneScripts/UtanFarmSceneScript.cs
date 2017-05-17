@@ -11,6 +11,9 @@ public class UtanFarmSceneScript : Scene<TransitionData>
 	public Transform fromUtanForkPath;
 	public Transform fromUtanHuntercamp;
 
+	public Transform[] ToggleSortingLayerLocations;
+	public SpriteRenderer[] farmLayers;
+
 	private void Start()
 	{
 
@@ -63,6 +66,12 @@ public class UtanFarmSceneScript : Scene<TransitionData>
             FindPlayer();
             return;
         }
+
+		if (player.transform.position.y <= ToggleSortingLayerLocations [0].position.y) {
+			farmLayers [1].sortingOrder = 1;
+		} else {
+			farmLayers [1].sortingOrder = 11;
+		}
     }
 
     internal override void OnExit()
