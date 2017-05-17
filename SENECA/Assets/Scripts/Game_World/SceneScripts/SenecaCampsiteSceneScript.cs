@@ -11,6 +11,9 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 {
 	public Player player;
 
+	public Transform[] ToggleSortingLayerLocations;
+	public SpriteRenderer[] campsiteLayers;
+
 	public bool startedGame;
 	public static bool hasPriyaSpoken;
 	public bool begin;
@@ -200,6 +203,12 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
             Services.Events.Fire(new InteractableEvent(false, false, false));
             Services.Events.Fire(new MoveMomEvent());
 			begin = true;
+		}
+
+		if (player.transform.position.y <= ToggleSortingLayerLocations [0].position.y) {
+			campsiteLayers [4].sortingOrder = 9;
+		} else {
+			campsiteLayers [4].sortingOrder = 11;
 		}
 	}
 
