@@ -128,15 +128,23 @@ public class TitleMenu_HARTO : MonoBehaviour
 
 	void StartGame(RadialIcon icon)
 	{
-			if(icon.title == "StartGame")
-			{
-				Services.Events.Fire(new SceneChangeEvent("_Prologue"));
-				TransitionData.Instance.TITLE.visitedScene = true;
-				TransitionData.Instance.TITLE.position = Vector3.zero;
-				TransitionData.Instance.TITLE.scale = Vector3.zero;
-				Services.Scenes.Swap<PrologueSceneScript>(TransitionData.Instance);
-			}
-	}
+	    if(icon.title == "StartGame")
+		{
+			Services.Events.Fire(new SceneChangeEvent("_Prologue"));
+			TransitionData.Instance.TITLE.visitedScene = true;
+			TransitionData.Instance.TITLE.position = Vector3.zero;
+			TransitionData.Instance.TITLE.scale = Vector3.zero;
+			Services.Scenes.Swap<PrologueSceneScript>(TransitionData.Instance);
+		}
+       else if(icon.title == "PuzzleProtoTypes")
+       {
+             Services.Scenes.Swap<PrototypeSceneScript>(TransitionData.Instance);
+        }
+        else if (icon.title == "Credits")
+        {
+            Services.Scenes.Swap<CreditSceneScript>(TransitionData.Instance);
+        }
+    }
 
     void ForceStart()
     {
