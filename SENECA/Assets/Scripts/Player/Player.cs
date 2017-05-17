@@ -115,7 +115,26 @@ public class Player : MonoBehaviour
 
 	public void PlayFootStepAudio()
 	{
-		_clip = Resources.Load("Audio/SFX/Footstep01") as AudioClip;
+        if(GameManager.instance.sceneName.Contains("Meadow"))
+        {
+            _clip = Resources.Load("Audio/SFX/FOOTSTEPS/grass_footstepss") as AudioClip;
+        }
+        else if (GameManager.instance.sceneName.Contains("Hunter"))
+        {
+            _clip = Resources.Load("Audio/SFX/FOOTSTEPS/rock_footsteps") as AudioClip;
+        }
+        else if (GameManager.instance.sceneName.Contains("Road"))
+        {
+            _clip = Resources.Load("Audio/SFX/FOOTSTEPS/road_footsteps") as AudioClip;
+        }
+        else if (GameManager.instance.sceneName.Contains("Rock"))
+        {
+            _clip = Resources.Load("Audio/SFX/FOOTSTEPS/wet_footsteps") as AudioClip;
+        }
+        else
+        {
+            _clip = Resources.Load("Audio/SFX/FOOTSTEPS/dirt_footsteps") as AudioClip;
+        }
 
 		if(!_audioSource.isPlaying)
 		{
