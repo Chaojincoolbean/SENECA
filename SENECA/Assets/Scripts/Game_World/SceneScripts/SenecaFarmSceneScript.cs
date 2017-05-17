@@ -13,6 +13,9 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
 	public Transform fromSenecaForestFork;
 	public Transform fromSenecaHuntercamp;
 
+	public Transform[] ToggleSortingLayerLocations;
+	public SpriteRenderer[] farmLayers;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -67,6 +70,12 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
             FindPlayer();
             return;
         }
+
+		if (player.transform.position.y <= ToggleSortingLayerLocations [0].position.y) {
+			farmLayers [2].sortingOrder = 1;
+		} else {
+			farmLayers [2].sortingOrder = 11;
+		}
     }
 
     internal override void OnExit()
