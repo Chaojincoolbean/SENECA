@@ -144,7 +144,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 			if(closingHARTOForFirstTime && !usingBeornsHARTO)
 			{
-
+				
 				Services.Events.Fire(new ClosingHARTOForTheFirstTimeEvent());
 				closingHARTOForFirstTime = false;
 				closedTutorialUsingRecordingSwitch = true;
@@ -250,6 +250,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 			Services.Events.Fire(new DisablePlayerMovementEvent(false));
 			inConversation = false;
 			GameManager.instance.inConversation = inConversation;
+			GameManager.instance.wasdUIOnScreen = true;
+			Services.Events.Fire (new WASDUIAppearEvent());
 			return;
 		}
 		

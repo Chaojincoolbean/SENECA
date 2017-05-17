@@ -53,6 +53,8 @@ public class Mom : MonoBehaviour
 				colliders[i].enabled = false;
 			}
 		}
+
+		Debug.Log("mom");
 		
 	}
 

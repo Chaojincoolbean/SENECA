@@ -134,6 +134,7 @@ public class DialogueManager : MonoBehaviour
     #endregion
     void OnClosingHARTOForTheFirstTime(GameEvent e)
 	{
+        Debug.Log("dialoguemanager");
 		InitDialogueEvent(EVENT_EXIT, SceneNumber, PRIYA, GameManager.instance.whoTalksFirst["Event_Exit1Priya"]);
 	}
 

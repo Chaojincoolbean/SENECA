@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
 	void OnClosingHARTOForTheFirstTime(GameEvent e)
 	{
 		npcAstridIsTalkingTo = "";
+		Debug.Log("player");
 		
 	}
 

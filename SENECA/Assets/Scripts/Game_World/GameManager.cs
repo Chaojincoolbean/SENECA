@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
 	public bool begin;
 	public bool inConversation;
 	public bool tabUIOnScreen;
+	public bool wasdUIOnScreen;
 	public bool waitingForInput;
 	public bool completedOneTopic;
     public bool endGame;
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
 		hasPriyaSpoken = false;
 		completedOneTopic = false;
 		CurrentSceneNumber = 1;
+		wasdUIOnScreen = false;
         endGame = false;
 
 		if (instance == null)

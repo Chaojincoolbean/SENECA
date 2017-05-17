@@ -49,6 +49,12 @@ namespace SenecaEvents
         }
     }
 
+    public class WASDUIAppearEvent : GameEvent{
+    	public WASDUIAppearEvent(){
+    	}
+
+    }
+
     public class BeginDialogueEvent : GameEvent
     {
         public BeginDialogueEvent ()

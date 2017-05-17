@@ -16,6 +16,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	public bool begin;
 	public bool inConversation;
 	public static bool tabUIOnScreen;
+	public static bool wasdUIOnScreen;
 	public bool waitingForInput;
 	public bool completedOneTopic;
 	public float nextTimeToSearch = 0;
@@ -23,6 +24,8 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 	public static GameObject uiTAB;
 	public static  GameObject tab;
+	public static GameObject uiWASD;
+	public static GameObject wasd;
 	public GameObject uiMouse;
 	public GameObject npc_Priya;
 
@@ -30,6 +33,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 	private TABUIButtonAppearEvent.Handler onTABUIButtonAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
+	private WASDUIAppearEvent.Handler onWASDUIAppear;
 
 	public string lastScene;
 	public GameObject mainCamera;
@@ -60,16 +64,21 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		uiTAB = Resources.Load ("Prefabs/HARTO/UI/TAB_UI") as GameObject;
 		uiMouse = Resources.Load ("Prefabs/HARTO/UI/MOUSE_UI") as GameObject;
 
+		uiWASD = Resources.Load ("Prefabs/HARTO/UI/WalkUI") as GameObject;
+
+
 		audioSource = GetComponent<AudioSource>();
 
 		if (!TransitionData.Instance.SENECA_CAMPSITE.visitedScene) 
 		{
 			onTABUIButtonAppear = new TABUIButtonAppearEvent.Handler (OnTABUIButtonAppear);
 			onToggleHARTO = new ToggleHARTOEvent.Handler (OnToggleHARTO);
+			onWASDUIAppear = new WASDUIAppearEvent.Handler (OnWASDUIAppear);
 
 			uiTAB = Resources.Load ("Prefabs/HARTO/UI/TAB_UI") as GameObject;
 			uiTAB.name = "TAB_UI";
 			uiMouse = Resources.Load ("Prefabs/HARTO/UI/MOUSE_UI") as GameObject;
+			uiWASD = Resources.Load ("Prefabs/HARTO/UI/WalkUI") as GameObject;
 
 			begin = true;
 			npc_Priya = Instantiate(Resources.Load("Prefabs/Characters/Priya", typeof(GameObject))) as GameObject;
@@ -83,6 +92,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 			Services.Events.Register<ToggleHARTOEvent> (onToggleHARTO);
 			Services.Events.Register<TABUIButtonAppearEvent> (onTABUIButtonAppear);
+			Services.Events.Register<WASDUIAppearEvent> (onWASDUIAppear);
 
 		} 
 		else
@@ -100,6 +110,7 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
         {
             Services.Events.Unregister<ToggleHARTOEvent>(onToggleHARTO);
             Services.Events.Unregister<TABUIButtonAppearEvent>(onTABUIButtonAppear);
+			Services.Events.Unregister<WASDUIAppearEvent> (onWASDUIAppear);
         }
     }
 
@@ -124,6 +135,15 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
 			GameObject tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
 			tab.transform.SetParent(GameObject.Find("HARTOCanvas").transform, false);
+		}
+	}
+
+	void OnWASDUIAppear(GameEvent e){
+		if (!wasdUIOnScreen) {
+			wasdUIOnScreen = true;
+			Vector3 wasdPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
+			GameObject wasd = Instantiate (uiWASD, wasdPosition, Quaternion.identity);
+			wasd.transform.SetParent (GameObject.Find ("HARTOCanvas").transform, false);
 		}
 	}
 

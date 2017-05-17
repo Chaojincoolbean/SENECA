@@ -308,6 +308,7 @@ public class EventScript : MonoBehaviour
 			{
 				//SenecaCampsiteSceneScript.MakeTabAppear ();
 				Services.Events.Fire(new TABUIButtonAppearEvent());
+
 			}
 		}
 		yield return null;
