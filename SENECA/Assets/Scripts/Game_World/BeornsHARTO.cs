@@ -8,11 +8,15 @@ public class BeornsHARTO : MonoBehaviour {
     public bool clipHasPlayed;
     AudioClip clip;
     AudioSource audioSource;
+    public bool hasBeenClicked;
+    public Collider2D myCollider;
+    public Texture2D hoverCursor;
+    public CursorMode cursorMode = CursorMode.Auto;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
-
+        hasBeenClicked = false;
         if (GameManager.instance.pickedUpBeornsHARTO)
         {
             Destroy(gameObject);
@@ -20,6 +24,20 @@ public class BeornsHARTO : MonoBehaviour {
         clipHasPlayed = false;
         audioSource = GetComponent<AudioSource>();	
 	}
+
+    void OnMouseEnter()
+    {
+        if (!hasBeenClicked)
+        {
+            hoverCursor = Resources.Load("Sprites/UI_Images/handcursor") as Texture2D;
+            Cursor.SetCursor(hoverCursor, Vector2.zero, cursorMode);
+        }
+    }
+
+    void OnMouseExit()
+    {
+        Cursor.SetCursor(null, Vector2.zero, cursorMode);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -36,13 +54,17 @@ public class BeornsHARTO : MonoBehaviour {
 
     void OnMouseDown()
     {
-        GameManager.instance.HARTOinUtan = true;
-        GameManager.instance.pickedUpBeornsHARTO = true;
-        GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-        clip = Resources.Load("Audio/VO/Astrid/SCENE_2/VO_Event/PickUpHARTO") as AudioClip;
-        Services.Events.Fire(new InteractableEvent(true, false, true));
-        StartCoroutine(BringUpHARTO());
-        audioSource.PlayOneShot(clip);
+        if (!hasBeenClicked)
+        {
+            hasBeenClicked = true;
+            GameManager.instance.HARTOinUtan = true;
+            GameManager.instance.pickedUpBeornsHARTO = true;
+            GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            clip = Resources.Load("Audio/VO/Astrid/SCENE_2/VO_Event/PickUpHARTO") as AudioClip;
+            Services.Events.Fire(new InteractableEvent(true, false, true));
+            StartCoroutine(BringUpHARTO());
+            audioSource.PlayOneShot(clip);
+        }
         clipHasPlayed = true;
     }
 
