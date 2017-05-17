@@ -50,7 +50,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
         }
         else
         {
-            GameObject.Find("witchlightRoad").GetComponent<Animator>().SetBool("ChaseMe", false);
+            //GameObject.Find("witchlightRoad").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
     }
 

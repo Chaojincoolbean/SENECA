@@ -48,7 +48,7 @@ public class SenecaRocksSceneScript : Scene<TransitionData>
         }
         else
         {
-            GameObject.Find("witchlightRocks").GetComponent<Animator>().SetBool("ChaseMe", false);
+            //GameObject.Find("witchlightRocks").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
 
     }
