@@ -19,7 +19,7 @@ public class Interactable : MonoBehaviour
 
     void OnMouseEnter()
     {
-        hoverCursor = Resources.Load("Sprites/HARTO_Images/Icons_Emotions/Confused") as Texture2D;
+        hoverCursor = Resources.Load("Sprites/HARTO_Images/Icons_Emotions/ConfusedCursor") as Texture2D;
         Cursor.SetCursor(hoverCursor, Vector2.zero, cursorMode);
     }
 
