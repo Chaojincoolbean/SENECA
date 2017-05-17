@@ -22,7 +22,8 @@ public class CampsiteExitVO : MonoBehaviour
         // fix this
         if(collision.tag == "Player" && GameManager.instance.hasPriyaSpoken && !hasPlayedOnce)
         {
-            GameManager.instance.playerAnimationLock = true;
+            GameManager.instance.trackProgressInHARTO = true;
+            //GameManager.instance.playerAnimationLock = true;
             Services.Events.Fire(new InteractableEvent(true, true, true));
             
             audioSource.PlayOneShot(clip);
@@ -35,6 +36,7 @@ public class CampsiteExitVO : MonoBehaviour
     {
 		if(!audioSource.isPlaying && hasPlayedOnce && !GameManager.instance.tutorialIsDone && !GameManager.instance.HARTOinUtan)
         {
+            GameManager.instance.trackProgressInHARTO = false;
             Services.Events.Fire(new InteractableEvent(false, false, false));
         }
 	}

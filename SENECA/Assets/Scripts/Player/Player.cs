@@ -21,7 +21,9 @@ public class Player : MonoBehaviour
 	public KeyCode downKey = KeyCode.S;
 	public KeyCode leftKey = KeyCode.A;
 	public KeyCode rightKey = KeyCode.D;
-	
+
+    public float x;
+    public float y;
 	public float moveSpeed;
 	public Animator _animator;
 
@@ -78,6 +80,7 @@ public class Player : MonoBehaviour
         _animator.SetBool("HARTOActive", ((InteractableEvent)e).armUp);
         _animator.SetBool("IsTalking", ((InteractableEvent)e).talkingToHARTO);
         disableMovement = ((InteractableEvent)e).disableMovement;
+
     }
 
     void OnAstridTalksToHARTO(GameEvent e)
@@ -149,6 +152,7 @@ public class Player : MonoBehaviour
             _clip = Resources.Load("Audio/SFX/FOOTSTEPS/dirt_footsteps") as AudioClip;
         }
 
+        _audioSource.Stop();
 		if(!_audioSource.isPlaying)
 		{
 			_audioSource.pitch = Random.Range(0.85f, 1.2f);
@@ -170,16 +174,21 @@ public class Player : MonoBehaviour
             _renderer.flipX = true;
         }
 
-		float x = Input.GetAxis(HORIZONTAL_AXIS);
-		float y = Input.GetAxis(VERICLE_AXIS);
-        if (!GameManager.instance.HARTOinUtan)
+		x = Input.GetAxis(HORIZONTAL_AXIS);
+		y = Input.GetAxis(VERICLE_AXIS);
+        if (!GameManager.instance.HARTOinUtan && !GameManager.instance.trackProgressInHARTO)
         {
             _animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
         }
 		if(!disableMovement)
 		{
 			Move(x, y);
-		}
+            if (x != 0 || y != 0)
+            {
+                _animator.SetBool("HARTOActive", false);
+                _animator.SetBool("IsTalking", false);
+            }
+        }
         else
         {
             Move(0, 0);

@@ -34,7 +34,19 @@ public class BeornsHARTO : MonoBehaviour {
         
     }
 
-    IEnumerator BringUpHARTO()
+    void OnMouseDown()
+    {
+        GameManager.instance.HARTOinUtan = true;
+        GameManager.instance.pickedUpBeornsHARTO = true;
+        GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        clip = Resources.Load("Audio/VO/Astrid/SCENE_2/VO_Event/PickUpHARTO") as AudioClip;
+        Services.Events.Fire(new InteractableEvent(true, false, true));
+        StartCoroutine(BringUpHARTO());
+        audioSource.PlayOneShot(clip);
+        clipHasPlayed = true;
+    }
+
+        IEnumerator BringUpHARTO()
     {
         
         yield return new WaitForSeconds(7.5f);

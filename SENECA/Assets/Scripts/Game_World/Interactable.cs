@@ -6,6 +6,7 @@ using SenecaEvents;
 [RequireComponent(typeof(Collider2D))]
 public class Interactable : MonoBehaviour 
 {
+    public bool hasBeenClicked;
 	public Collider2D myCollider;
     public Texture2D hoverCursor;
     public CursorMode cursorMode = CursorMode.Auto;
@@ -13,6 +14,7 @@ public class Interactable : MonoBehaviour
 	public AudioClip clip;
 	// Use this for initialization
 	void Start () {
+        hasBeenClicked = false;
 		myAudioSource = GetComponent<AudioSource> ();
         myCollider = GetComponent<Collider2D>();
 		
@@ -20,8 +22,11 @@ public class Interactable : MonoBehaviour
 
     void OnMouseEnter()
     {
-        hoverCursor = Resources.Load("Sprites/UI_Images/handcursor") as Texture2D;
-        Cursor.SetCursor(hoverCursor, Vector2.zero, cursorMode);
+        if (!hasBeenClicked)
+        {
+            hoverCursor = Resources.Load("Sprites/UI_Images/handcursor") as Texture2D;
+            Cursor.SetCursor(hoverCursor, Vector2.zero, cursorMode);
+        }
     }
 
     void OnMouseExit()
@@ -31,54 +36,57 @@ public class Interactable : MonoBehaviour
 
     void OnMouseDown()
 	{
-		if (transform.name == "Priya"&& GameManager.instance.tutorialIsDone) 
-		{
-            //  done
-            clip = Resources.Load("Audio/VO/Priya/SCENE_1/VO_EVENT/Priya_Hurry") as AudioClip;
-		}   
-        else if(tag == "Rocks")
+        if (!hasBeenClicked)
         {
-            // done
-            Services.Events.Fire(new InteractableEvent(true, true, true));
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rocks") as AudioClip;
-        }
-        else if (tag == "Radio")
-        {
-            //  done
-            Services.Events.Fire(new InteractableEvent(true, true, true));
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Radio") as AudioClip;
-        }
-        else if (tag == "Sign")
-        {
-            // done
-            Services.Events.Fire(new InteractableEvent(true, true, true));
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Sign") as AudioClip;
-        }
-        else if (tag == "Racks")
-        {
-            //  done
-            Services.Events.Fire(new InteractableEvent(true, true, true));
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rack") as AudioClip;
-        }
-        else if (tag == "Fence")
-        {
-            //  done
-            Services.Events.Fire(new InteractableEvent(true, true, true));
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Fence") as AudioClip;
-        }
-        else if (tag == "Carving")
-        {
-            // done
-            Services.Events.Fire(new InteractableEvent(true, true, true));
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Carving") as AudioClip;
-        }
-        else if (tag == "Backpack" && GameManager.instance.tutorialIsDone)
-        {
-            //  done
-            clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Backpack") as AudioClip;
-        }
- 
+            if (transform.name == "Priya" && GameManager.instance.tutorialIsDone)
+            {
+                //  done
+                clip = Resources.Load("Audio/VO/Priya/SCENE_1/VO_EVENT/Priya_Hurry") as AudioClip;
+            }
+            else if (tag == "Rocks")
+            {
+                // done
+                Services.Events.Fire(new InteractableEvent(true, true, false));
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rocks") as AudioClip;
+            }
+            else if (tag == "Radio")
+            {
+                //  done
+                Services.Events.Fire(new InteractableEvent(true, true, false));
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Radio") as AudioClip;
+            }
+            else if (tag == "Sign")
+            {
+                // done
+                Services.Events.Fire(new InteractableEvent(true, true, false));
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Sign") as AudioClip;
+            }
+            else if (tag == "Racks")
+            {
+                //  done
+                Services.Events.Fire(new InteractableEvent(true, true, false));
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Rack") as AudioClip;
+            }
+            else if (tag == "Fence")
+            {
+                //  done
+                Services.Events.Fire(new InteractableEvent(true, true, false));
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Fence") as AudioClip;
+            }
+            else if (tag == "Carving")
+            {
+                // done
+                Services.Events.Fire(new InteractableEvent(true, true, false));
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Carving") as AudioClip;
+            }
+            else if (tag == "Backpack" && GameManager.instance.tutorialIsDone)
+            {
+                //  done
+                clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_EVENT/Astrid_Backpack") as AudioClip;
+            }
+            hasBeenClicked = true;
             myAudioSource.PlayOneShot(clip);
+        }
     }
 
     private void Update()
