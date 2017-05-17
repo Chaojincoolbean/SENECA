@@ -160,6 +160,7 @@ public class EventScript : MonoBehaviour
 				waitingForEmotionalInput = true;
 			}
 
+
 			while(astridHARTO.CurrentEmotion.ToString() == NO_EMOTION_SELECTED && response.transform.childCount > 1)
 			{
                 if (scene == "SCENE_1" && !GameManager.instance.playerAnimationLock)
@@ -199,6 +200,10 @@ public class EventScript : MonoBehaviour
                         Priya = GameObject.FindGameObjectWithTag("Priya");
                         Priya.GetComponent<Animator>().SetBool("IsTalking", false);
                     }
+                    else
+                    {
+                        GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
+                    }
                     
 				} 
 				else if (response.characterName == "Priya") 
@@ -211,8 +216,9 @@ public class EventScript : MonoBehaviour
                     // other character istalking is true;
                     Priya = GameObject.FindGameObjectWithTag ("Priya");
 					Priya.GetComponent<Animator>().SetBool("IsTalking", true);
+                    Services.Events.Fire(new InteractableEvent(false, false));
 
-				}
+                }
                 else if (response.characterName == "Ruth")
                 {
                     // other character istalking is true;
