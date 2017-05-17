@@ -37,7 +37,7 @@ public class BGM_Singleton : MonoBehaviour
 			}
 			else if(sceneName.Contains("Title"))
 			{
-				clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
+				clip = Resources.Load("Audio/Music/Title_Theme_Loop") as AudioClip;
 			}
 			else if(sceneName.Contains("Credits"))
 			{
