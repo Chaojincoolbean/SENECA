@@ -4,6 +4,9 @@ using ChrsUtils.ChrsCamera;
 
 public class UtanHunterCampSceneScript : Scene<TransitionData>
 {
+
+	public Transform[] ToggleSortingLayerLocations;
+	public SpriteRenderer[] huntercampLayers;
     public Player player;
 
 	public string lastScene;
@@ -63,6 +66,13 @@ public class UtanHunterCampSceneScript : Scene<TransitionData>
             FindPlayer();
             return;
         }
+
+		if (player.transform.position.y <= ToggleSortingLayerLocations [0].position.y) {
+			huntercampLayers [3].sortingOrder = 0;
+		} else {
+			huntercampLayers [3].sortingOrder = 11;
+
+		}
     }
 
     internal override void OnExit()
