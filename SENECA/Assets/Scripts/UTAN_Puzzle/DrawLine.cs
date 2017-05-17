@@ -61,7 +61,7 @@ public class DrawLine : MonoBehaviour
 
 	private int audioCount;
 	private bool[] audioCheck;
-
+    public float t;
 	public GameObject particleSystem;
 	
 	/*--------------------------------------------------------------------------------------*/
@@ -71,6 +71,7 @@ public class DrawLine : MonoBehaviour
     /*--------------------------------------------------------------------------------------*/
 	void Start () 
 	{
+        t = 0;
 		lines = new List<GameObject> ();
 		nodes = new List<GameObject> ();
 		usedNodes = new List<GameObject> ();
@@ -297,6 +298,12 @@ public class DrawLine : MonoBehaviour
                 if (solved && !Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     Services.Events.Fire(new PuzzleCompletedEvent());
+                    Transform[] lines = transform.GetComponentsInChildren<Transform>();
+                    
+                    foreach(Transform lineTransforms in lines)
+                    {
+                        Destroy(lineTransforms.gameObject);
+                    }
                 }
 
 			}

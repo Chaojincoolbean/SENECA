@@ -48,7 +48,7 @@ public class SenecaRadioTowerSceneScript : Scene<TransitionData>
         }
         else
         {
-            GameObject.Find("witchlightRadios").GetComponent<Animator>().SetBool("ChaseMe", false);
+            //GameObject.Find("witchlightRadios").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
 
     }
