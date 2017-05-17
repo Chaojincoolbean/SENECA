@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
 	private const string DIALOUGE_MANAGER_TAG = "DialogueManager";
 	private const string HARTO_TAG = "HARTO";
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
+    public bool HARTOinUtan;
+    public bool pickedUpBeornsHARTO;
     public bool HARTOIsTalking;
 	public bool isTestScene;
     public bool tutorialIsDone;
@@ -58,6 +60,8 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+        HARTOinUtan = false;
+        pickedUpBeornsHARTO = false;
         HARTOIsTalking = false;
 		currentScene = "PrologueSceneScript";
 		startedGame = false;

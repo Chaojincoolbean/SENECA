@@ -171,13 +171,13 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
         if (GameManager.instance.HARTOIsTalking)
         {
-            Services.Events.Fire(new InteractableEvent(false, true));
+            Services.Events.Fire(new InteractableEvent(false, true, true));
         }
 
         if (!begin && !audioSource.isPlaying && !TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
 		{
             GameManager.instance.HARTOIsTalking = false;
-            Services.Events.Fire(new InteractableEvent(false, false));
+            Services.Events.Fire(new InteractableEvent(false, false, false));
             Services.Events.Fire(new MoveMomEvent());
 			begin = true;
 		}

@@ -216,7 +216,7 @@ public class EventScript : MonoBehaviour
                     // other character istalking is true;
                     Priya = GameObject.FindGameObjectWithTag ("Priya");
 					Priya.GetComponent<Animator>().SetBool("IsTalking", true);
-                    Services.Events.Fire(new InteractableEvent(false, false));
+                    Services.Events.Fire(new InteractableEvent(false, false, false));
 
                 }
                 else if (response.characterName == "Ruth")

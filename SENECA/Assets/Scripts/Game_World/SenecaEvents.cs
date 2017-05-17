@@ -138,10 +138,12 @@ namespace SenecaEvents
     {
         public readonly bool talkingToHARTO;
         public readonly bool armUp;
-        public InteractableEvent(bool _talkingToHARTO, bool _armUp)
+        public readonly bool disableMovement;
+        public InteractableEvent(bool _talkingToHARTO, bool _armUp, bool _disableMovement)
         {
             talkingToHARTO = _talkingToHARTO;
             armUp = _armUp;
+            disableMovement = _disableMovement;
         }
     }
 

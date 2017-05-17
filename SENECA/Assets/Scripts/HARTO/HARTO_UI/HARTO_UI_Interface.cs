@@ -21,6 +21,8 @@ public class HARTO_UI_Interface : MonoBehaviour
 		public string title;
 	}
 
+    public bool usingBeornsHARTO;
+    public bool allBeornRecordingsPlayed;
     public bool clipHasBeenPlayed;
     public bool canDisableHARTO;
     public bool allRuthRecordingsPlayed;
@@ -46,11 +48,9 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public Action[] updatedTopics = new Action[4];
 	public Action[] emotions;
 	public Action[] recordingFolders;
-	public Action[] recordings_Dad;
-	public Action[] recordings_Astrid;
+    public Action[] recordingFoldersBeorn;
 	public Action[] recordings_Ruth;
-	public Action[] recordings_ABC;
-	public Action[] recordings_Note;
+	public Action[] recordings_Beorn;
 
     public RadialMenuSpawner menuSpawner;
 
@@ -76,6 +76,7 @@ public class HARTO_UI_Interface : MonoBehaviour
         clipHasBeenPlayed = false;
         closingHARTOForFirstTime = true;
         allRuthRecordingsPlayed = false;
+        allBeornRecordingsPlayed = false;
 		isHARTOActive = false;
 		dialogueModeActive = true;
 		recordingFolderSelected = false;
@@ -141,7 +142,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 				audioSource.PlayOneShot(clip);
 			}
 
-			if(closingHARTOForFirstTime)
+			if(closingHARTOForFirstTime && !usingBeornsHARTO)
 			{
 
 				Services.Events.Fire(new ClosingHARTOForTheFirstTimeEvent());
@@ -164,7 +165,15 @@ public class HARTO_UI_Interface : MonoBehaviour
 			}
 			else
 			{
-				ReloadMenu(recordingFolders);
+                if(usingBeornsHARTO)
+                {
+                    ReloadMenu(recordings_Beorn);
+                }
+                else
+                {
+                    ReloadMenu(recordingFolders);
+                }
+				
 			}
 		}
 	}
@@ -172,25 +181,13 @@ public class HARTO_UI_Interface : MonoBehaviour
 	void OnRecordingFolderSelected(GameEvent e)
 	{
         menuSpawner.DestroyMenu();
-		if(((RecordingFolderSelectedEvent)e).folder.Contains("Dad"))
-		{
-			ReloadMenu(recordings_Dad);
-		}
-		else if (((RecordingFolderSelectedEvent)e).folder.Contains("Ruth"))
+        if (((RecordingFolderSelectedEvent)e).folder.Contains("Ruth"))
 		{
 			ReloadMenu(recordings_Ruth);
 		}
-		else if (((RecordingFolderSelectedEvent)e).folder.Contains("Astrid"))
+		else if (((RecordingFolderSelectedEvent)e).folder.Contains("Beorn"))
 		{
-			ReloadMenu(recordings_Astrid);
-		}
-		else if (((RecordingFolderSelectedEvent)e).folder.Contains("ABC"))
-		{
-			ReloadMenu(recordings_ABC);
-		}
-		else if (((RecordingFolderSelectedEvent)e).folder.Contains("Note"))
-		{
-			ReloadMenu(recordings_Note);
+			ReloadMenu(recordings_Beorn);
 		}
 
 		recordingFolderSelected = true;
@@ -258,7 +255,14 @@ public class HARTO_UI_Interface : MonoBehaviour
 		
 		if(closedTutorialUsingRecordingSwitch)
 		{
-			ReloadMenu(recordingFolders);
+            if (!usingBeornsHARTO)
+            {
+                ReloadMenu(recordingFolders);
+            }
+            else
+            {
+                ReloadMenu(recordings_Beorn);
+            }
 			Services.Events.Fire(new DisablePlayerMovementEvent(false));
 			closedTutorialUsingRecordingSwitch = false;
 		}
@@ -274,44 +278,128 @@ public class HARTO_UI_Interface : MonoBehaviour
     void OnRecordingSelected(GameEvent e)
     {
         //canDisableHARTO = false;
-        if (allRuthRecordingsPlayed)
+        if (!usingBeornsHARTO)
         {
+            if (allRuthRecordingsPlayed)
+            {
 
+            }
+            else
+            {
+                if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[0].title))
+                {
+                    recordings_Ruth[0].alreadySelected = true;
+                    recordings_Ruth[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Ruth[1].alreadySelected = false;
+                    recordings_Ruth[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Ruth[2].alreadySelected = true;
+                    recordings_Ruth[2].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+                }
+                else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[1].title))
+                {
+                    recordings_Ruth[0].alreadySelected = true;
+                    recordings_Ruth[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Ruth[1].alreadySelected = true;
+                    recordings_Ruth[1].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Ruth[2].alreadySelected = false;
+                    recordings_Ruth[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                }
+                else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[2].title))
+                {
+                    recordings_Ruth[0].alreadySelected = false;
+                    recordings_Ruth[0].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Ruth[1].alreadySelected = false;
+                    recordings_Ruth[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Ruth[2].alreadySelected = false;
+                    recordings_Ruth[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+                    allRuthRecordingsPlayed = true;
+                }
+
+                ReloadMenu(recordings_Ruth);
+            }
         }
         else
         {
-            if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[0].title))
+            if (allBeornRecordingsPlayed)
             {
-                recordings_Ruth[0].alreadySelected = true;
-                recordings_Ruth[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
-                recordings_Ruth[1].alreadySelected = false;
-                recordings_Ruth[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                recordings_Ruth[2].alreadySelected = true;
-                recordings_Ruth[2].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
 
             }
-            else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[1].title))
+            else
             {
-                recordings_Ruth[0].alreadySelected = true;
-                recordings_Ruth[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
-                recordings_Ruth[1].alreadySelected = true;
-                recordings_Ruth[1].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
-                recordings_Ruth[2].alreadySelected = false;
-                recordings_Ruth[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            }
-            else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Ruth[2].title))
-            {
-                recordings_Ruth[0].alreadySelected = false;
-                recordings_Ruth[0].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                recordings_Ruth[1].alreadySelected = false;
-                recordings_Ruth[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                recordings_Ruth[2].alreadySelected = false;
-                recordings_Ruth[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                if (((RecordingSelectedEvent)e).recording.Contains(recordings_Beorn[0].title))
+                {
+                    recordings_Beorn[0].alreadySelected = true;
+                    recordings_Beorn[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[1].alreadySelected = false;
+                    recordings_Beorn[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[2].alreadySelected = true;
+                    recordings_Beorn[2].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[3].alreadySelected = true;
+                    recordings_Beorn[3].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[4].alreadySelected = true;
+                    recordings_Beorn[4].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
 
-                allRuthRecordingsPlayed = true;
-            }
+                }
+                else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Beorn[1].title))
+                {
+                    recordings_Beorn[0].alreadySelected = true;
+                    recordings_Beorn[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[1].alreadySelected = true;
+                    recordings_Beorn[1].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[2].alreadySelected = false;
+                    recordings_Beorn[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[3].alreadySelected = true;
+                    recordings_Beorn[3].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[4].alreadySelected = true;
+                    recordings_Beorn[4].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                }
+                else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Beorn[2].title))
+                {
+                    recordings_Beorn[0].alreadySelected = true;
+                    recordings_Beorn[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[1].alreadySelected = true;
+                    recordings_Beorn[1].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[2].alreadySelected = true;
+                    recordings_Beorn[2].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[3].alreadySelected = false;
+                    recordings_Beorn[3].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[4].alreadySelected = true;
+                    recordings_Beorn[4].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                }
+                else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Beorn[3].title))
+                {
+                    recordings_Beorn[0].alreadySelected = false;
+                    recordings_Beorn[0].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[1].alreadySelected = false;
+                    recordings_Beorn[1].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[2].alreadySelected = false;
+                    recordings_Beorn[2].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[3].alreadySelected = false;
+                    recordings_Beorn[3].color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                    recordings_Beorn[4].alreadySelected = true;
+                    recordings_Beorn[4].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
-            ReloadMenu(recordings_Ruth);
+                }
+                else if (((RecordingSelectedEvent)e).recording.Contains(recordings_Beorn[4].title))
+                {
+                    recordings_Beorn[0].alreadySelected = true;
+                    recordings_Beorn[0].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[1].alreadySelected = true;
+                    recordings_Beorn[1].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[2].alreadySelected = true;
+                    recordings_Beorn[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[3].alreadySelected = true;
+                    recordings_Beorn[3].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    recordings_Beorn[4].alreadySelected = true;
+                    recordings_Beorn[4].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+                    allBeornRecordingsPlayed = true;
+                }
+
+                ReloadMenu(recordings_Beorn);
+            }
         }
     }
 
@@ -358,6 +446,10 @@ public class HARTO_UI_Interface : MonoBehaviour
     // Update is called once per frame
     void Update () 
 	{
+        if(GameManager.instance.pickedUpBeornsHARTO == true)
+        {
+            usingBeornsHARTO = true;
+        }
 
 		if (player == null)
 		{

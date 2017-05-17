@@ -26,6 +26,8 @@ public class UtanRocksSceneScript : Scene<TransitionData>
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.41f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.41f;
 
+        
+
     }
 
     public float nextTimeToSearch = 0;

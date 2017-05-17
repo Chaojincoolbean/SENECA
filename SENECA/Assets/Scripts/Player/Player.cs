@@ -75,10 +75,9 @@ public class Player : MonoBehaviour
 
     void OnInteractable(GameEvent e)
     {
-        Debug.Log("!@$@#$32");
         _animator.SetBool("HARTOActive", ((InteractableEvent)e).armUp);
         _animator.SetBool("IsTalking", ((InteractableEvent)e).talkingToHARTO);
-        disableMovement = ((InteractableEvent)e).armUp;
+        disableMovement = ((InteractableEvent)e).disableMovement;
     }
 
     void OnAstridTalksToHARTO(GameEvent e)
@@ -172,7 +171,10 @@ public class Player : MonoBehaviour
 
 		float x = Input.GetAxis(HORIZONTAL_AXIS);
 		float y = Input.GetAxis(VERICLE_AXIS);
-		_animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+        if (!GameManager.instance.HARTOinUtan)
+        {
+            _animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
+        }
 		if(!disableMovement)
 		{
 			Move(x, y);
