@@ -5,6 +5,10 @@ using ChrsUtils.ChrsCamera;
 
 public class SenecaRoadSceneScript : Scene<TransitionData>
 {
+
+	public Transform[] ToggleSortingLayerLocations;
+	public SpriteRenderer[] roadLayers;
+
     public Player player;
     public AudioClip clip;
     public AudioSource audioSouorce;
@@ -96,6 +100,19 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
             FindPlayer();
             return;
         }
+
+		/*if (player.transform.position.y <= ToggleSortingLayerLocations [0].position.y
+			&& player.transform.position.x <= ToggleSortingLayerLocations[0].position.x) {
+			roadLayers [1].sortingOrder = 9;
+		} else {
+			roadLayers [1].sortingOrder = 11;
+		}*/
+
+		if (player.transform.position.y <= ToggleSortingLayerLocations [1].position.y) {
+			roadLayers [0].sortingOrder = 9;
+		} else {
+			roadLayers [0].sortingOrder = 11;
+		}
     }
 
     internal override void OnExit()
