@@ -15,6 +15,7 @@ public class Main : MonoBehaviour
 
 		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
 	
-		Services.Scenes.PushScene<SenecaRocksSceneScript>();
+        // try now
+		Services.Scenes.PushScene<TitleSceneScript>();
     }
 }
