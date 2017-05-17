@@ -6,6 +6,10 @@ using ChrsUtils.ChrsCamera;
 
 public class SenecaHunterCampSceneScript : Scene<TransitionData>
 {
+
+	public Transform[] ToggleSortingLayerLocations;
+	public SpriteRenderer[] huntercampLayers;
+
     public Player player;
     public AudioClip clip;
     public AudioSource audioSource;
@@ -67,6 +71,12 @@ public class SenecaHunterCampSceneScript : Scene<TransitionData>
             FindPlayer();
             return;
         }
+
+		if (player.transform.position.y <= ToggleSortingLayerLocations [0].position.y) {
+			huntercampLayers [4].sortingOrder = 0;
+		} else {
+			huntercampLayers [4].sortingOrder = 11;
+		}
     }
 
     internal override void OnExit()
