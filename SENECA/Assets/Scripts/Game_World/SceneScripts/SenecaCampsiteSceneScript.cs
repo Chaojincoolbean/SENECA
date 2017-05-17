@@ -31,9 +31,18 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 	private TABUIButtonAppearEvent.Handler onTABUIButtonAppear;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 
+	public string lastScene;
+	public GameObject mainCamera;
+	public Transform fromSenecaForestFork;
+	public Transform fromPrologue;
+
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
+		mainCamera = GameObject.Find ("Main Camera");
+		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
     }
 
     internal override void OnEnter(TransitionData data)
@@ -131,6 +140,17 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 			GameObject result = GameObject.FindGameObjectWithTag ("Player");
 			if (result != null)
 			{
+
+				if (lastScene == "SenecaForestForkSceneScript") {
+					result.transform.position = fromSenecaForestFork.position;
+					result.transform.localScale = fromSenecaForestFork.localScale;
+
+				}
+				if (lastScene == "PrologueSceneScript") {
+					result.transform.position = fromPrologue.position;
+					result.transform.localScale = fromPrologue.localScale;
+
+				}
 				player = result.GetComponent<Player>();
 			}
 			nextTimeToSearch = Time.time + 2.0f;

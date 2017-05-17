@@ -6,6 +6,19 @@ public class UtanHunterCampSceneScript : Scene<TransitionData>
 {
     public Player player;
 
+	public string lastScene;
+	public GameObject mainCamera;
+	public Transform fromUtanFarm;
+	public Transform fromUtanRoad;
+
+	private void Start()
+	{
+
+		mainCamera = GameObject.Find ("Main Camera");
+		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
+
+	}
+
     internal override void OnEnter(TransitionData data)
     {
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
@@ -24,6 +37,18 @@ public class UtanHunterCampSceneScript : Scene<TransitionData>
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
+
+				if (lastScene == "UtanFarmSceneScript") {
+					result.transform.position = fromUtanFarm.position;
+					result.transform.localScale = fromUtanFarm.localScale;
+
+				}
+				if (lastScene == "UtanRoadSceneScript") {
+					result.transform.position = fromUtanRoad.position;
+					result.transform.localScale = fromUtanRoad.localScale;
+
+				}
+
                 player = result.GetComponent<Player>();
             }
             nextTimeToSearch = Time.time + 2.0f;

@@ -8,6 +8,20 @@ public class UtanRoadSceneScript : Scene<TransitionData>
 {
 	Player player;
 
+	public string lastScene;
+	public GameObject mainCamera;
+	public Transform fromUtanRadiotower;
+	public Transform fromUtanHuntercamp;
+	public Transform fromUtanRocks;
+
+	private void Start()
+	{
+
+		mainCamera = GameObject.Find ("Main Camera");
+		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
+
+	}
+
 	internal override void OnEnter(TransitionData data)
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 6.16f;
@@ -26,6 +40,23 @@ public class UtanRoadSceneScript : Scene<TransitionData>
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
+
+				if (lastScene == "UtanRadioTowerSceneScript") {
+					result.transform.position = fromUtanRadiotower.position;
+					result.transform.localScale = fromUtanRadiotower.localScale;
+
+				}
+				if (lastScene == "UtanHunterCampSceneScript") {
+					result.transform.position = fromUtanHuntercamp.position;
+					result.transform.localScale = fromUtanHuntercamp.localScale;
+
+				}
+				if (lastScene == "UtanRocksSceneScript") {
+					result.transform.position =  fromUtanRocks.position;
+					result.transform.localScale =  fromUtanRocks.localScale;
+
+				}
+
                 player = result.GetComponent<Player>();
             }
             nextTimeToSearch = Time.time + 2.0f;

@@ -8,11 +8,18 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
     public AudioClip clip;
     public AudioSource audioSource;
 
+	public string lastScene;
+	public GameObject mainCamera;
+	public Transform fromSenecaForestFork;
+	public Transform fromSenecaHuntercamp;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
 
+		mainCamera = GameObject.Find ("Main Camera");
+		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
     }
 
     internal override void OnEnter(TransitionData data)
@@ -35,6 +42,17 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
+				if (lastScene == "SenecaForestForkSceneScript") {
+					result.transform.position = fromSenecaForestFork.position;
+					result.transform.localScale = fromSenecaForestFork.localScale;
+
+				}
+				if (lastScene == "SenecaHunterCampSceneScript") {
+					result.transform.position = fromSenecaHuntercamp.position;
+					result.transform.localScale = fromSenecaHuntercamp.localScale;
+
+				}
+
                 player = result.GetComponent<Player>();
             }
             nextTimeToSearch = Time.time + 2.0f;

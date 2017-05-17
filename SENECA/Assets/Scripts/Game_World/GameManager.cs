@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		currentScene = "null";
+		currentScene = "PrologueSceneScript";
 		startedGame = false;
         playerAnimationLock = false;
         tutorialIsDone = false;

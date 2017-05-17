@@ -10,9 +10,17 @@ public class SenecaHunterCampSceneScript : Scene<TransitionData>
     public AudioClip clip;
     public AudioSource audioSource;
 
+	public string lastScene;
+	public GameObject mainCamera;
+	public Transform fromSenecaRoad;
+	public Transform fromSenecaFarm;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
+		mainCamera = GameObject.Find ("Main Camera");
+		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
 
     }
 
@@ -33,6 +41,18 @@ public class SenecaHunterCampSceneScript : Scene<TransitionData>
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
+
+				if (lastScene == "SenecaRoadSceneScript") {
+					result.transform.position = fromSenecaRoad.position;
+					result.transform.localScale = fromSenecaRoad.localScale;
+
+				}
+				if (lastScene == "SenecaFarmSceneScript") {
+					result.transform.position = fromSenecaFarm.position;
+					result.transform.localScale = fromSenecaFarm.localScale;
+
+				}
+
                 player = result.GetComponent<Player>();
             }
             nextTimeToSearch = Time.time + 2.0f;

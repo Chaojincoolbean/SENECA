@@ -9,10 +9,19 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
     public AudioClip clip;
     public AudioSource audioSouorce;
 
+	public string lastScene;
+	public GameObject mainCamera;
+	public Transform fromSenecaRadiotower;
+	public Transform fromSenecaHuntercamp;
+	public Transform fromSenecaRocks;
+
     private void Start()
     {
         audioSouorce = GetComponent<AudioSource>();
         clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_RoadWitchLight") as AudioClip;
+
+		mainCamera = GameObject.Find ("Main Camera");
+		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
     }
 
     internal override void OnEnter(TransitionData data)
@@ -54,6 +63,25 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
+
+				if (lastScene == "SenecaRadioTowerSceneScript") {
+					Debug.Log ("I am here.");
+					result.transform.position = fromSenecaRadiotower.position;
+					result.transform.localScale = fromSenecaRadiotower.localScale;
+
+				}
+				if (lastScene == "SenecaHunterCampSceneScript") {
+					result.transform.position = fromSenecaHuntercamp.position;
+					result.transform.localScale = fromSenecaHuntercamp.localScale;
+					Debug.Log ("I am here.");
+
+				}
+				if (lastScene == "SenecaRocksSceneScript") {
+					result.transform.position =  fromSenecaRocks.position;
+					result.transform.localScale =  fromSenecaRocks.localScale;
+
+				}
+
                 player = result.GetComponent<Player>();
             }
             nextTimeToSearch = Time.time + 2.0f;

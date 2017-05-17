@@ -11,6 +11,7 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
     public AudioClip clip;
     public AudioSource audioSource;
 	public GameObject Exit;
+
 	public string lastScene;
 	public GameObject mainCamera;
 	public Transform fromSenecaCampsite;
@@ -21,9 +22,9 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
     {
         audioSource = GetComponent<AudioSource>();
         clip = Resources.Load("Audio/VO/Astrid/SCENE_1/VO_Event/Astrid_ForkWitchLight") as AudioClip;
+
 		mainCamera = GameObject.Find ("Main Camera");
 		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
-		Debug.Log ("lastscene:" + lastScene);
 
     }
 
