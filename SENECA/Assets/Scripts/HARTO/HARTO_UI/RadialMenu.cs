@@ -220,8 +220,8 @@ public class RadialMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-
-		if(GameManager.instance.isTestScene)
+        _anim.SetBool("usingBeornsHARTO", HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO);
+        if (GameManager.instance.isTestScene)
 		{
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
