@@ -46,6 +46,10 @@ public class RadialMenu : MonoBehaviour
 
 	public void Init(Player player, RadialMenuSpawner thisMenu)
 	{
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            rotationSpeed = 50.0f;
+        }
         menuSpawner = thisMenu;
         iconSelected = false;
         _anim = GetComponent<Animator>();
