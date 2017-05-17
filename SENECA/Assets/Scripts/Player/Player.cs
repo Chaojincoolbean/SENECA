@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D _rigidBody2D;
     private SpriteRenderer _renderer;
+    private InteractableEvent.Handler onInteractable;
     private AstridTalksToHARTOEvent.Handler onAstridTalksToHARTO;
 	private DisablePlayerMovementEvent.Handler onToggleDisableMovement;
     private BeginTutorialEvent.Handler onBeginTutorial;
@@ -46,12 +47,14 @@ public class Player : MonoBehaviour
 		_animator = GetComponent<Animator>();
 		_audioSource = GetComponent<AudioSource>();
 
+        onInteractable = new InteractableEvent.Handler(OnInteractable);
         onAstridTalksToHARTO = new AstridTalksToHARTOEvent.Handler(OnAstridTalksToHARTO);
 		onToggleDisableMovement = new DisablePlayerMovementEvent.Handler(OnToggleDisableMovement);
         onBeginTutorial = new BeginTutorialEvent.Handler(OnBeginTutorial);
 		onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
+        Services.Events.Register<InteractableEvent>(onInteractable);
         Services.Events.Register<AstridTalksToHARTOEvent>(onAstridTalksToHARTO);
 		Services.Events.Register<DisablePlayerMovementEvent>(onToggleDisableMovement);
         Services.Events.Register<BeginTutorialEvent>(onBeginTutorial);
@@ -61,11 +64,21 @@ public class Player : MonoBehaviour
 
     private void OnDestroy()
     {
+        Services.Events.Unregister<InteractableEvent>(onInteractable);
         Services.Events.Unregister<AstridTalksToHARTOEvent>(onAstridTalksToHARTO);
         Services.Events.Unregister<DisablePlayerMovementEvent>(onToggleDisableMovement);
         Services.Events.Unregister<BeginTutorialEvent>(onBeginTutorial);
         Services.Events.Unregister<ToggleHARTOEvent>(onToggleHARTO);
         Services.Events.Unregister<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
+    }
+
+
+    void OnInteractable(GameEvent e)
+    {
+        Debug.Log("!@#@#@$");
+        _animator.SetBool("HARTOActive", ((InteractableEvent)e).talkingToHARTO);
+        _animator.SetBool("IsTalking", ((InteractableEvent)e).talkingToHARTO);
+        disableMovement = ((InteractableEvent)e).talkingToHARTO;
     }
 
     void OnAstridTalksToHARTO(GameEvent e)
