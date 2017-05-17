@@ -19,7 +19,11 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
 
     internal override void OnEnter(TransitionData data)
 	{
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
+
+        FindPlayer();
+        player.transform.position = new Vector3(GameObject.Find("SenecaMeadowSpawnPoint").transform.position.x, GameObject.Find("SenecaMeadowSpawnPoint").transform.position.y, GameObject.Find("SenecaMeadowSpawnPoint").transform.position.z);
+
+        GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.69f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.35f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.35f;
