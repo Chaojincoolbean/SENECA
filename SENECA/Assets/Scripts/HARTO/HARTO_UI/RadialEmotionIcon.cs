@@ -10,11 +10,11 @@ public class RadialEmotionIcon : RadialIcon {
 	// Use this for initialization
 	void Start () 
 	{
-			
+		GetComponent<Image> ().color = transform.parent.GetChild (0).gameObject.GetComponent<Image> ().color;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		GetComponent<Image> ().color = transform.parent.GetChild (1).gameObject.GetComponent<Image> ().color;
+		GetComponent<Image> ().color = transform.parent.GetChild (0).gameObject.GetComponent<Image> ().color;
 	}
 }

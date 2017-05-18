@@ -6,6 +6,7 @@ using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using ChrsUtils.EasingEquations;
 using ChrsUtils;
+using UnityEngine.UI;
 
 public class HARTO_UI_Interface : MonoBehaviour 
 {
@@ -61,7 +62,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public string currentNPC;
 	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
     private RecordingSelectedEvent.Handler onRecordingSelected;
-    private TopicSelectedEvent.Handler onTopicSelecetd;
+	private TopicSelectedEvent.Handler onTopicSelected;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onDialogueEnded;
 	private RecordingIsOverEvent.Handler onRecordingEnded;
@@ -96,14 +97,14 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 		onRecordingFolderSelecetd = new RecordingFolderSelectedEvent.Handler(OnRecordingFolderSelected);
         onRecordingSelected = new RecordingSelectedEvent.Handler(OnRecordingSelected);
-        onTopicSelecetd = new TopicSelectedEvent.Handler(OnTopicSelected);
+        onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
 		onBeginDialogueEvent = new BeginDialogueEvent.Handler(OnBeginDialogueEvent);
 		onDialogueEnded = new EndDialogueEvent.Handler(OnDialogueEnded);
 		onRecordingEnded = new RecordingIsOverEvent.Handler(OnRecordingEnded);
 
 		Services.Events.Register<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
         Services.Events.Register<RecordingSelectedEvent>(onRecordingSelected);
-        Services.Events.Register<TopicSelectedEvent>(onTopicSelecetd);
+        Services.Events.Register<TopicSelectedEvent>(onTopicSelected);
 		Services.Events.Register<BeginDialogueEvent>(onBeginDialogueEvent);
 		Services.Events.Register<EndDialogueEvent>(onDialogueEnded);
 		Services.Events.Register<RecordingIsOverEvent>(onRecordingEnded);
@@ -114,7 +115,7 @@ public class HARTO_UI_Interface : MonoBehaviour
     {
         Services.Events.Unregister<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
         Services.Events.Unregister<RecordingSelectedEvent>(onRecordingSelected);
-        Services.Events.Unregister<TopicSelectedEvent>(onTopicSelecetd);
+        Services.Events.Unregister<TopicSelectedEvent>(onTopicSelected);
         Services.Events.Unregister<BeginDialogueEvent>(onBeginDialogueEvent);
         Services.Events.Unregister<EndDialogueEvent>(onDialogueEnded);
         Services.Events.Unregister<RecordingIsOverEvent>(onRecordingEnded);
@@ -204,6 +205,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 				topics[i].color = Color.white;
 			}
 			topicSelected = true;
+			//Debug.Log ("reloading with emotions OnTopicSelected");
 			ReloadMenu(emotions);
 		}
 
@@ -223,6 +225,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 				{
 					updatedTopics[j] = topics[j];
 				}
+				//Debug.Log ("reloading with emotions OnTopicSelected forloop");
 				ReloadMenu(emotions);
 				break;
 			}
@@ -453,6 +456,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
         if(GameManager.instance.pickedUpBeornsHARTO == true)
         {
+			
             usingBeornsHARTO = true;
         }
 

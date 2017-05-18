@@ -220,7 +220,14 @@ public class RadialMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		if (HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO) {
+			_anim.SetBool ("Regular", false);
+		} else {
+			_anim.SetBool ("Regular", true);
+		}
         _anim.SetBool("usingBeornsHARTO", HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO);
+
+
         if (GameManager.instance.isTestScene)
 		{
 			if(Input.GetKeyDown(KeyCode.Space))
@@ -274,6 +281,10 @@ public class RadialMenu : MonoBehaviour
 			{
 				audioSource.PlayOneShot(clip);
 			}
+		}
+
+		if (GameManager.instance.pickedUpBeornsHARTO) {
+			//GetComponent<Image> ().sprite = Resources.Load ("Sprites/HARTO_Images/HARTO_UI/BeornHARTO") as Sprite;
 		}
 
 		if(canSelect)
