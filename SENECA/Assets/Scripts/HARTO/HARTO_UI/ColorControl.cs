@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 
-public class RadialEmotionIcon : RadialIcon {
+public class ColorControl : MonoBehaviour {
 
-	public Emotions emotion;
 	// Use this for initialization
-	void Start () 
-	{
-			
+	void Start () {
+		
 	}
 	
 	// Update is called once per frame
