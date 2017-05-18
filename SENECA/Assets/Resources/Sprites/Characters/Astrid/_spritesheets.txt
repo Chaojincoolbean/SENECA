@@ -1,0 +1,1 @@
+astrid-speaking-subtle-spritesheet.png,615,1584,2astrid-speaking-front-spritesheet.png,615,1584,2

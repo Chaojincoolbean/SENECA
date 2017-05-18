@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 36aadc6767416499bbe474e00fa6e8bd
-timeCreated: 1494167487
+timeCreated: 1495098004
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -92,6 +92,30 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: tvOS
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Tizen
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Samsung TV
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -101,8 +125,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 425
-        height: 1497
+        width: 615
+        height: 1584
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,10 +136,10 @@ TextureImporter:
       name: astrid-speaking-subtle-spritesheet_1
       rect:
         serializedVersion: 2
-        x: 425
+        x: 615
         y: 0
-        width: 425
-        height: 1495
+        width: 615
+        height: 1584
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

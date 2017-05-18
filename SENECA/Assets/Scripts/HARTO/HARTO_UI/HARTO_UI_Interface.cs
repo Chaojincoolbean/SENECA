@@ -123,18 +123,32 @@ public class HARTO_UI_Interface : MonoBehaviour
 
     void ReloadMenu(Action[] newOptions)
 	{
+
+		menuSpawner.DestroyMenu();
 		options = newOptions;
 		if(player.npcAstridIsTalkingTo == null)
 		{
 			newOptions = empty;
 		}
-		menuSpawner.ReloadSpawnMenu(this, player,dialogueModeActive, topicSelected, true);
+		//menuSpawner.ResetMenu();
+
+
+
+		menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected, true);
+        
+	}
+
+	/*void ReloadMenuOpenFolder(Action[] newOptions){
+		options = newOptions;
+		if(player.npcAstridIsTalkingTo == null)
+		{
+			newOptions = empty;
+		}
 		//menuSpawner.ResetMenu();
 
 
 		menuSpawner.ReloadDestroyMenu();
-        
-	}
+	}*/
 
 	public void ToggleDialogueMode()
 	{

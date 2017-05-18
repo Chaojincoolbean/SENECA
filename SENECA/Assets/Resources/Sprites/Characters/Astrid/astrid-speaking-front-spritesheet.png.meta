@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6d5768381a713ad4a8df34a28f9e20ea
-timeCreated: 1494987331
+timeCreated: 1495098185
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -92,6 +92,30 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: tvOS
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Tizen
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Samsung TV
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -99,10 +123,10 @@ TextureImporter:
       name: astrid-speaking-front-spritesheet_0
       rect:
         serializedVersion: 2
-        x: 83
-        y: 53
-        width: 420
-        height: 1515
+        x: 0
+        y: 0
+        width: 615
+        height: 1584
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,10 +136,10 @@ TextureImporter:
       name: astrid-speaking-front-spritesheet_1
       rect:
         serializedVersion: 2
-        x: 698
-        y: 53
-        width: 420
-        height: 1514
+        x: 615
+        y: 0
+        width: 615
+        height: 1584
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
