@@ -221,10 +221,13 @@ public class EventScript : MonoBehaviour
                         GameManager.instance.player_Astrid._animator.SetBool("IsTalking", true);
                     }
 
-					Priya = GameObject.FindGameObjectWithTag("Priya");
-					Priya.GetComponent<Animator>().SetBool("IsTalking", false);
-                    
-				} 
+                    if (GameObject.FindGameObjectWithTag("Priya") != null)
+                    {
+                        Priya = GameObject.FindGameObjectWithTag("Priya");
+                        Priya.GetComponent<Animator>().SetBool("IsTalking", false);
+                    }
+
+                } 
 				else if (response.characterName == "Priya") 
 				{
                     if (!GameManager.instance.playerAnimationLock)
