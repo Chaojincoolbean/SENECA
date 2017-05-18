@@ -41,6 +41,7 @@ public class BeornsHARTO : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        hasBeenClicked = true;
         GameManager.instance.HARTOinUtan = true;
         GameManager.instance.pickedUpBeornsHARTO = true;
         GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
