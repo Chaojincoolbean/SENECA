@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
 	public static GameManager instance;
 
 
-	//toggle this to speed through dialogue
-	public bool cheatSpace = true;
+	public bool cheatSpace; //toggle this in Start() to toggle dialogue cheat
+
 
 	public Dictionary<string, bool> whoTalksFirst;
 
@@ -86,6 +86,10 @@ public class GameManager : MonoBehaviour
 			instance = this;
 			//DontDestroyOnLoad(this.gameObject);
 		}
+
+
+		//toggle this to speed through dialogue
+		cheatSpace = true;
 			
 		whoTalksFirst = new Dictionary<string, bool>();
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
