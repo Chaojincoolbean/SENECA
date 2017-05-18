@@ -84,9 +84,9 @@ public class Mom : MonoBehaviour
 			x = x + 0.05f;
 
 			if (y > 1f) {
-				y -= 0.1f;
+				y -= 0.01f;
 			} else if(y > -1f){
-				y += 0.1f;
+				y += 0.01f;
 			}
 
 			this.gameObject.transform.position = new Vector3 (x, -3.5f, 0);
