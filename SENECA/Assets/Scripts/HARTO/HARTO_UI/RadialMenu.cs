@@ -10,6 +10,8 @@ using SenecaEvents;
 
 public class RadialMenu : MonoBehaviour 
 {
+	public bool _destroyed;
+
     public bool iconSelected;
 	public bool activeSFXPlayedOnce;
 	public bool notActive;
@@ -220,96 +222,80 @@ public class RadialMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO) {
-			_anim.SetBool ("Regular", false);
-		} else {
-			_anim.SetBool ("Regular", true);
-		}
-        _anim.SetBool("usingBeornsHARTO", HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO);
-
-
-        if (GameManager.instance.isTestScene)
-		{
-			if(Input.GetKeyDown(KeyCode.Space))
-			{
-				notActive = !notActive;
+		if (!_destroyed) {
+			if (HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO) {
+				_anim.SetBool ("Regular", false);
+			} else {
+				_anim.SetBool ("Regular", true);
 			}
-			if(notActive)
-			{
-				clip = Resources.Load("Audio/SFX/HARTO_Inactive") as AudioClip;
-				if(!audioSource.isPlaying)
-				{
-					audioSource.PlayOneShot(clip);
+			_anim.SetBool ("usingBeornsHARTO", HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO);
+
+
+			if (GameManager.instance.isTestScene) {
+				if (Input.GetKeyDown (KeyCode.Space)) {
+					notActive = !notActive;
 				}
-				_anim.SetBool("Inactive", true);
+				if (notActive) {
+					clip = Resources.Load ("Audio/SFX/HARTO_Inactive") as AudioClip;
+					if (!audioSource.isPlaying) {
+						audioSource.PlayOneShot (clip);
+					}
+					_anim.SetBool ("Inactive", true);
+				} else {
+					clip = Resources.Load ("Audio/SFX/HARTO_Active") as AudioClip;
+					if (!audioSource.isPlaying) {
+						audioSource.PlayOneShot (clip);
+					}
+					_anim.SetBool ("Inactive", false);
+				}	
 			}
-			else
-			{
-				clip = Resources.Load("Audio/SFX/HARTO_Active") as AudioClip;
-				if(!audioSource.isPlaying)
-				{
-					audioSource.PlayOneShot(clip);
+
+			if (screenHARTO == null) {
+				screenHARTO = GameObject.Find (HARTO_SCREEN).GetComponent<Image> ();
+			}
+
+			if (selectionArea == null) {
+				selectionArea = GameObject.Find ("SelectionArea").GetComponent<Image> ();
+			}
+
+			if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !menuSpawner.closing) {
+				_anim.SetBool ("Inactive", false);
+			} else {
+				_anim.SetBool ("Confirm", false);
+				_anim.SetBool ("Inactive", true);
+			}
+
+			if (Input.GetKeyDown (KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation) {
+				clip = Resources.Load ("Audio/SFX/HARTO_Negative_Feedback") as AudioClip;
+				if (!audioSource.isPlaying) {
+					audioSource.PlayOneShot (clip);
 				}
-				_anim.SetBool("Inactive", false);
-			}	
-		}
-
-		if (screenHARTO == null)
-		{
-			screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
-		}
-
-		if(selectionArea == null)
-		{
-			selectionArea = GameObject.Find("SelectionArea").GetComponent<Image>();
-		}
-
-		if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !menuSpawner.closing)
-		{
-			_anim.SetBool("Inactive", false);
-		}
-		else
-		{
-			_anim.SetBool("Confirm", false);
-			_anim.SetBool("Inactive", true);
-		}
-
-		if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)
-		{
-			clip = Resources.Load("Audio/SFX/HARTO_Negative_Feedback") as AudioClip;
-			if(!audioSource.isPlaying)
-			{
-				audioSource.PlayOneShot(clip);
 			}
-		}
 
-		if (GameManager.instance.pickedUpBeornsHARTO) {
-			//GetComponent<Image> ().sprite = Resources.Load ("Sprites/HARTO_Images/HARTO_UI/BeornHARTO") as Sprite;
-		}
+			if (GameManager.instance.pickedUpBeornsHARTO) {
+				//GetComponent<Image> ().sprite = Resources.Load ("Sprites/HARTO_Images/HARTO_UI/BeornHARTO") as Sprite;
+			}
 
-		if(canSelect)
-		{
+			if (canSelect) {
 			
-			float rotate = rotateSelectionWheel +  Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
-			if(rotate != rotateSelectionWheel && GameObject.Find("MOUSE_UI(Clone)"))
-			{
-				Destroy(GameObject.Find("MOUSE_UI(Clone)"));
-			}
-
-			if(rotateSelectionWheel != rotate)
-			{
-				clip = Resources.Load("Audio/SFX/HARTO_Scroll") as AudioClip;
-
-				if(!audioSource.isPlaying)
-				{
-					audioSource.PlayOneShot(clip, Mathf.Abs(Input.GetAxis(SCROLLWHEEL)));
+				float rotate = rotateSelectionWheel + Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
+				if (rotate != rotateSelectionWheel && GameObject.Find ("MOUSE_UI(Clone)")) {
+					Destroy (GameObject.Find ("MOUSE_UI(Clone)"));
 				}
+
+				if (rotateSelectionWheel != rotate) {
+					clip = Resources.Load ("Audio/SFX/HARTO_Scroll") as AudioClip;
+
+					if (!audioSource.isPlaying) {
+						audioSource.PlayOneShot (clip, Mathf.Abs (Input.GetAxis (SCROLLWHEEL)));
+					}
+				}
+
+				rotateSelectionWheel = rotate;
+				RotateIconWheel (rotateSelectionWheel);
+
+				SelectIcon ();
 			}
-
-			rotateSelectionWheel = 	rotate;
-			RotateIconWheel(rotateSelectionWheel);
-
-			SelectIcon();
 		}
 	}
 }

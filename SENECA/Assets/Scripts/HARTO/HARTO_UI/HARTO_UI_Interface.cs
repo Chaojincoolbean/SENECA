@@ -123,13 +123,17 @@ public class HARTO_UI_Interface : MonoBehaviour
 
     void ReloadMenu(Action[] newOptions)
 	{
-		menuSpawner.DestroyMenu();
 		options = newOptions;
 		if(player.npcAstridIsTalkingTo == null)
 		{
-				newOptions = empty;
+			newOptions = empty;
 		}
-        menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+		menuSpawner.ReloadSpawnMenu(this, player,dialogueModeActive, topicSelected, true);
+		//menuSpawner.ResetMenu();
+
+
+		menuSpawner.ReloadDestroyMenu();
+        
 	}
 
 	public void ToggleDialogueMode()
@@ -156,10 +160,12 @@ public class HARTO_UI_Interface : MonoBehaviour
 			{
 				if (!topicSelected)
 				{
+					Debug.Log ("reloading menu when not topicselected");
 					ReloadMenu(topics);
 				}
 				else
 				{
+					Debug.Log ("reloading menu when topicselected");
 					ReloadMenu(emotions);
 				}
 					
@@ -205,7 +211,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 				topics[i].color = Color.white;
 			}
 			topicSelected = true;
-			//Debug.Log ("reloading with emotions OnTopicSelected");
+			Debug.Log ("reloading with emotions OnTopicSelected");
 			ReloadMenu(emotions);
 		}
 
@@ -225,7 +231,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 				{
 					updatedTopics[j] = topics[j];
 				}
-				//Debug.Log ("reloading with emotions OnTopicSelected forloop");
+				Debug.Log ("reloading with emotions OnTopicSelected forloop");
 				ReloadMenu(emotions);
 				break;
 			}
@@ -273,6 +279,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 		}
 		else
 		{
+			Debug.Log ("reloading menu on dialogue end");
 			ReloadMenu(topics);
 		}
 		topicSelected = false;
@@ -490,7 +497,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 					{
 						topics = empty;
 					}
-                    menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected);
+                    menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected, false);
                     clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
 
                     if (!audioSource.isPlaying && !clipHasBeenPlayed)
