@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: cafd1b2e36e834bc8a80826e2d467f1c
-timeCreated: 1495074319
+timeCreated: 1495078853
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,6 +12,10 @@ TextureImporter:
     21300010: UtanLocals_Spritesheet_5
     21300012: UtanLocals_Spritesheet_6
     21300014: UtanLocals_Spritesheet_7
+    21300016: UtanLocals_Spritesheet_8
+    21300018: UtanLocals_Spritesheet_9
+    21300020: UtanLocals_Spritesheet_10
+    21300022: UtanLocals_Spritesheet_11
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -168,8 +172,8 @@ TextureImporter:
       name: UtanLocals_Spritesheet_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1380
+        x: 5760
+        y: 2760
         width: 1920
         height: 1380
       alignment: 0
@@ -181,7 +185,7 @@ TextureImporter:
       name: UtanLocals_Spritesheet_4
       rect:
         serializedVersion: 2
-        x: 1920
+        x: 0
         y: 1380
         width: 1920
         height: 1380
@@ -194,7 +198,7 @@ TextureImporter:
       name: UtanLocals_Spritesheet_5
       rect:
         serializedVersion: 2
-        x: 3840
+        x: 1920
         y: 1380
         width: 1920
         height: 1380
@@ -207,8 +211,8 @@ TextureImporter:
       name: UtanLocals_Spritesheet_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 3840
+        y: 1380
         width: 1920
         height: 1380
       alignment: 0
@@ -220,7 +224,59 @@ TextureImporter:
       name: UtanLocals_Spritesheet_7
       rect:
         serializedVersion: 2
+        x: 5760
+        y: 1380
+        width: 1920
+        height: 1380
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UtanLocals_Spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1920
+        height: 1380
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UtanLocals_Spritesheet_9
+      rect:
+        serializedVersion: 2
         x: 1920
+        y: 0
+        width: 1920
+        height: 1380
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UtanLocals_Spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 3840
+        y: 0
+        width: 1920
+        height: 1380
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UtanLocals_Spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 5760
         y: 0
         width: 1920
         height: 1380

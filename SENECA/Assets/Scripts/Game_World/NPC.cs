@@ -19,7 +19,7 @@ public class NPC : MonoBehaviour {
 		endPos = this.gameObject.transform.position + Vector3.right * distance;
 
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 
@@ -27,7 +27,7 @@ public class NPC : MonoBehaviour {
 
 		if (n == true) {
 
-			currentLerptime += Time.deltaTime;
+			currentLerptime += Time.deltaTime/0.5f;
 			if (currentLerptime >= lerptime) {
 				currentLerptime = lerptime;
 			}
