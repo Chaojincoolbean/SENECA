@@ -193,8 +193,10 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
         }
 
 		//SKIP ZACH'S LINES
-		if (audioSource.isPlaying && Input.GetKeyUp(KeyCode.Space)) {
-			audioSource.Stop ();
+		if (GameManager.instance.cheatSpace) {
+			if (audioSource.isPlaying && Input.GetKeyUp (KeyCode.Space)) {
+				audioSource.Stop ();
+			}
 		}
 
         if (GameManager.instance.HARTOIsTalking)

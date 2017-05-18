@@ -86,9 +86,12 @@ public class EventScript : MonoBehaviour
         }
 
 		// CHEAT. SPACE TO SPEED THROUGH THE DIALOGUE
-		if (Input.GetKeyUp (KeyCode.Space)) {
-			if (response != null) {
-				response.StopLine ();
+
+		if (GameManager.instance.cheatSpace) {
+			if (Input.GetKeyUp (KeyCode.Space)) {
+				if (response != null) {
+					response.StopLine ();
+				}
 			}
 		}
 

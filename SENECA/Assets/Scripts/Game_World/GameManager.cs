@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
 	public static GameManager instance;
 
 
+	//toggle this to speed through dialogue
+	public bool cheatSpace = true;
+
 	public Dictionary<string, bool> whoTalksFirst;
 
     public KeyCode RestartGame = KeyCode.Backspace;
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
 	public Player player_Astrid;
 	public GameObject npc_Priya;
 	public GameObject uiTAB;
+
 
 	[SerializeField]
 	private int _sceneNumber;

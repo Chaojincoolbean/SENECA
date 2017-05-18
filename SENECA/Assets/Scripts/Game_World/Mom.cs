@@ -89,7 +89,7 @@ public class Mom : MonoBehaviour
 				y += 0.01f;
 			}
 
-			this.gameObject.transform.position = new Vector3 (x, -3.5f, 0);
+			this.gameObject.transform.position = new Vector3 (x, -4f, 0);
 			this.gameObject.transform.position += new Vector3 (0f, y, 0f);
 
 		}

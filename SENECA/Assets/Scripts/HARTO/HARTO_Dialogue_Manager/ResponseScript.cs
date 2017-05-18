@@ -41,7 +41,9 @@ public class ResponseScript : MonoBehaviour {
 
 	virtual public void StopLine(){
 		//if (dialogueType == HARTO) {
+		if (characterAudioSource.isPlaying) {
 			characterAudioSource.Stop ();
+		}
 	}
 
 	virtual public void PlayLine(Emotions myEmotion)
