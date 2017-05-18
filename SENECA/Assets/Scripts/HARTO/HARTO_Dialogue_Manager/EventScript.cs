@@ -189,6 +189,7 @@ public class EventScript : MonoBehaviour
 				response.PlayLine(HARTO, scene, topicName);
 			}
 
+
             
             while (response.characterAudioSource.isPlaying)
 			{

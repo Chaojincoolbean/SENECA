@@ -12,6 +12,7 @@ public class Mom : MonoBehaviour
 	public bool moveMom;
 	public bool tutorialBegan;
 	float x;
+	float y;
 	public bool onposition;
 	private MoveMomEvent.Handler onMoveMomEvent;
 	private ToggleHARTOEvent.Handler onToggleHARTO;
@@ -82,7 +83,14 @@ public class Mom : MonoBehaviour
 
 			x = x + 0.05f;
 
+			if (y > 1f) {
+				y -= 0.1f;
+			} else if(y > -1f){
+				y += 0.1f;
+			}
+
 			this.gameObject.transform.position = new Vector3 (x, -3.5f, 0);
+			this.gameObject.transform.position += new Vector3 (0f, y, 0f);
 
 		}
 
