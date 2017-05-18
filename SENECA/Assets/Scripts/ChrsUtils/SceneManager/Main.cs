@@ -14,8 +14,9 @@ public class Main : MonoBehaviour
         Services.Events = new GameEventsManager();
 
 		Services.Scenes = new GameSceneManager<TransitionData>(gameObject, Services.Prefabs.Scenes);
-	
+
         // try now
-		Services.Scenes.PushScene<TitleSceneScript>();
+        Services.Scenes.PushScene<TitleSceneScript>();
+        //Services.Scenes.PushScene<SenecaRadioTowerSceneScript>();
     }
 }

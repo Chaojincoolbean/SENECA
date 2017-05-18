@@ -10,6 +10,8 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
     public AudioClip clip;
     public AudioSource audioSource;
 
+    
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -40,7 +42,7 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
                 audioSource.PlayOneShot(clip);
             }
         }
-
+        Debug.Log("entering");
         FindPlayer();
 
     }
@@ -49,8 +51,10 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
 
     void FindPlayer()
     {
-        if (nextTimeToSearch <= Time.time)
-        {
+       // Debug.Log("find player");
+      //  if (nextTimeToSearch <= Time.time)
+      //  {
+        //    Debug.Log("conditional");
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
@@ -59,7 +63,7 @@ public class SenecaMeadowSceneSript : Scene<TransitionData>
 
             }
             nextTimeToSearch = Time.time + 2.0f;
-        }
+       // }
     }
 
     void Update()

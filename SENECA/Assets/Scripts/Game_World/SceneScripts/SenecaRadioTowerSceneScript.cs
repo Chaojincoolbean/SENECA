@@ -93,7 +93,7 @@ public class SenecaRadioTowerSceneScript : Scene<TransitionData>
     internal override void OnExit()
     {
 
-		FindPlayer(); 
+		//FindPlayer(); 
         TransitionData.Instance.SENECA_RADIO_TOWER.position = player.transform.position;
         TransitionData.Instance.SENECA_RADIO_TOWER.scale = player.transform.localScale;
         TransitionData.Instance.SENECA_RADIO_TOWER.visitedScene = true;

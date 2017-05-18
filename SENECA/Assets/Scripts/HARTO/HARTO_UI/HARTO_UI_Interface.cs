@@ -436,7 +436,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 	{
 		recordingFolderSelected = false;
         canDisableHARTO = true;
-		//ReloadMenu(recordingFolders);
 	}
 
 	public IEnumerator WaitForExitScript()

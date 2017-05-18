@@ -88,8 +88,8 @@ public class GameManager : MonoBehaviour
 		}
 
 
-		//toggle this to speed through dialogue
-		cheatSpace = true;
+        //toggle this to speed through dialogue
+        cheatSpace = false;
 			
 		whoTalksFirst = new Dictionary<string, bool>();
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
