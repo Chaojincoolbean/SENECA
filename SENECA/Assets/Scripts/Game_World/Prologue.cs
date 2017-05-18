@@ -42,10 +42,10 @@ public class Prologue : MonoBehaviour
 		}
 		*/
 
-		if (Input.GetKey (KeyCode.Space)) {
+	/*	if (Input.GetKey (KeyCode.Space)) {
 			GameManager.instance.inConversation = false;
 			StartCoroutine(LoadNextScene());
-		}
+		}*/
 	}
 
 	public void LoadNext(){
