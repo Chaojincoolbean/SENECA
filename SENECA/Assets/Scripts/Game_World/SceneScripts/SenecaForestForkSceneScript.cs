@@ -61,7 +61,7 @@ public class SenecaForestForkSceneScript : Scene<TransitionData>
 
             if (result != null)
             {
-				if (lastScene == "SenecaCampsiteSceneScript") {
+				if (lastScene == "SenecaCampsiteSceneScript" && GameManager.instance.tutorialIsDone) {
 					result.transform.position = fromSenecaCampsite.position;
 					result.transform.localScale = fromSenecaCampsite.localScale;
 
