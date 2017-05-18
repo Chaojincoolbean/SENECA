@@ -227,6 +227,12 @@ public class EventScript : MonoBehaviour
                         Priya.GetComponent<Animator>().SetBool("IsTalking", false);
                     }
 
+                    if (GameObject.FindGameObjectWithTag("Ruth") != null)
+                    {
+                        Ruth = GameObject.FindGameObjectWithTag("Ruth");
+                        Ruth.GetComponent<Animator>().SetBool("IsTalking", false);
+                    }
+
                 } 
 				else if (response.characterName == "Priya") 
 				{
@@ -243,9 +249,14 @@ public class EventScript : MonoBehaviour
                 }
                 else if (response.characterName == "Ruth")
                 {
+                    if (!GameManager.instance.playerAnimationLock)
+                    {
+                        GameManager.instance.player_Astrid._animator.SetBool("HARTOActive", false);
+                        GameManager.instance.player_Astrid._animator.SetBool("IsTalking", false);
+                    }
                     // other character istalking is true;
-                   // Ruth = GameObject.FindGameObjectWithTag("Ruth");
-                    //Ruth.GetComponent<Animator>().SetBool("IsTalking", true);
+                    Ruth = GameObject.FindGameObjectWithTag("Ruth");
+                    Ruth.GetComponent<Animator>().SetBool("IsTalking", true);
 
                 }
                 if (!GameManager.instance.inUtan)
