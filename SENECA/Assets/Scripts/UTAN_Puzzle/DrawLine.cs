@@ -130,7 +130,7 @@ public class DrawLine : MonoBehaviour
 	{
 
 		if (!solved) {
-
+			
 
 			if (puzzleToggle) { //color
 				//	Connects mose position on screen to game screen
@@ -147,6 +147,7 @@ public class DrawLine : MonoBehaviour
 							currentNode.GetComponent<Animator>().SetBool("IsActive", true);
 							usedNodes.Add (hit.collider.transform.gameObject);
 							DrawNewLine ();
+
 							lineRenderer.startColor = hit.collider.transform.gameObject.GetComponent<Renderer> ().material.color;
 							lineRenderer.endColor = new Color (0, 0, 0, 0);
 							particleSystem.SetActive (true);
@@ -400,7 +401,7 @@ public class DrawLine : MonoBehaviour
 
 		//	Sets position on the line renderer
 		lineRenderer.SetPosition (0, usedNodes[usedNodes.Count-1].transform.position);
-
+		lineRenderer.sortingLayerName = "Line";
 		//adds the line to the array
 		lines.Add (newLine);
 	}
