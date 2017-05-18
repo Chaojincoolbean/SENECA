@@ -280,6 +280,9 @@ public class HARTO_UI_Interface : MonoBehaviour
     void OnRecordingSelected(GameEvent e)
     {
         //canDisableHARTO = false;
+        //toggle movement here?
+    	//Services.Events.Fire(new DisablePlayerMovementEvent(true));
+
         if (!usingBeornsHARTO)
         {
             if (allRuthRecordingsPlayed)

@@ -69,7 +69,7 @@ public class BackToSeneca : MonoBehaviour
 		{
             volume -= 0.08f;
             BGM_Singleton.instance.audioSource.volume = volume;
-            Debug.Log(BGM_Singleton.instance.audioSource.volume);
+           // Debug.Log(BGM_Singleton.instance.audioSource.volume);
             if(BGM_Singleton.instance.audioSource.volume < 0)
             {
                 BGM_Singleton.instance.audioSource.volume = 0;
