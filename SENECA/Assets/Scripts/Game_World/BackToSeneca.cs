@@ -1,10 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using ChrsUtils.ChrsEventSystem.EventsManager;
+﻿using UnityEngine;
 using SenecaEvents;
 
+#region BackToSeneca.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This script initiates the last conversation and transisitons to the credit scene                                  */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*           private:                                                                                                   */
+/*                 private void Start()                                                                                 */
+/*                 private void OnTriggerEnter2D(Collider2D collider)                                                   */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/*           public:                                                                                                    */
+/*                 public void RollCredits()                                                                            */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class BackToSeneca : MonoBehaviour 
 {
     public bool fireOnce;
@@ -16,8 +28,20 @@ public class BackToSeneca : MonoBehaviour
 	public BoxCollider2D triggerArea;
 	private BoxCollider2D[] colliders;
 
-	// Use this for initialization
-	void Start () 
+    #region Overview public void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
         fireOnce = false;
 		audioSource = GetComponent<AudioSource>();
@@ -38,7 +62,21 @@ public class BackToSeneca : MonoBehaviour
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D collider)
+    #region Overview private void OnTriggerEnter2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Starting the conversation with Ruth in Utan Forest Fork					                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTriggerEnter2D(Collider2D collider)
 	{
 		if (collider.tag == "Player" && !fireOnce)
 		{
@@ -50,26 +88,50 @@ public class BackToSeneca : MonoBehaviour
 		}
 	}
 
-
-	public void RollCredits()
+    #region Overview public void Rollcredits()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          swaping to the credit scene				                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void RollCredits()
 	{
         Services.Events.Fire(new SceneChangeEvent("Credits"));
-       // Services.Scenes.PopScene();
-        //Services.Scenes.PushScene<CreditSceneScript>(TransitionData.Instance);
         BGM_Singleton.instance.clip = Resources.Load("Audio/Music/Title_Theme") as AudioClip;
         BGM_Singleton.instance.audioSource.Stop();
         BGM_Singleton.instance.audioSource.volume = 0.3f;
         Services.Scenes.Swap<CreditSceneScript>(TransitionData.Instance);
     }
-	
-	// Update is called once per frame
-	void Update () 
+
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update () 
 	{
 		if (GameManager.instance.endGame)
 		{
             volume -= 0.08f;
             BGM_Singleton.instance.audioSource.volume = volume;
-           // Debug.Log(BGM_Singleton.instance.audioSource.volume);
+
             if(BGM_Singleton.instance.audioSource.volume < 0)
             {
                 BGM_Singleton.instance.audioSource.volume = 0;

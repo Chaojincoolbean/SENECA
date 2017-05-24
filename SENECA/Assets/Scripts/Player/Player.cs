@@ -1,11 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using SenecaEvents;
-using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
-using ChrsUtils.ChrsExtensionMethods;
 
+#region Player.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Responsible for player movement and animations                                                                    */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private void OnDestroy()                                                                             */
+/*                 private void OnInteractable(GameEvent e)                                                             */
+/*                 private void OnAstridTalksToHARTO(GameEvent e)                                                       */
+/*                 private void OnToggleDisableMovement(GameEvent e)                                                    */
+/*                 private void OnToggleHARTO(GameEvent e)                                                              */
+/*                 private void OnClosingHARTOForTheFirstTime(GameEvent e)                                              */
+/*                 private void OnBeginTutorial(GameEvent e)                                                            */
+/*                 private void Move(float dx, float dy)                                                                */
+/*                 private void OnTriggerEnter2D(Collider2D other)                                                      */
+/*                 private void FixedUpdate ()                                                                          */
+/*                                                                                                                      */
+/*           public:                                                                                                    */
+/*                 public void PlayFootStepAudio()                                                                      */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class Player : MonoBehaviour 
 {
 	public const string NPC = "NPC";
@@ -41,8 +61,20 @@ public class Player : MonoBehaviour
 	private ToggleHARTOEvent.Handler onToggleHARTO;
 	private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;
 
-	// Use this for initialization
-	void Start () 
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
         _renderer = GetComponent<SpriteRenderer>();
@@ -64,6 +96,19 @@ public class Player : MonoBehaviour
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
+    #region Overview private void OnDestroy()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Unregistering for events when being destroyed to stop any null reference errors                                 */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void OnDestroy()
     {
         Services.Events.Unregister<InteractableEvent>(onInteractable);
@@ -74,62 +119,151 @@ public class Player : MonoBehaviour
         Services.Events.Unregister<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
     }
 
-
-    void OnInteractable(GameEvent e)
+    #region Overview private void OnInteractable(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Plays the combination of animations for when an interactable is clicked                                     */
+    /*          This function is called when the event manager fires a new InteractableEvent.                               */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnInteractable(GameEvent e)
     {
         _animator.SetBool("HARTOActive", ((InteractableEvent)e).armUp);
         _animator.SetBool("IsTalking", ((InteractableEvent)e).talkingToHARTO);
         disableMovement = ((InteractableEvent)e).disableMovement;
-
     }
 
-    void OnAstridTalksToHARTO(GameEvent e)
+    #region Overview private void OnAstridTalksToHARTO(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Plays the combination of animations for when an Astrid should be talking to HARTO                           */
+    /*          This function is called when the event manager fires a new AstridTalksToHARTOEvent.                         */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnAstridTalksToHARTO(GameEvent e)
     {
         _animator.SetBool("HARTOActive", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         _animator.SetBool("IsTalking", ((AstridTalksToHARTOEvent)e).talkingToHARTO);
         disableMovement = ((AstridTalksToHARTOEvent)e).talkingToHARTO;
     }
 
-	void OnToggleDisableMovement(GameEvent e)
+    #region Overview private void OnToggleDisableMovement(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Stoping Astrid from moving                                                                                  */
+    /*          This function is called when the event manager fires a new ToggleDisableMovementEvent.                      */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnToggleDisableMovement(GameEvent e)
 	{
 		disableMovement = ((DisablePlayerMovementEvent)e).disableMovement;
 	}
 
-	void OnToggleHARTO(GameEvent e)
+    #region Overview private void OnToggleHARTO(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          PLaying animation from bringing up HARTO                                                                    */
+    /*          This function is called when the event manager fires a new ToggleHARTOEvent          .                      */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnToggleHARTO(GameEvent e)
 	{
 		_animator.SetBool("HARTOActive", HARTO_UI_Interface.HARTOSystem.isHARTOActive);
 	}
 
-	void OnClosingHARTOForTheFirstTime(GameEvent e)
+    #region Overview private void OnClosingHARTOForTheFirstTime(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Setting the NPC Astrid is talking to no one after closing HARTO for the first time                          */
+    /*          This function is called when the event manager fires a new ClosingHARTOForTheFirstTime                      */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnClosingHARTOForTheFirstTime(GameEvent e)
 	{
-		npcAstridIsTalkingTo = "";
-		Debug.Log("player");
-		
+		npcAstridIsTalkingTo = "";		
 	}
 
-    void OnBeginTutorial(GameEvent e)
+    #region Overview private void OnBeginTutorial(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Setting the NPC Astrid is talking to at the beginning of the game                                           */
+    /*          This function is called when the event manager fires a new BeginTutorialEvent                               */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnBeginTutorial(GameEvent e)
     {
         npcAstridIsTalkingTo = "Priya";
     }
 
-	/*--------------------------------------------------------------------------------------*/
-	/*																						*/
-	/*	Move: Handles player movement														*/
-	/*		param: float dx - Horizontal Input												*/
-	/*			   float dy - Vertical Input												*/
-	/*																						*/
-	/*--------------------------------------------------------------------------------------*/
-	void Move(float dx, float dy)
+    #region Overview private void Move(float dx, float dy)
+    /****************************************************************************************/
+    /*																						*/
+    /*	Move: Handles player movement														*/
+    /*		param: float dx - Horizontal Input												*/
+    /*			   float dy - Vertical Input												*/
+    /*																						*/
+    /****************************************************************************************/
+    #endregion
+    private void Move(float dx, float dy)
 	{
-        
 		//	Adds force to rigidbody based on the input
 		_rigidBody2D.velocity = new Vector2(dx * moveSpeed, dy * moveSpeed);
 		_animator.SetFloat("SpeedX", Mathf.Abs(dx));
 		_animator.SetFloat("SpeedY", dy);
-
 	}
 
-	public void PlayFootStepAudio()
+    #region Overview private void PlayFootStepAudio()
+    /****************************************************************************************/
+    /*																						*/
+    /*	Responsible for letting the animator play footstep audio			            	*/
+    /*		param: None                     												*/
+    /*		Returns: Nothing                												*/
+    /*																						*/
+    /****************************************************************************************/
+    #endregion
+    public void PlayFootStepAudio()
 	{
         if(GameManager.instance.sceneName.Contains("Meadow"))
         {
@@ -160,9 +294,21 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	
-	// Update is called once per frame
-	void FixedUpdate () 
+    #region Overview private void FixedUpdate()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per fixed interval					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FixedUpdate () 
 	{
 
         if(Input.GetKey(leftKey) || Input.GetKey(KeyCode.LeftArrow))
@@ -195,18 +341,25 @@ public class Player : MonoBehaviour
         }
     }
 
-	void OnTriggerEnter2D(Collider2D other) 
+    #region Overview private void OnTriggerEnter2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Setting the NPC you are talking to                                          					            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTriggerEnter2D(Collider2D other) 
 	{
-
 		if (other.gameObject.tag == NPC)
 		{
 			npcAstridIsTalkingTo = other.gameObject.name;
 		}
-
-		if (other.gameObject.name == WITCHLIGHT) 
-		{
-			Debug.Log ("touch");
-		}
-			
 	}
 }

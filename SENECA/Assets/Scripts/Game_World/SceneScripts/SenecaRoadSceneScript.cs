@@ -1,24 +1,56 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using GameScenes;
 using ChrsUtils.ChrsCamera;
 
+#region SenecaRoadSceneScript.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This is the Scene script attached to the SenecaRoad screen.                                                       */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          internal:                                                                                                   */
+/*                 internal override void OnEnter(TransitionData data)                                                  */
+/*                 internal override void OnExit()                                                                      */
+/*                                                                                                                      */
+/*           private:                                                                                                   */
+/*                 private void Start()                                                                                 */
+/*                 private void FindPlayer()                                                                            */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class SenecaRoadSceneScript : Scene<TransitionData>
 {
+    public float nextTimeToSearch = 0;                  //  How long unitl we search for the player again
+    public string lastScene;                            //  Name of the last scene we were in
 
-	public Transform[] ToggleSortingLayerLocations;
-	public SpriteRenderer[] roadLayers;
-
-    public Player player;
+    public Player player;                               //  Reference to the player
     public AudioClip clip;
     public AudioSource audioSouorce;
 
-	public string lastScene;
-	public GameObject mainCamera;
-	public Transform fromSenecaRadiotower;
-	public Transform fromSenecaHuntercamp;
-	public Transform fromSenecaRocks;
+    public Transform fromSenecaRadiotower;              //  Spawn position when coming from Radio tower
+    public Transform fromSenecaHuntercamp;              //  Spawn position when coming form the Hunter camp
+    public Transform fromSenecaRocks;                   //  spawn position when coming from the rocks
 
+    public GameObject mainCamera;                       //  Reference to the main camera
+
+    public Transform[] ToggleSortingLayerLocations;     //  Sorting layer for correct sprite layering
+    public SpriteRenderer[] roadLayers;                 //  Road layer order
+
+    #region Overview public void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void Start()
     {
         audioSouorce = GetComponent<AudioSource>();
@@ -28,6 +60,20 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
     }
 
+    #region Overview internal override void OnEnter(TransitionData data)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when entering a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          TradnsitionData data: A class with structs that represent data stored between each scene.                   */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     internal override void OnEnter(TransitionData data)
     {
         
@@ -54,12 +100,23 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
         }
         else
         {
-            //GameObject.Find("witchlightRoad").GetComponent<Animator>().SetBool("ChaseMe", false);
         }
     }
 
-    public float nextTimeToSearch = 0;
-
+    #region Overview private void FindPlayer()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the player if the player reference is null                                 				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     void FindPlayer()
     {
         if (nextTimeToSearch <= Time.time)
@@ -67,9 +124,7 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
             GameObject result = GameObject.FindGameObjectWithTag("Player");
             if (result != null)
             {
-
 				if (lastScene == "SenecaRadioTowerSceneScript") {
-					Debug.Log ("I am here!!@@#@!.");
 					result.transform.position = fromSenecaRadiotower.position;
 					result.transform.localScale = fromSenecaRadiotower.localScale;
 
@@ -77,13 +132,10 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 				if (lastScene == "SenecaHunterCampSceneScript") {
 					result.transform.position = fromSenecaHuntercamp.position;
 					result.transform.localScale = fromSenecaHuntercamp.localScale;
-					
-
 				}
 				if (lastScene == "SenecaRocksSceneScript") {
 					result.transform.position =  fromSenecaRocks.position;
 					result.transform.localScale =  fromSenecaRocks.localScale;
-
 				}
 
                 player = result.GetComponent<Player>();
@@ -92,6 +144,20 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
         }
     }
 
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     void Update()
     {
 
@@ -115,10 +181,22 @@ public class SenecaRoadSceneScript : Scene<TransitionData>
 		}
     }
 
+    #region Overview internal override void OnExit()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when exiting a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*           None                                                                                                       */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     internal override void OnExit()
     {
-        TransitionData.Instance.SENECA_ROAD.position = player.transform.position;
-        TransitionData.Instance.SENECA_ROAD.scale = player.transform.localScale;
         TransitionData.Instance.SENECA_ROAD.visitedScene = true;
     }
 }

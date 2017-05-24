@@ -1,49 +1,82 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GameScenes;
 using ChrsUtils.ChrsCamera;
-using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
+#region SenecaCampsiteSceneScript.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This is the Scene script attached to the SenecaCampsite screen.                                                   */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          internal:                                                                                                   */
+/*                 internal override void OnEnter(TransitionData data)                                                  */
+/*                 internal override void OnExit()                                                                      */
+/*                                                                                                                      */
+/*           private:                                                                                                   */
+/*                 private void Start()                                                                                 */
+/*                 private void OnDestroy()                                                                             */
+/*                 private void OnTABUIButtonAppear(GameEvent e)                                                        */
+/*                 private void OnWASDUIAppear(GameEvent e)                                                             */
+/*                 private void OnToggleHARTO(GameEvent e)                                                              */
+/*                 private void FindPlayer()                                                                            */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/*           public:                                                                                                    */
+/*                  public static void MakeTabAppear()                                                                  */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class SenecaCampsiteSceneScript : Scene<TransitionData> 
 {
-	public Player player;
+    public static bool hasPriyaSpoken;
+    public static bool tabUIOnScreen;
+    public static bool wasdUIOnScreen;
 
-	public Transform[] ToggleSortingLayerLocations;
-	public SpriteRenderer[] campsiteLayers;
+    public static GameObject uiTAB;
+    public static GameObject tab;
+    public static GameObject uiWASD;
+    public static GameObject wasd;
 
-	public bool startedGame;
-	public static bool hasPriyaSpoken;
+    public bool startedGame;                                   
 	public bool begin;
 	public bool inConversation;
-	public static bool tabUIOnScreen;
-	public static bool wasdUIOnScreen;
 	public bool waitingForInput;
 	public bool completedOneTopic;
-	public float nextTimeToSearch = 0;
 
+	public float nextTimeToSearch = 0;                              //  How long unitl I search for the player again
+    public string lastScene;                                        //  The last scene I was in
 
-	public static GameObject uiTAB;
-	public static  GameObject tab;
-	public static GameObject uiWASD;
-	public static GameObject wasd;
+    public Player player;                                           //  Reference to the player
+    public Transform fromSenecaForestFork;                          //  Spawn position when coming from Seneca Forest Fork
+    public Transform fromPrologue;                                  //  Spawn position when coming from the prologue
+    public AudioSource audioSource;
+
+    public Transform[] ToggleSortingLayerLocations;                 //  Sorting layyers for rendering purposes
+    public SpriteRenderer[] campsiteLayers;                         //  Campsite's sorting layer orders
+ 
 	public GameObject uiMouse;
 	public GameObject npc_Priya;
+    public GameObject mainCamera;                                   //  Reference to Main Camera 
+   
+	private TABUIButtonAppearEvent.Handler onTABUIButtonAppear;     // Delegate for TABUIButtonAppear Event
+	private ToggleHARTOEvent.Handler onToggleHARTO;                 // Delegate for ToggleHARTO Event
+    private WASDUIAppearEvent.Handler onWASDUIAppear;               // Delegate for WASDUIAppear Event
 
-	public AudioSource audioSource;
-
-	private TABUIButtonAppearEvent.Handler onTABUIButtonAppear;
-	private ToggleHARTOEvent.Handler onToggleHARTO;
-	private WASDUIAppearEvent.Handler onWASDUIAppear;
-
-	public string lastScene;
-	public GameObject mainCamera;
-	public Transform fromSenecaForestFork;
-	public Transform fromPrologue;
-
-
+    #region Overview public void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -52,10 +85,22 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
     }
 
+    #region Overview internal override void OnEnter(TransitionData data)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when entering a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          TradnsitionData data: A class with structs that represent data stored between each scene.                   */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     internal override void OnEnter(TransitionData data)
 	{
-
-
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 0.67f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -0.72f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.43f;
@@ -74,7 +119,8 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 
 		if (!TransitionData.Instance.SENECA_CAMPSITE.visitedScene) 
 		{
-			onTABUIButtonAppear = new TABUIButtonAppearEvent.Handler (OnTABUIButtonAppear);
+            //  Sets up delegates for events
+            onTABUIButtonAppear = new TABUIButtonAppearEvent.Handler (OnTABUIButtonAppear);
 			onToggleHARTO = new ToggleHARTOEvent.Handler (OnToggleHARTO);
 			onWASDUIAppear = new WASDUIAppearEvent.Handler (OnWASDUIAppear);
 
@@ -93,7 +139,8 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
             
             begin = false;
 
-			Services.Events.Register<ToggleHARTOEvent> (onToggleHARTO);
+            //  Registers delegates for events
+            Services.Events.Register<ToggleHARTOEvent> (onToggleHARTO);
 			Services.Events.Register<TABUIButtonAppearEvent> (onTABUIButtonAppear);
 			Services.Events.Register<WASDUIAppearEvent> (onWASDUIAppear);
 
@@ -101,12 +148,24 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		else
 		{
             FindPlayer();
-			player.transform.position = TransitionData.Instance.SENECA_CAMPSITE.position;
-			player.transform.localScale = TransitionData.Instance.SENECA_CAMPSITE.scale;
 		}
 			
 	}
 
+    #region Overview private void OnDestroy()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once before GameObject is destroyed					                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void OnDestroy()
     {
         if (!TransitionData.Instance.SENECA_CAMPSITE.visitedScene)
@@ -117,11 +176,24 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
         }
     }
 
+    #region Overview public static void MakeTabAppear()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Making the TAB UI icon appear               				                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     public static void MakeTabAppear()
 	{
 		if (!tabUIOnScreen)
 		{
-
 			tabUIOnScreen = true;
 			Vector3 tabPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
 			tab = Instantiate(uiTAB, tabPosition, Quaternion.identity);
@@ -129,7 +201,21 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		}
 	}
 
-	void OnTABUIButtonAppear(GameEvent e)
+    #region Overview private void OnTABUIButtonAppear(GameEvent e)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Depreciated. Makes TABUI Button appear               				                                        */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTABUIButtonAppear(GameEvent e)
 	{
 		if (!tabUIOnScreen)
 		{
@@ -141,7 +227,21 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		}
 	}
 
-	void OnWASDUIAppear(GameEvent e){
+    #region Overview private void OnWASDUIAppear(GameEvent e)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Makes WASD UI appear                                   				                                        */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnWASDUIAppear(GameEvent e){
 		if (!wasdUIOnScreen) {
 			wasdUIOnScreen = true;
 			Vector3 wasdPosition = GameObject.Find("TAB_Button_Location").transform.localPosition;
@@ -150,7 +250,21 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		}
 	}
 
-	void OnToggleHARTO(GameEvent e)
+    #region Overview private void OnToggleHARTO(GameEvent e)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Removing the TAB UI Button when turning on HARTO for the first time                                         */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnToggleHARTO(GameEvent e)
 	{
 		if(tabUIOnScreen)
 		{
@@ -158,7 +272,21 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		}
 	}
 
-	void FindPlayer()
+    #region Overview private void FindPlayer()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the player if the player reference is null                                 				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindPlayer()
 	{
 		if (nextTimeToSearch <= Time.time)
 		{
@@ -183,7 +311,21 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		}
 	}
 
-	void Update()
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update()
 	{
 
         if (player == null)
@@ -219,10 +361,22 @@ public class SenecaCampsiteSceneScript : Scene<TransitionData>
 		}
 	}
 
-	internal override void OnExit()
+    #region Overview internal override void OnExit()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when exiting a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*           None                                                                                                       */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    internal override void OnExit()
 	{
-		TransitionData.Instance.SENECA_CAMPSITE.position = player.transform.position;
-		TransitionData.Instance.SENECA_CAMPSITE.scale = player.transform.localScale;
 		TransitionData.Instance.SENECA_CAMPSITE.visitedScene = true;
 	}
 }

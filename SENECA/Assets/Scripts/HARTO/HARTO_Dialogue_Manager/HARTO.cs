@@ -1,12 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ChrsUtils.ChrsEventSystem.EventsManager;
+﻿using UnityEngine;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
-
-public  enum  Emotions
+#region HARTO.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    The script version of the UI of the HARTO                                                                         */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private void OnDestroy()                                                                             */
+/*                  private void OnEmotionSelected(GameEvent e)                                                         */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
+public enum  Emotions
 {
 	None,
 	Happy,
@@ -19,7 +28,7 @@ public class HARTO : MonoBehaviour
 
 	public static HARTO instance;
 	[SerializeField]
-	private Emotions emotion;
+	private Emotions emotion;                                       //  Enum of all the emotions in the game
 	public Emotions CurrentEmotion
 	{
 		get
@@ -33,8 +42,21 @@ public class HARTO : MonoBehaviour
 	}
 
 	private EmotionSelectedEvent.Handler onEmotionSelected;
-	// Use this for initialization
-	void Start () 
+
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    void Start () 
 	{
 
 		if(instance == null)
@@ -46,18 +68,39 @@ public class HARTO : MonoBehaviour
 		Services.Events.Register<EmotionSelectedEvent>(onEmotionSelected);
 	}
 
+    #region Overview private void OnDestroy()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Unregistering for events when being destroyed to stop any null reference errors                                 */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void OnDestroy()
     {
         Services.Events.Unregister<EmotionSelectedEvent>(onEmotionSelected);
     }
 
-    void OnEmotionSelected(GameEvent e)
+    #region Overview private void OnEmotionSelected(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Setting the emotion.                                                                                            */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnEmotionSelected(GameEvent e)
 	{
 		 emotion = ((EmotionSelectedEvent)e).emotion;
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
 	}
 }

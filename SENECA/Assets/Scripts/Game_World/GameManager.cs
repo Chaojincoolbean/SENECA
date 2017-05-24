@@ -1,33 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using ChrsUtils.ChrsEventSystem.GameEvents;
-using ChrsUtils.ChrsEventSystem.EventsManager;
-using SenecaEvents;
 
+#region GameManager.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This script holds onto game logic that persists between scenes                                                    */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*           private:                                                                                                   */
+/*                 private void Start()                                                                                 */
+/*                 private void FindPlayer()                                                                            */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class GameManager : MonoBehaviour 
 {
 	public static GameManager instance;
 
+    public KeyCode RestartGame = KeyCode.Backspace;     //  Restarts the game from any scene
 
-	public bool cheatSpace; //toggle this in Start() to toggle dialogue cheat
+    //  Some of the bools arre duplicated in SenecaCampsiteSceneScript
+    //  The ones in SenecaCampsiteSceneScript actually control the game
+    //  I didn't remove thse because not enough time was given to test
+    //  would happend after I removed these bools
 
+    public bool cheatSpace;                             //  Toggle this in Start() to toggle dialogue cheat
+    public bool trackProgressInHARTO;                   //  Bool check for when Astrid should say "I'll track my progress in HARTO..."
+    public bool HARTOinUtan;                            //  Bool check to see if HARTO is in Utan
+    public bool pickedUpBeornsHARTO;                    //  Bool check to see if we already picked up Beorn's HARTO
+    public bool HARTOIsTalking;                         //  Bool check to see if HARTO is talking right now
+    public bool isTestScene;                            //  Bool check to see if this is a test scene
+    public bool tutorialIsDone;                         //  Bool check to see if Tutorial script is done
+    public bool playerAnimationLock;                    //  Bool check for whether there is an animation lock on Astrid
+    public bool inUtan;                                 //  Bool check to see if we are in Utan
+    public bool hasPriyaSpoken;                         //  Bool check to see if Priya has siad one line yet
+    public bool begin;                                  //  Bool check to see if the game has begun (HARTO started talking)
+    public bool inConversation;                         //  Bool check to see if we are in conversation
+    public bool tabUIOnScreen;                          //  Bool check to see if the TAB UI icon is on screen
+    public bool wasdUIOnScreen;                         //  Bool check to see if WASD UI is on screen
+    public bool waitingForInput;                        //  Bool check that is true when waiting for input
+    public bool completedOneTopic;                      //  Bool check to see if player completed one conversation topic
+    public bool endGame;                                //  Has the end of the game started
+    public bool startedGame;                            //  Game has started when Priya has spawned off screen
+    public float nextTimeToSearch = 0;                  //	How long unitl the camera searches for the target again
+    public string sceneName;                            //  Current scene's name
+    public string currentScene;
 
-	public Dictionary<string, bool> whoTalksFirst;
-
-    public KeyCode RestartGame = KeyCode.Backspace;
-	public string sceneName;
+    public Dictionary<string, bool> whoTalksFirst;      //  Who talks first in conversation
+	
 	public HARTO astridHARTO;
 	public DialogueManager dialogueManager;
 	public HARTO_UI_Interface HARTOInterface;
 	public RecordingManager recordingManager;
 	public AudioSource audioSource;
 	public Player player_Astrid;
-	public GameObject npc_Priya;
 	public GameObject uiTAB;
-
 
 	[SerializeField]
 	private int _sceneNumber;
@@ -41,30 +70,21 @@ public class GameManager : MonoBehaviour
 	private const string DIALOUGE_MANAGER_TAG = "DialogueManager";
 	private const string HARTO_TAG = "HARTO";
 	private const string HARTO_UI_INTERFACE_TAG = "HARTO_Interface";
-    public bool trackProgressInHARTO;
-    public bool HARTOinUtan;
-    public bool pickedUpBeornsHARTO;
-    public bool HARTOIsTalking;
-	public bool isTestScene;
-    public bool tutorialIsDone;
-    public bool playerAnimationLock;
-	public bool inUtan;
-	public bool hasPriyaSpoken;
-	public bool begin;
-	public bool inConversation;
-	public bool tabUIOnScreen;
-	public bool wasdUIOnScreen;
-	public bool waitingForInput;
-	public bool completedOneTopic;
-    public bool endGame;
 
-	public bool startedGame;
-	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
-
-	public string currentScene;
-
-	// Use this for initialization
-	void Start () 
+    #region Overview public void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
         trackProgressInHARTO = false;
         HARTOinUtan = false;
@@ -84,14 +104,15 @@ public class GameManager : MonoBehaviour
 		if (instance == null)
 		{
 			instance = this;
-			//DontDestroyOnLoad(this.gameObject);
 		}
-
 
         //toggle this to speed through dialogue
         cheatSpace = false;
 			
 		whoTalksFirst = new Dictionary<string, bool>();
+
+        //  True = Astrid talks first || False = Other character talks first
+        //  The key is the Event as named in the Unity Hierarchy, the scene number and the character you are talking to
 		whoTalksFirst.Add("Event_Start_Game1Priya",true);
 		whoTalksFirst.Add("Event_Tutorial1Priya", true);
 		whoTalksFirst.Add("Event_Exit1Priya", true);
@@ -108,34 +129,25 @@ public class GameManager : MonoBehaviour
 		HARTOInterface = GameObject.FindGameObjectWithTag(HARTO_UI_INTERFACE_TAG).GetComponent<HARTO_UI_Interface>();
 
 		audioSource = GetComponent<AudioSource>();
-//		if (!isTestScene) 
-//		{
-			sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
-		//}
 
-		//onToggleHARTO = new ToggleHARTOEvent.Handler(OnToggleHARTO);
-
-//		if (sceneName.Contains("Test"))
-//		{
-//			isTestScene = true;
-//		}
-//		else
-//		{
-//			isTestScene = false;
-//		}
-
-		if(!isTestScene)
-		{
-		}
-		
-		if (sceneName.Contains("Seneca_Campsite") && !startedGame)
-		{
-		}
-		
+		sceneName = GameObject.Find ("Root").transform.GetChild (0).tag;
 	}
 
-
-    void FindPlayer()
+    #region Overview private void FindPlayer()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the player if the player reference is null                                 				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindPlayer()
 	{
 		if (nextTimeToSearch <= Time.time)
 		{
@@ -148,10 +160,22 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	// Update is called once per frame
-	void Update () 
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update () 
 	{
-
         if(Input.GetKeyDown(RestartGame))
         {
             TransitionData.Instance = null;

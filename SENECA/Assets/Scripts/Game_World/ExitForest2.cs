@@ -1,24 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ChrsUtils.ChrsEventSystem.EventsManager;
+﻿using UnityEngine;
 using SenecaEvents;
 
-public class ExitForest2 : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-
-	}
-
-	void OnTriggerEnter2D(Collider2D coll){
-
+#region DEPRECIATED ExitForest2.cs Overview DEPRECIATED
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Going to the next scene after Forest2                                                                             */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void OnTriggerEnter2D(Collider2D coll)                                                       */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
+public class ExitForest2 : MonoBehaviour
+{
+    #region Overview private void OnTriggerEnter2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Going to the next scene after Forest2					                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    void OnTriggerEnter2D(Collider2D coll)
+    {
 		if (coll.gameObject.tag == "Player") 
 		{
 			Services.Events.Fire(new SceneChangeEvent("Seneca_Meadow"));

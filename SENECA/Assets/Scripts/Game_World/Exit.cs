@@ -1,11 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
+#region Exit.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Responsible for chaning between all game scenes. There is a 2 second scene lock when changing scenes to prevent   */
+/*    the player from going back and forht between scenes rapidly                                                       */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private IEnumerator CanTranferScene()                                                                */
+/*                 private void OnTriggerEnter2D(Collider2D coll)                                                       */
+/*                 private void TransferScene(Transform player, string nextScene)                                       */
+/*                 private void SelectScene(Transform player, string nextScene)                                         */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class Exit : MonoBehaviour 
 {
+    //  Name of the Seneca Exit triggers
 	public const string SENECA_CAMPSITE = "To_SenecaCampsite";
 	public const string SENECA_FARM = "To_SenecaFarm";
 	public const string SENECA_FOREST_FORK= "To_SenecaForestFork";
@@ -15,7 +30,8 @@ public class Exit : MonoBehaviour
 	public const string SENECA_ROAD = "To_SenecaRoad";
 	public const string SENECA_ROCKS = "To_SenecaRocks";
 
-	public const string UTAN_CAMPSITE = "To_UtanCampsite";
+    //  Name of the Utan Exit triggers
+    public const string UTAN_CAMPSITE = "To_UtanCampsite";
 	public const string UTAN_FARM = "To_UtanFarm";
 	public const string UTAN_FOREST_FORK = "To_UtanForkPath";
 	public const string UTAN_HUNTER_CAMP = "To_UtanHuntercamp";
@@ -24,34 +40,65 @@ public class Exit : MonoBehaviour
 	public const string UTAN_ROAD = "To_UtanRoad";
 	public const string UTAN_ROCKS = "To_UtanRocks";
 
-
 	public bool canTransferScene;
 	public string currentScene;
 	public GameObject mainCamera;
 
-	// Use this for initialization
-	void Start () 
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
 		canTransferScene = false;
 		StartCoroutine (CanTranferScene ());
 		mainCamera = GameObject.Find("Main Camera");
 	}
 
-	IEnumerator CanTranferScene()
+    #region Overview IEnumerator CanTransferScene()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Starting the scene lock cooldown.                      				                                        */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          The type of objects to enumerate.                                                                           */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private IEnumerator CanTranferScene()
 	{
 		yield return new WaitForSeconds (2.0f);
 		canTransferScene = true;
 	}
 
-    public float t = 0;
-	// Update is called once per frame
-	void Update () {
-
-
-	}
-
-	// Do not go to nuext scene until EndConvo topic has been played
-	void OnTriggerEnter2D(Collider2D coll)
+    #region Overview private void OnTriggerEnter2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Determining if player is closer enough to exit the scene                    					            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTriggerEnter2D(Collider2D coll)
 	{
 		if (coll.gameObject.tag == "Player" && GameManager.instance.hasPriyaSpoken && canTransferScene)
         { 
@@ -60,32 +107,52 @@ public class Exit : MonoBehaviour
 		}
 	}
 
-	void TransferScene(Transform player, string nextScene)
+    #region Overview private void TransferScene(Transform player, string nextScene)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Sending the player to the appropriate scene                                 					            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void TransferScene(Transform player, string nextScene)
 	{
-        Debug.Log(nextScene);   
 		string newScene = nextScene.Replace ("To_", "");
-        //StartCoroutine(CanTranferScene());
-        Debug.Log(newScene);
         Services.Events.Fire(new SceneChangeEvent(newScene));
 		SelectScene (player, nextScene);
-
 	}
 
-	void SelectScene(Transform player, string nextScene)
+    #region Overview private void SelectScene(Transform player, string nextScene)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Actually swaps the scenes                                                    					            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void SelectScene(Transform player, string nextScene)
 	{
 		currentScene = this.transform.parent.name;
 		mainCamera.GetComponent<GameManager> ().currentScene = currentScene;
 
 		if (nextScene == SENECA_CAMPSITE) 
 		{
-			TransitionData.Instance.SENECA_CAMPSITE.position = player.position;
-			TransitionData.Instance.SENECA_CAMPSITE.scale = player.localScale;
 			Services.Scenes.Swap<SenecaCampsiteSceneScript>(TransitionData.Instance);
 		}
 		else if (nextScene == SENECA_FARM)
 		{
-			TransitionData.Instance.SENECA_FARM.position = player.position;
-			TransitionData.Instance.SENECA_FORK.scale = player.localScale;
 			Services.Scenes.Swap<SenecaFarmSceneScript>(TransitionData.Instance);
 		}
 		else if (nextScene == SENECA_FOREST_FORK) 
@@ -93,89 +160,57 @@ public class Exit : MonoBehaviour
 			Services.Scenes.Swap<SenecaForestForkSceneScript> (TransitionData.Instance);
 
 		}
-
         else if (nextScene == SENECA_HUNTER_CAMP)
         {
-            TransitionData.Instance.SENECA_HUNTER_CAMP.position = player.position;
-            TransitionData.Instance.SENECA_HUNTER_CAMP.scale = player.localScale;
             Services.Scenes.Swap<SenecaHunterCampSceneScript>(TransitionData.Instance);
-
         }
 		else if (nextScene == SENECA_MEADOW) 
 		{
-			TransitionData.Instance.SENECA_MEADOW.position = player.position;
-			TransitionData.Instance.SENECA_MEADOW.scale = player.localScale;
 			Services.Scenes.Swap<SenecaMeadowSceneSript>(TransitionData.Instance);
 		}
 		else if (nextScene == SENECA_RADIO_TOWER)
 		{
-			TransitionData.Instance.SENECA_RADIO_TOWER.position = player.position;
-			TransitionData.Instance.SENECA_RADIO_TOWER.scale = player.localScale;
 			Services.Scenes.Swap<SenecaRadioTowerSceneScript>(TransitionData.Instance);
 		}
         else if (nextScene == SENECA_ROAD)
         {
-            TransitionData.Instance.SENECA_ROAD.position = player.position;
-            TransitionData.Instance.SENECA_ROAD.scale = player.localScale;
             Services.Scenes.Swap<SenecaRoadSceneScript>(TransitionData.Instance);
         }
 		else if (nextScene == SENECA_ROCKS)
 		{
-			TransitionData.Instance.SENECA_ROCKS.position = player.position;
-			TransitionData.Instance.SENECA_ROCKS.scale = player.localScale;
 			Services.Scenes.Swap<SenecaRocksSceneScript>(TransitionData.Instance);
 		}
         else if (nextScene == UTAN_CAMPSITE)
         {
-            TransitionData.Instance.UTAN_CAMPSITE.position = player.position;
-            TransitionData.Instance.UTAN_CAMPSITE.scale = player.localScale;
             Services.Scenes.Swap<UtanCampsiteSceneScript>(TransitionData.Instance);
         }
 		else if (nextScene == UTAN_FARM)
 		{
-			TransitionData.Instance.UTAN_FARM.position = player.position;
-			TransitionData.Instance.UTAN_FARM.scale = player.localScale;
 			Services.Scenes.Swap<UtanFarmSceneScript>(TransitionData.Instance);
 		}
         else if (nextScene == UTAN_FOREST_FORK)
         {
-            TransitionData.Instance.UTAN_FORK.position = player.position;
-            TransitionData.Instance.UTAN_FORK.scale = player.localScale;
             Services.Scenes.Swap<UtanForkPathSceneScript>(TransitionData.Instance);
         }
         else if (nextScene == UTAN_HUNTER_CAMP)
         {
-            TransitionData.Instance.UTAN_HUNTER_CAMP.position = player.position;
-            TransitionData.Instance.UTAN_HUNTER_CAMP.scale = player.localScale;
             Services.Scenes.Swap<UtanHunterCampSceneScript>(TransitionData.Instance);
         }
 		else if (nextScene == UTAN_MEADOW)
 		{
-			TransitionData.Instance.UTAN_MEADOW.position = player.position;
-			TransitionData.Instance.UTAN_MEADOW.scale = player.localScale;
 			Services.Scenes.Swap<UtanMeadowSceneScript>(TransitionData.Instance);
 		}
 		else if (nextScene == UTAN_RADIO_TOWER)
 		{
-			TransitionData.Instance.UTAN_RADIO_TOWER.position = player.position;
-			TransitionData.Instance.UTAN_RADIO_TOWER.scale = player.localScale;
 			Services.Scenes.Swap<UtanRadioTowerSceneScript>(TransitionData.Instance);
 		}
         else if (nextScene == UTAN_ROCKS)
         {
-            TransitionData.Instance.UTAN_ROCKS.position = player.position;
-            TransitionData.Instance.UTAN_ROCKS.scale = player.localScale;
             Services.Scenes.Swap<UtanRocksSceneScript>(TransitionData.Instance);
         }
         else if (nextScene == UTAN_ROAD)
         {
-            TransitionData.Instance.UTAN_ROAD.position = player.position;
-            TransitionData.Instance.UTAN_ROAD.scale = player.localScale;
             Services.Scenes.Swap<UtanRoadSceneScript>(TransitionData.Instance);
         }
-
-
     }
-
-
 }

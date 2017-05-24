@@ -1,13 +1,28 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using ChrsUtils;
-using ChrsUtils.ChrsEventSystem.EventsManager;
-using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
+#region RadialMenu.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    RadialMenu.cs is responsible for rotating the icons and firing the events that rely on the HARTO UI               */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          public:                                                                                                     */
+/*                  public void Start()                                                                                 */
+/*                  public void SpawnIcons(HARTO_UI_Interface.Action[] actions)                                         */
+/*                                                                                                                      */
+/*          private:                                                                                                    */
+/*                  private void RotateIconWheel(float scrollWheel)                                                     */
+/*                  private void SelectIcon()                                                                           */
+/*                  private void SelectOption(RadialIcon icon)                                                          */
+/*                  private void ForceStart()                                                                           */
+/*                  private void Update()                                                                               */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class RadialMenu : MonoBehaviour 
 {
 	public bool _destroyed;
@@ -23,7 +38,6 @@ public class RadialMenu : MonoBehaviour
 	public RadialEmotionIcon radialEmotionIconPrefab;
 	public RadialIcon selected;
     public RadialMenuSpawner menuSpawner;
-
 
     public Image selectionArea;
 	public Image screenHARTO;		
@@ -46,12 +60,28 @@ public class RadialMenu : MonoBehaviour
 	public Color inactiveColor = new Color (0.39f, 0.39f, 0.39f, 1.0f);
 	public Animator _anim;
 
-	public void Init(Player player, RadialMenuSpawner thisMenu)
+    #region Overview public void Init(Player player, RadialMenuSpawner thisMenu)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once before making the menu                                                         */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          Player player: the player spawning the menu                                                                 */
+    /*          RadialMenuSpawner thisMenu: reference to the menuspawner                                                    */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void Init(Player player, RadialMenuSpawner thisMenu)
 	{
+        //  Makes rotation speed faster oon Windows machines
         if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
             rotationSpeed = 50.0f;
         }
+
         menuSpawner = thisMenu;
         iconSelected = false;
         _anim = GetComponent<Animator>();
@@ -61,16 +91,32 @@ public class RadialMenu : MonoBehaviour
 		clipHasBeenPlayed = false;
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
+
 		if (!GameManager.instance.inConversation)
 		{
 			_anim.SetBool("Inactive", true);
 		}
+
         audioSource.volume = 0.3f;
         activeSFXPlayedOnce = false;
 		notActive = true;
 	}
 
-	public void SpawnIcons (HARTO_UI_Interface obj, bool topicSelected) 
+    #region Overview public void SpawnIcons(HARTO_UI_Interface obj, bool topicSelected)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Spawning the icons in a circle                                                                                  */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          HARTO_UI_Interface obj: the place the spawner receives info to populate the icon wheel                      */
+    /*          bool topicSelected: grays out topic if it has already been selecetd                                         */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void SpawnIcons (HARTO_UI_Interface obj, bool topicSelected) 
 	{
 		RadialIcon newRadialIcon;
 		for (int i = 0 ; i < obj.options.Length; i++)
@@ -92,11 +138,14 @@ public class RadialMenu : MonoBehaviour
 			{
 				newRadialIcon = Instantiate(radialIconPrefab) as RadialIcon; 
 			}
+
 			iconList.Add(newRadialIcon);
 			newRadialIcon.transform.SetParent(transform, false);
-			float theta = (2 * Mathf.PI / obj.options.Length) * i;
+            //  Positions the icons in a circle around the center of the gameobject
+            float theta = (2 * Mathf.PI / obj.options.Length) * i;
 			float xPos = Mathf.Sin(theta) * 1.08f + 0.2f;
 			float yPos = Mathf.Cos(theta) * 1.08f;
+
 			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 130.0f;
 			newRadialIcon.icon.color = obj.options[i].color;
 			newRadialIcon.alreadySelected = obj.options[i].alreadySelected;
@@ -106,19 +155,57 @@ public class RadialMenu : MonoBehaviour
 		}
 	}
 
-	public void DisableSelection()
+    #region Overview public void DisableSelection()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Disabling the selection of icons                                                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void DisableSelection()
 	{
 		canSelect = false;
 	}
 
-	public void EnableSelection()
+    #region Overview public void EnableSelection()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Enabling the selection of icons                                                                                 */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void EnableSelection()
 	{
 		canSelect = true;
 	}
 
-	void SetEmotion(RadialEmotionIcon icon)
+    #region Overview private void SetEmotion(RadialEmotionIcon icon)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Setting the current emotion                                                                                     */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          RadialEmotionIcon icon: the selected icon                                                                   */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void SetEmotion(RadialEmotionIcon icon)
 	{
-
 		string iconEmotion = icon.title.Replace("Emotion_", "");
 		try 
 		{
@@ -133,8 +220,21 @@ public class RadialMenu : MonoBehaviour
 		}
 	}
 
-
-	void RotateIconWheel(float scrollWheel)
+    #region Overview private void RotateIconWheel(float schrollWheel)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Rotation of icon wheel                                                                                      */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          float scrollWheel: Input axis from "Mouse ScrollWheel"                                                      */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void RotateIconWheel(float scrollWheel)
 	{	
 		for (int i = 0; i < iconList.Count; i++)
 		{
@@ -145,7 +245,21 @@ public class RadialMenu : MonoBehaviour
 		}
 	}
 
-	void SelectIcon()
+    #region Overview private void SelectIcon()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Selecting an icon                                                                                           */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void SelectIcon()
 	{
 		for (int i = 0; i < iconList.Count; i++)
 		{	
@@ -178,7 +292,6 @@ public class RadialMenu : MonoBehaviour
 						}
 						_anim.SetBool("Confirm", true);
                         iconSelected = true;
-						
 					}
 					else
 					{
@@ -198,7 +311,20 @@ public class RadialMenu : MonoBehaviour
 		}
 	}
 
-	void DetermineEvent(RadialIcon icon)
+    #region Overview private void SetEmotion(RadialIcon icon)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Firing the appropriate event after selection                                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          RadialEmotionIcon icon: the selected icon                                                                   */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void DetermineEvent(RadialIcon icon)
 	{
 		if(icon.title.Contains(TOPIC_TAG))
 		{
@@ -218,75 +344,104 @@ public class RadialMenu : MonoBehaviour
 			Services.Events.Fire(new RecordingSelectedEvent(icon.title));
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () 
+
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update () 
 	{
-		if (!_destroyed) {
-			if (HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO) {
+		if (!_destroyed)
+        {
+			if (HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO)
+            {
 				_anim.SetBool ("Regular", false);
-			} else {
+			}
+            else
+            {
 				_anim.SetBool ("Regular", true);
 			}
 			_anim.SetBool ("usingBeornsHARTO", HARTO_UI_Interface.HARTOSystem.usingBeornsHARTO);
 
-
-			if (GameManager.instance.isTestScene) {
-				if (Input.GetKeyDown (KeyCode.Space)) {
+			if (GameManager.instance.isTestScene)
+            {
+				if (Input.GetKeyDown (KeyCode.Space))
+                {
 					notActive = !notActive;
 				}
-				if (notActive) {
+				if (notActive)
+                {
 					clip = Resources.Load ("Audio/SFX/HARTO_Inactive") as AudioClip;
-					if (!audioSource.isPlaying) {
+					if (!audioSource.isPlaying)
+                    {
 						audioSource.PlayOneShot (clip);
 					}
 					_anim.SetBool ("Inactive", true);
-				} else {
+				}
+                else
+                {
 					clip = Resources.Load ("Audio/SFX/HARTO_Active") as AudioClip;
-					if (!audioSource.isPlaying) {
+					if (!audioSource.isPlaying)
+                    {
 						audioSource.PlayOneShot (clip);
 					}
 					_anim.SetBool ("Inactive", false);
 				}	
 			}
 
-			if (screenHARTO == null) {
+			if (screenHARTO == null)
+            {
 				screenHARTO = GameObject.Find (HARTO_SCREEN).GetComponent<Image> ();
 			}
 
-			if (selectionArea == null) {
+			if (selectionArea == null)
+            {
 				selectionArea = GameObject.Find ("SelectionArea").GetComponent<Image> ();
 			}
 
-			if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !menuSpawner.closing) {
+			if (GameManager.instance.waitingForInput || !GameManager.instance.inConversation && !menuSpawner.closing)
+            {
 				_anim.SetBool ("Inactive", false);
-			} else {
+			}
+            else
+            {
 				_anim.SetBool ("Confirm", false);
 				_anim.SetBool ("Inactive", true);
 			}
 
-			if (Input.GetKeyDown (KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation) {
+			if (Input.GetKeyDown (KeyCode.Mouse0) && !GameManager.instance.waitingForInput && GameManager.instance.inConversation)
+            {
 				clip = Resources.Load ("Audio/SFX/HARTO_Negative_Feedback") as AudioClip;
-				if (!audioSource.isPlaying) {
+				if (!audioSource.isPlaying)
+                {
 					audioSource.PlayOneShot (clip);
 				}
 			}
 
-			if (GameManager.instance.pickedUpBeornsHARTO) {
-				//GetComponent<Image> ().sprite = Resources.Load ("Sprites/HARTO_Images/HARTO_UI/BeornHARTO") as Sprite;
-			}
-
-			if (canSelect) {
-			
+			if (canSelect)
+            {
 				float rotate = rotateSelectionWheel + Input.GetAxis (SCROLLWHEEL) * rotationSpeed * Time.deltaTime;
-				if (rotate != rotateSelectionWheel && GameObject.Find ("MOUSE_UI(Clone)")) {
+				if (rotate != rotateSelectionWheel && GameObject.Find ("MOUSE_UI(Clone)"))
+                {
 					Destroy (GameObject.Find ("MOUSE_UI(Clone)"));
 				}
 
-				if (rotateSelectionWheel != rotate) {
+				if (rotateSelectionWheel != rotate)
+                {
 					clip = Resources.Load ("Audio/SFX/HARTO_Scroll") as AudioClip;
 
-					if (!audioSource.isPlaying) {
+					if (!audioSource.isPlaying)
+                    {
 						audioSource.PlayOneShot (clip, Mathf.Abs (Input.GetAxis (SCROLLWHEEL)));
 					}
 				}

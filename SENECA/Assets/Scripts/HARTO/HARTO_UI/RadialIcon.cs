@@ -1,8 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+#region RadialIcon.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Responsible for icon data.                                                                                        */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class RadialIcon : MonoBehaviour 
 {
 	public bool alreadySelected;
@@ -11,24 +21,47 @@ public class RadialIcon : MonoBehaviour
 	public Image icon;
 	public RadialMenu myMenu;
 
-
-
-	void Start(){
+    #region Overview protected void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    protected void Start()
+    {
 		color.color = new Color (1f, 1f, 1f, 0f);
 	}
 
-    private void Update()
+    #region Overview protecetd void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    protected void Update()
     {
-		//if (GameManager.instance.sceneName.Contains ("Title")) {
-
-		if (alreadySelected) {
+		if (alreadySelected)
+        {
 			color.color = new Color (0.5f, 0.5f, 0.5f, 1.0f);
-		} else {
+		}
+        else
+        {
 			color.color = new Color (1f,1f,1f, 1.0f);
 		}
-	//	} 
-			//color.color = transform.parent.GetChild (0).gameObject.GetComponent<Image> ().color;
-	
     }
-
 }

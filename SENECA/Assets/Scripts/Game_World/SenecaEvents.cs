@@ -1,75 +1,68 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ChrsUtils.ChrsEventSystem.GameEvents;
+﻿using ChrsUtils.ChrsEventSystem.GameEvents;
 
+#region SenecaEvents.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This script serves as a holdiong place for all events in the game. In short a script can assign a delegate        */
+/*    To one of these classes and when using Services.Events.Fire() all functions attached to that class will be        */
+/*    executed                                                                                                          */
+/*                                                                                                                      */
+/*    Event List as of 5/20/2017:                                                                                       */
+/*           AstridTalksToHARTOEvent                                                                                    */
+/*           BeginDialogueEvent                                                                                         */
+/*           BeginGameEvent                                                                                             */
+/*           BeginTutorialEvent                                                                                         */
+/*           ClosingHARTOForTheFirstTimeEvent                                                                           */
+/*           DisablePlayerMovementEvent                                                                                 */
+/*           EmotionalInputReceived                                                                                     */
+/*           EmotionSelectedEvent                                                                                       */
+/*           EndDialogueEvent                                                                                           */
+/*           EndGameEvent                                                                                               */
+/*           InteractableEvent                                                                                          */
+/*           MoveMomEvent                                                                                               */
+/*           PuzzleCompletedEvent                                                                                       */
+/*           RecordingFolderSelectedEvent                                                                               */
+/*           RecordingIsOverEvent                                                                                       */
+/*           RecordingModeToggledEvent                                                                                  */
+/*           RecordingSelectedEvent                                                                                     */
+/*           SceneChangeEvent                                                                                           */
+/*           TABUIButtonAppearEvent                                                                                     */
+/*           ToggleHARTOEvent                                                                                           */
+/*           TopicSelectedEvent                                                                                         */
+/*           WaitingForEmotionalInputEvent                                                                              */
+/*           WASDUIAppearEvent                                                                                          */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 namespace SenecaEvents
 {
-    public class SceneChangeEvent : GameEvent
+    public class AstridTalksToHARTOEvent : GameEvent
     {
-        public readonly string sceneName;
-        public SceneChangeEvent(string name)
+        public readonly bool talkingToHARTO;
+        public AstridTalksToHARTOEvent(bool _talkingToHARTO)
         {
-            sceneName = name;
+            talkingToHARTO = _talkingToHARTO;
         }
-    }
-
-    public class TopicSelectedEvent : GameEvent
-    {
-        public readonly string topicName;
-        public readonly string npcName;
-
-        public TopicSelectedEvent(string hartoTopic, string npc) 
-	    {
-            topicName = hartoTopic;
-            npcName = npc;
-        }
-    }
-
-    public class ToggleHARTOEvent : GameEvent
-    {
-        public ToggleHARTOEvent ()
-		{
-        }
-    }
-
-    public class ClosingHARTOForTheFirstTimeEvent : GameEvent
-    {
-        public ClosingHARTOForTheFirstTimeEvent()
-        {
-            
-        }
-    }
-
-    public class TABUIButtonAppearEvent : GameEvent
-    {
-        public TABUIButtonAppearEvent ()
-        {
-            
-        }
-    }
-
-    public class WASDUIAppearEvent : GameEvent{
-    	public WASDUIAppearEvent(){
-    	}
-
     }
 
     public class BeginDialogueEvent : GameEvent
     {
-        public BeginDialogueEvent ()
-        {
-        
-        }
+        public BeginDialogueEvent() {   }
     }
 
-    public class EndDialogueEvent : GameEvent
+    public class BeginGameEvent : GameEvent
     {
-        public readonly string topicName;
-        public EndDialogueEvent (string topic)
-        {
-            topicName = topic;
-        }
+        public BeginGameEvent() {   }
+    }
+
+    public class BeginTutorialEvent : GameEvent
+    {
+        public BeginTutorialEvent() {   }
+    }
+
+    public class ClosingHARTOForTheFirstTimeEvent : GameEvent
+    {
+        public ClosingHARTOForTheFirstTimeEvent() { }
     }
 
     public class DisablePlayerMovementEvent : GameEvent
@@ -81,63 +74,33 @@ namespace SenecaEvents
         }
     }
 
+    public class EmotionalInputReceived : GameEvent
+    {
+        public EmotionalInputReceived() {   }
+    }
+
     public class EmotionSelectedEvent : GameEvent
     {
         public readonly Emotions emotion;
 
-        public EmotionSelectedEvent(Emotions currentEmotion) 
-	    {
-            //this.hartoEmotion = hartoEmotion;
+        public EmotionSelectedEvent(Emotions currentEmotion)
+        {
             emotion = currentEmotion;
         }
     }
 
-    public class MoveMomEvent : GameEvent
+    public class EndDialogueEvent : GameEvent
     {
-        public MoveMomEvent()
+        public readonly string topicName;
+        public EndDialogueEvent(string topic)
         {
-
+            topicName = topic;
         }
     }
 
-    public class BeginTutorialEvent : GameEvent
+    public class EndGameEvent : GameEvent
     {
-        public BeginTutorialEvent()
-        {
-            
-        }
-    }
-
-    public class WaitingForEmotionalInputEvent : GameEvent
-    {
-        public WaitingForEmotionalInputEvent()
-        {
-
-        }
-    }
-
-    public class EmotionalInputReceived : GameEvent
-    {
-        public EmotionalInputReceived()
-        {
-            
-        }
-    }
-
-    public class BeginGameEvent : GameEvent
-    {
-        public BeginGameEvent()
-        {
-        }
-    }
-
-    public class AstridTalksToHARTOEvent :GameEvent
-    {
-        public readonly bool talkingToHARTO;
-        public AstridTalksToHARTOEvent(bool _talkingToHARTO)
-        {
-            talkingToHARTO = _talkingToHARTO;
-        }
+        public EndGameEvent() { }
     }
 
     public class InteractableEvent : GameEvent
@@ -153,19 +116,14 @@ namespace SenecaEvents
         }
     }
 
-    public class EndGameEvent : GameEvent
+    public class MoveMomEvent : GameEvent
     {
-        public EndGameEvent()
-        {
-        }
+        public MoveMomEvent() {  }
     }
 
-    public class RecordingModeToggledEvent : GameEvent
+    public class PuzzleCompletedEvent : GameEvent
     {
-        public RecordingModeToggledEvent()
-        {
-
-        }
+        public PuzzleCompletedEvent() { }
     }
 
     public class RecordingFolderSelectedEvent : GameEvent
@@ -177,6 +135,16 @@ namespace SenecaEvents
         }
     }
 
+    public class RecordingIsOverEvent : GameEvent
+    {
+        public RecordingIsOverEvent() { }
+    }
+
+    public class RecordingModeToggledEvent : GameEvent
+    {
+        public RecordingModeToggledEvent() { }
+    }
+
     public class RecordingSelectedEvent : GameEvent
     {
         public readonly string recording;
@@ -186,19 +154,45 @@ namespace SenecaEvents
         }
     }
 
-    public class RecordingIsOverEvent : GameEvent
+    public class SceneChangeEvent : GameEvent
     {
-        public RecordingIsOverEvent()
+        public readonly string sceneName;
+        public SceneChangeEvent(string name)
         {
-            
+            sceneName = name;
         }
     }
 
-    public class PuzzleCompletedEvent : GameEvent
+    public class TABUIButtonAppearEvent : GameEvent
     {
-        public PuzzleCompletedEvent()
-        {
-            
+        public TABUIButtonAppearEvent() {   }
+    }
+
+    public class ToggleHARTOEvent : GameEvent
+    {
+        public ToggleHARTOEvent() { }
+    }
+
+    public class TopicSelectedEvent : GameEvent
+    {
+        public readonly string topicName;
+        public readonly string npcName;
+
+        public TopicSelectedEvent(string hartoTopic, string npc) 
+	    {
+            topicName = hartoTopic;
+            npcName = npc;
         }
+    }
+
+    public class WaitingForEmotionalInputEvent : GameEvent
+    {
+        public WaitingForEmotionalInputEvent() { }
+    }
+
+    public class WASDUIAppearEvent : GameEvent
+    {
+    	public WASDUIAppearEvent() {    }
+
     }
 }

@@ -2,19 +2,53 @@
 using GameScenes;
 using ChrsUtils.ChrsCamera;
 
+#region SenecaFarmSceneScript.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This is the Scene script attached to the SenecaFarm screen.                                                       */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          internal:                                                                                                   */
+/*                 internal override void OnEnter(TransitionData data)                                                  */
+/*                 internal override void OnExit()                                                                      */
+/*                                                                                                                      */
+/*           private:                                                                                                   */
+/*                 private void Start()                                                                                 */
+/*                 private void FindPlayer()                                                                            */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class SenecaFarmSceneScript : Scene<TransitionData>
 {
+    public float nextTimeToSearch = 0;                          //  How long until the next time we search for the player
+
     public Player player;
     public AudioClip clip;
     public AudioSource audioSource;
 
-	public string lastScene;
-	public GameObject mainCamera;
-	public Transform fromSenecaForestFork;
-	public Transform fromSenecaHuntercamp;
+	public string lastScene;                                    //  The last scene we were in
+	public GameObject mainCamera;                               //  Reference to the main camera
+	public Transform fromSenecaForestFork;                      //  Spawn positioin when coming from SenecaForestFork
+	public Transform fromSenecaHuntercamp;                      //  Spawn position when coming from SenecaHuntercamp
 
-	public Transform[] ToggleSortingLayerLocations;
-	public SpriteRenderer[] farmLayers;
+	public Transform[] ToggleSortingLayerLocations;             //  Sorting layers for rendering the sprite
+	public SpriteRenderer[] farmLayers;                         //  Farm sorting layers
+
+    #region Overview public void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
 
     private void Start()
     {
@@ -25,20 +59,44 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
 		lastScene = mainCamera.GetComponent<GameManager> ().currentScene;
     }
 
+    #region Overview internal override void OnEnter(TransitionData data)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when entering a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          TradnsitionData data: A class with structs that represent data stored between each scene.                   */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     internal override void OnEnter(TransitionData data)
     {
-        
 
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xPosBoundary = 3.93f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().xNegBoundary = -3.93f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yPosBoundary = 0.38f;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraFollow2D> ().yNegBoundary = -0.38f;
-
     }
 
-    public float nextTimeToSearch = 0;
-
-    void FindPlayer()
+    #region Overview private void FindPlayer()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the player if the player reference is null                                 				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindPlayer()
     {
         if (nextTimeToSearch <= Time.time)
         {
@@ -62,7 +120,21 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
         }
     }
 
-    void Update()
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update()
     {
 
         if (player == null)
@@ -78,6 +150,20 @@ public class SenecaFarmSceneScript : Scene<TransitionData>
 		}
     }
 
+    #region Overview internal override void OnExit()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when exiting a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*           None                                                                                                       */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     internal override void OnExit()
     {
         TransitionData.Instance.SENECA_FARM.position = player.transform.position;

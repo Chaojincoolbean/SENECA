@@ -1,50 +1,93 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using ChrsUtils;
-using ChrsUtils.ChrsEventSystem.EventsManager;
-using ChrsUtils.ChrsEventSystem.GameEvents;
 using SenecaEvents;
 
+#region TitleMenu_HARTO.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    TitleMEnu_HARTO.cs is responsible for rotating the icons and connecting the title scene to the other scenes       */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          public:                                                                                                     */
+/*                  public void Start()                                                                                 */
+/*                  public void SpawnIcons(HARTO_UI_Interface.Action[] actions)                                         */
+/*                                                                                                                      */
+/*          private:                                                                                                    */
+/*                  private void RotateIconWheel(float scrollWheel)                                                     */
+/*                  private void SelectIcon()                                                                           */
+/*                  private void SelectOption(RadialIcon icon)                                                          */
+/*                  private void ForceStart()                                                                           */
+/*                  private void Update()                                                                               */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class TitleMenu_HARTO : MonoBehaviour
 { 
-    public bool iconSelected;
-	public bool clipHasBeenPlayed;
-	public bool canSelect;
-	public float rotationSpeed = 5.0f;
-	public RadialIcon radialIconPrefab;
+    public bool iconSelected;                                       //  A bool check to see if an icon has been selected
+	public bool canSelect;                                          //  A bool to see if we can select an icon
+	public float rotationSpeed = 5.0f;                              //  Rotation speed of the icon wheel
+	public RadialIcon radialIconPrefab;                             //  A reference to the prefab of the icons
+	public Image selectionArea;                                     //  Reference of selection area image
+	public Image screenHARTO;		                                //  DEPRECIATED: Reference of HARTO screen image
+	public Sprite emptyAreaSprite;                                  //  Reference of the empty area sprite
+	public AudioClip clip;                                          //  Holder for all sound effects on the title screen
+	public AudioSource audioSource;                                 //  Reference to audioSource
+    public Animator _anim;                                          //  Reference to the Title Screen's animator
+    public List<RadialIcon> iconList;                               //  A list of all icons on the title menu
 
-	public Image selectionArea;
-	public Image screenHARTO;		
-	public Sprite emptyAreaSprite;
-	public AudioClip clip;
-	public AudioSource audioSource;
-
-	public List<RadialIcon> iconList;
-	private float rotateSelectionWheel;
     private const string SCROLLWHEEL = "Mouse ScrollWheel";
-	private const string HARTO_SCREEN = "HARTO_Screen";
-	public Animator _anim;
+    private const string HARTO_SCREEN = "HARTO_Screen";
 
-	public void Start()
+    private float rotateSelectionWheel;                             //  Stores the previous position of the rotation wheel
+
+    #region Overview public void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void Start()
 	{
+        // Changes rotation speed based on the platform you are running on
         if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
             rotationSpeed = 50.0f;
         }
+
         iconSelected = false;
-		_anim = GetComponent<Animator>();
-		canSelect = true;
-		clipHasBeenPlayed = false;
+        canSelect = true;
+
+        _anim = GetComponent<Animator>();
 		audioSource = GetComponent<AudioSource>();
 		screenHARTO = GameObject.Find(HARTO_SCREEN).GetComponent<Image>();
-		SpawnIcons(HARTO_UI_Interface.HARTOSystem.titleMenu);
-	}
 
-	public void SpawnIcons (HARTO_UI_Interface.Action[] actions) 
+		SpawnIcons(HARTO_UI_Interface.HARTOSystem.titleMenu);
+    }
+
+    #region Overview public void SpawnIcons (HARTO_UI_Interface.Action[] actions)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Putting the icons on the wheel                                                                              */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          HARTO_UI_Interface.Action[] actions :                                                                       */
+    /*          This variable in HARTO_UI_Interface tells which icons need to be spwawned.                                  */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void SpawnIcons (HARTO_UI_Interface.Action[] actions) 
 	{
 		RadialIcon newRadialIcon;
 		for (int i = 0 ; i < actions.Length; i++)
@@ -52,10 +95,13 @@ public class TitleMenu_HARTO : MonoBehaviour
 			newRadialIcon = Instantiate(radialIconPrefab) as RadialIcon; 
 			iconList.Add(newRadialIcon);
 			newRadialIcon.transform.SetParent(transform);
+
+            //  Positions the icons in a circle around the center of the gameobject
 			float theta = (2 * Mathf.PI / actions.Length) * i;
 			float xPos = Mathf.Sin(theta);
 			float yPos = Mathf.Cos(theta);
 			newRadialIcon.transform.localPosition = new Vector3(xPos, yPos, 0.0f);
+
 			newRadialIcon.icon.color = actions[i].color;
 			newRadialIcon.alreadySelected = actions[i].alreadySelected;
 			newRadialIcon.transform.localScale = new Vector3 (0.4f, 0.4f, 0.4f);
@@ -64,18 +110,49 @@ public class TitleMenu_HARTO : MonoBehaviour
 		}
 	}
 
-	void RotateIconWheel(float scrollWheel)
+    #region Overview private void RotateIconWheel(float schrollWheel)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Rotation of icon wheel                                                                                      */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          float scrollWheel: Input axis from "Mouse ScrollWheel"                                                      */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void RotateIconWheel(float scrollWheel)
 	{	
 		for (int i = 0; i < iconList.Count; i++)
 		{
 			float theta = (2 * Mathf.PI / iconList.Count) * i;
+            
+            //  These are multiplied by 1.1f to move the icons outward
 			float xPos = Mathf.Sin(theta + scrollWheel) * 1.1f;
 			float yPos = Mathf.Cos(theta + scrollWheel) * 1.1f;
+
 			iconList[i].transform.localPosition = new Vector3(xPos, yPos) * (GetComponent<RectTransform>().rect.width * 0.3f);
 		}
 	}
 
-	void SelectIcon()
+    #region Overview private void SelectIcon()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Selecting an icon                                                                                           */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void SelectIcon()
 	{
 		
 		for (int i = 0; i < iconList.Count; i++)
@@ -84,12 +161,6 @@ public class TitleMenu_HARTO : MonoBehaviour
             {
                 _anim.SetBool ("IconInRange", true);
 				clip = Resources.Load ("Audio/SFX/HARTO_Icon_Passes_Into_Circle") as AudioClip;
-               
-                if (!audioSource.isPlaying && clipHasBeenPlayed)
-                {
-                    //audioSource.PlayOneShot(clip);
-					clipHasBeenPlayed = true;
-				}
 
                 if (Input.GetKeyDown (KeyCode.Mouse0))
                 {
@@ -116,7 +187,7 @@ public class TitleMenu_HARTO : MonoBehaviour
                 
                 if (iconSelected && !audioSource.isPlaying)
                 {
-                    StartGame(iconList[i]);
+                    SelectOption(iconList[i]);
                 }
 			} 
 			else 
@@ -126,7 +197,21 @@ public class TitleMenu_HARTO : MonoBehaviour
 		}
     }
 
-	void StartGame(RadialIcon icon)
+    #region Overview private void SelectOption(RadialIcon icon)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Starting the icon you selected					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          RadialIcon icon: the icon you selcted in the SelctIcon  function                                            */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void SelectOption(RadialIcon icon)
 	{
 	    if(icon.title == "StartGame")
 		{
@@ -135,28 +220,63 @@ public class TitleMenu_HARTO : MonoBehaviour
 			TransitionData.Instance.TITLE.position = Vector3.zero;
 			TransitionData.Instance.TITLE.scale = Vector3.zero;
 			Services.Scenes.Swap<PrologueSceneScript>(TransitionData.Instance);
-		}
-       else if(icon.title == "PuzzleProtoTypes")
+            //  This takes you to PrologueSceneScript.cs
+            //  Located in Scripts -> Game_World -> SceneScripts
+        }
+        else if(icon.title == "PuzzleProtoTypes")
        {
              Services.Scenes.Swap<PrototypeSceneScript>(TransitionData.Instance);
+            //  This takes you to PrototypeSceneScript.cs
+            //  Located in Scripts -> Game_World -> SceneScripts
         }
         else if (icon.title == "Credits")
         {
             Services.Scenes.Swap<CreditSceneScript>(TransitionData.Instance);
+            //  This takes you to CreditSceneScript.cs
+            //  Located in Scripts -> Game_World -> SceneScripts
         }
     }
 
-    void ForceStart()
+    #region Overview private void ForceStart()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          	Starting the game with the press of the Spacebar	                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void ForceStart()
     {
         Services.Events.Fire(new SceneChangeEvent("_Prologue"));
         TransitionData.Instance.TITLE.visitedScene = true;
         TransitionData.Instance.TITLE.position = Vector3.zero;
         TransitionData.Instance.TITLE.scale = Vector3.zero;
         Services.Scenes.Swap<PrologueSceneScript>(TransitionData.Instance);
+        //  This takes you to PrologueSceneScript.cs
+        //  Located in Scripts -> Game_World -> SceneScripts
     }
-	
-	// Update is called once per frame
-	void Update () 
+
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update () 
 	{
 
         if(Input.GetKeyDown(KeyCode.Space))

@@ -1,24 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using ChrsUtils.ChrsEventSystem.EventsManager;
+﻿using UnityEngine;
 using SenecaEvents;
 
-public class ExitUtan1 : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-
-	}
-
-	void OnTriggerEnter2D(Collider2D coll){
+#region DEPRECIATED ExitUtan1.cs Overview DEPRECIATED
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Going to the next scene after Utan1                                                                             */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void OnTriggerEnter2D(Collider2D coll)                                                       */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
+public class ExitUtan1 : MonoBehaviour
+{
+    #region Overview private void OnTriggerEnter2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Going to the next scene after Utan1 					                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    void OnTriggerEnter2D(Collider2D coll){
 
 		if (coll.gameObject.tag == "Player") 
 		{

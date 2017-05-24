@@ -1,10 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+#region VoiceOverLine.cs Overview
+/*********************************************************************************************************************************************************/
+/*                                                                                                                                                       */
+/*    NAvigate the file paths to find the audio clips                                                                                                    */
+/*                                                                                                                                                       */
+/*    Function List as of 5/20/2017:                                                                                                                     */
+/*          private:                                                                                                                                     */
+/*                 private void Start ()                                                                                                                 */
+/*                 private void FindBrocaParticles()                                                                                                     */
+/*                 private void Update()                                                                                                                 */
+/*                                                                                                                                                       */
+/*           public:                                                                                                                                     */
+/*                 public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename, string emotionalResponse)     */
+/*                 public AudioClip LoadAudioClip(string characterName, string scene, string topic, string filename, string emotionalResponse)           */
+/*                 public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename)                               */
+/*                 public AudioClip LoadAudioClip(string characterName, string scene, string topic, string filename)                                     */
+/*                                                                                                                                                       */
+/*********************************************************************************************************************************************************/
+#endregion
 public class VoiceOverLine : MonoBehaviour 
 {
-	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
+	public float nextTimeToSearch = 0;				            //	How long unitl the camera searches for the target again
 	public string voiceOverLine = "";
 	public const string GIBBERISH = "Gibberish";
 	public const string BROCA_PARTICLES = "BrocaParticles";
@@ -12,14 +29,39 @@ public class VoiceOverLine : MonoBehaviour
 	public AudioClip voiceOverHARTO;
 	public BufferShuffler gibberishGenerator;
 
-	// Use this for initialization
-	void Start () 
+    #region Overview protected void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
-
 		gibberishGenerator = GameObject.Find(BROCA_PARTICLES).GetComponent<BufferShuffler>();
 	}
 
-	void FindBrocaParticles()
+    #region Overview private void FindBrocaParticles()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the the BrocaParticles if the BrocaParticles reference is null                                      */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindBrocaParticles()
 	{
 		if (nextTimeToSearch <= Time.time)
 		{
@@ -28,20 +70,29 @@ public class VoiceOverLine : MonoBehaviour
 			{
 				gibberishGenerator = result.GetComponent<BufferShuffler>();
 			}
-				nextTimeToSearch = Time.time + 2.0f;
+			nextTimeToSearch = Time.time + 2.0f;
 		}
 	}
 
-	void Update()
-	{
-		if(gibberishGenerator == null)
-		{
-			FindBrocaParticles();
-			return;
-		}
-	}
-
-	public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename, string emotionalResponse)
+    #region Overview public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename, string emotionalResponse)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Find the correct audio clip by navigating the file hierarchy                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          string characterName: Name of the character talking                                                         */
+    /*          string scene: the current scene                                                                             */
+    /*          string topic: the conversation topic                                                                        */
+    /*          string filename: The name of the file                                                                       */
+    /*          string emotionalResponse: the selecetd emotion                                                              */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          The selected audio file as an AudioClip                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename, string emotionalResponse)
 	{
 		if (Resources.Load<AudioClip>("Audio/VO/" + characterName + "/" + scene + "/" + topic + "/" + filename + "_" + emotionalResponse) == null)
 		{
@@ -54,7 +105,25 @@ public class VoiceOverLine : MonoBehaviour
 		return gibberishGenerator.ClipToShuffle;
 	}
 
-	public AudioClip LoadAudioClip(string characterName, string scene, string topic, string filename, string emotionalResponse)
+    #region Overview public AudioClip LoadAudioClip (string characterName, string scene, string topic, string filename, string emotionalResponse)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Find the correct audio clip by navigating the file hierarchy                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          string characterName: Name of the character talking                                                         */
+    /*          string scene: the current scene                                                                             */
+    /*          string topic: the conversation topic                                                                        */
+    /*          string filename: The name of the file                                                                       */
+    /*          string emotionalResponse: the selecetd emotion                                                              */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          The selected audio file as an AudioClip                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public AudioClip LoadAudioClip(string characterName, string scene, string topic, string filename, string emotionalResponse)
 	{
 		if (Resources.Load<AudioClip>("Audio/VO/" + characterName + "/" + scene + "/" + topic + "/" + filename + "_" + emotionalResponse) == null)
 		{
@@ -66,7 +135,24 @@ public class VoiceOverLine : MonoBehaviour
 		return voiceOverHARTO;
 	}
 
-	public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename)
+    #region Overview public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Find the correct audio clip by navigating the file hierarchy                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          string characterName: Name of the character talking                                                         */
+    /*          string scene: the current scene                                                                             */
+    /*          string topic: the conversation topic                                                                        */
+    /*          string filename: The name of the file                                                                       */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          The selected audio file as an AudioClip                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public AudioClip LoadGibberishAudio (string characterName, string scene, string topic, string filename)
 	{
 		if (Resources.Load<AudioClip>("Audio/VO/" + characterName + "/" + scene + "/" + topic + "/" + filename) == null)
 		{
@@ -77,7 +163,25 @@ public class VoiceOverLine : MonoBehaviour
 		gibberishGenerator.ClipToShuffle = voiceOverGibberish;
 		return gibberishGenerator.ClipToShuffle;
 	}
-	public AudioClip LoadAudioClip(string characterName, string scene, string topic, string filename)
+
+    #region Overview public AudioClip LoadAudioClip (string characterName, string scene, string topic, string filename)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Find the correct audio clip by navigating the file hierarchy                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          string characterName: Name of the character talking                                                         */
+    /*          string scene: the current scene                                                                             */
+    /*          string topic: the conversation topic                                                                        */
+    /*          string filename: The name of the file                                                                       */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          The selected audio file as an AudioClip                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public AudioClip LoadAudioClip(string characterName, string scene, string topic, string filename)
 	{
 		if (Resources.Load<AudioClip>("Audio/VO/" + characterName + "/" + scene + "/" + topic + "/" + filename) == null)
 		{
@@ -87,4 +191,27 @@ public class VoiceOverLine : MonoBehaviour
 		voiceOverHARTO = Resources.Load<AudioClip>("Audio/VO/" + characterName + "/" + scene + "/" + topic + "/" + filename);
 		return voiceOverHARTO;
 	}
+
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update()
+    {
+        if (gibberishGenerator == null)
+        {
+            FindBrocaParticles();
+            return;
+        }
+    }
 }

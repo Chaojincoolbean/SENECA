@@ -1,25 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class lineDrawer : MonoBehaviour {
-
+#region DEPRECIATED lineDrawer.cs Overview DEPRECIATED
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    DEPRECIATED Drawing a  line for the HARTO puzzle  DEPRECIATED                                                     */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private void Update ()                                                                               */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
+public class lineDrawer : MonoBehaviour
+{
 	private GameObject clone;
 	private LineRenderer line;
 	private int i;
 	public  GameObject tf;
 
-
-	// Use this for initialization
-	void Start () {
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start ()
+    {
 		tf = this.gameObject;
 		i = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update ()
+    {
 		
-		if(Input.GetMouseButtonDown(0)) {
+		if(Input.GetMouseButtonDown(0))
+        {
 			clone = (GameObject)Instantiate(tf,tf.transform.position, transform.rotation);
 
 			line = clone.GetComponent<LineRenderer>();
@@ -29,7 +66,8 @@ public class lineDrawer : MonoBehaviour {
 
 		}
 
-		if (Input.GetMouseButton(0)){
+		if (Input.GetMouseButton(0))
+        {
 			i ++;
 			line.SetVertexCount(i);
 			line.SetPosition(i - 1, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 15)));

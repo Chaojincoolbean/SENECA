@@ -1,0 +1,8 @@
+SENECA
+
+Game begins running from Main.cs in Scripts -> ChrsUtils -> SceneManager ->Main.cs
+
+TODO:
+Create documentation for 47 more scirpts
+
+If I do 14 a day I'll be done in 4 days

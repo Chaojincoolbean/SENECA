@@ -1,36 +1,151 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using GameScenes;
-using ChrsUtils.ChrsExtensionMethods;
 
+#region PlayerScaling.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    HOW IT WORKS: 										                                                            */
+/*          We set two points and assign a scale the player should be when at those points. The player's scale          */
+/*          for each positon between the two points should be on this line. With enouogh of these line segments         */
+/*          you can create a function of a line for any scene as long as scaling is 1 to 1                              */
+/*          (each position has one scale connected to it). In update we check the scene we currently are in and         */
+/*          use assign our delegate with the correct scaling curve.                                                     */
+/*                                                                                                                      */
+/*    Function List as of 05/20/2017:                                                                                   */
+/*          internal:                                                                                                   */
+/*                                                                                                                      */
+/*          private:                                                                                                    */
+/*             private void Start ()                                                                                    */
+/*             private void PopulateScaleBounds()                                                                       */
+/*             private void FindPlayer()                                                                                */
+/*             private void Update ()                                                                                   */
+/*             private void CalculateScale(string currentScene, Transform player)                                       */
+/*             private void DefaultScalingCurve(Transform player)                                                       */
+/*             private void CampsiteScalingCurve(Transform player)                                                      */
+/*             private void ForkScalingCurve(Transform player)                                                          */
+/*             private void FarmScalingCurve(Transform player)                                                          */
+/*             private void HunterScalingCurve(Transform player)                                                        */
+/*             private void MeadowScalingCurve(Transform player)                                                        */
+/*             private void TowerScalingCurve(Transform player)                                                         */
+/*             private void RoadScalingCurve(Transform player)                                                          */
+/*             private void RockScalingCurve(Transform player)                                                          */
+/*                                                                                                                      */
+/*          protected:                                                                                                  */
+/*                                                                                                                      */
+/*          public:                                                                                                     */
+/*                                                                                                                      */
+/*          public static:                                                                                              */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class PlayerScaling : MonoBehaviour 
 {
-	public class ScaleBound
+    #region ScaleBound Overview
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*    ScaleBound Info										                                                            */
+    /*          This class acts like a Vector 4 where each float stores infomation about a point on the scaling curve       */
+    /*                                                                                                                      */
+    /*    Function List as of 05/20/2017:                                                                                   */
+    /*          internal:                                                                                                   */
+    /*                                                                                                                      */
+    /*          private:                                                                                                    */
+    /*                                                                                                                      */
+    /*          protected:                                                                                                  */
+    /*                                                                                                                      */
+    /*          public:                                                                                                     */
+    /*             public ScaleBound()                                                                                      */
+    /*             public ScaleBound(float _lowerBound, float _upperBound, float _lowerBoundScale, float _upperBoundScale)  */
+    /*             public float LerpBoundsMod(float t)                                                                      */
+    /*             public float LerpScaleMod(float t)                                                                       */
+    /*                                                                                                                      */
+    /*          public static:                                                                                              */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public class ScaleBound
 	{
 		public float lowerBound;
 		public float upperBound;
 		public float lowerBoundScale;
 		public float upperBoundScale;
 
-		public ScaleBound()
-		{
-		}
+        #region Overview ScaleBound()
+        /************************************************************************************************************************/
+        /*                                                                                                                      */
+        /*      Responsible for:                                                                                                */
+        /*          	Empty constructor				                                                                        */
+        /*                                                                                                                      */
+        /*      Parameters:                                                                                                     */
+        /*          None                                                                                                        */
+        /*                                                                                                                      */
+        /*      Returns:                                                                                                        */
+        /*          An empty Scale Bound                                                                                        */
+        /*                                                                                                                      */
+        /************************************************************************************************************************/
+        #endregion
+        public ScaleBound() {   }
 
-		public ScaleBound(float _lowerBound, float _upperBound, float _lowerBoundScale, float _upperBoundScale)
+        #region Overview ScaleBound(float _lowerBound, float _upperBound, float _lowerBoundScale, float _upperBoundScale)
+        /************************************************************************************************************************/
+        /*                                                                                                                      */
+        /*      Responsible for:                                                                                                */
+        /*          	Think of this as a constructor for a Vector 4		                                                    */
+        /*                                                                                                                      */
+        /*      Parameters:                                                                                                     */
+        /*          float _lowerBound : The lower float limit of the scale interval                                             */
+        /*          float _upperBound : The upper float limit of the scale interval                                             */
+        /*          float _lowerBoundScale : The lower scale limit                                                              */
+        /*          float _upperBoundScale : The upper scale limit                                                              */
+        /*                                                                                                                      */
+        /*      Returns:                                                                                                        */
+        /*          A Scale Bound with a lower and upper bound, and a lower scale and upper scale                               */
+        /*                                                                                                                      */
+        /************************************************************************************************************************/
+        #endregion
+        public ScaleBound(float _lowerBound, float _upperBound, float _lowerBoundScale, float _upperBoundScale)
 		{
 			lowerBound = _lowerBound;
 			upperBound = _upperBound;
 			lowerBoundScale = _lowerBoundScale;
 			upperBoundScale = _upperBoundScale;
 		}
-
-		public float LerpBoundsMod(float t)
+  
+        #region Overview float LerpBoundsMod(float t)
+        /************************************************************************************************************************/
+        /*                                                                                                                      */
+        /*      Responsible for:                                                                                                */
+        /*          What percentage of the way t is away from the lower bound	                                                */
+        /*                                                                                                                      */
+        /*      Parameters:                                                                                                     */
+        /*          Float t: current float position (in Seneca's case positon y)                                                */
+        /*                                                                                                                      */
+        /*      Returns:                                                                                                        */
+        /*          A float between 0 and 1 that indicates a point t's percentage between the upper and lower bound             */
+        /*                                                                                                                      */
+        /************************************************************************************************************************/
+        #endregion
+        public float LerpBoundsMod(float t)
 		{
 			return (t - lowerBound) / (upperBound - lowerBound);
 		}
 
-		public float LerpScaleMod(float t)
+        #region Overview float LerpScaleMod(float t)
+        /************************************************************************************************************************/
+        /*                                                                                                                      */
+        /*      Responsible for:                                                                                                */
+        /*          What percentage of the way t is away from the lower scale bound	                                            */
+        /*                                                                                                                      */
+        /*      Parameters:                                                                                                     */
+        /*          Float t: current float position (in Seneca's case positon y)                                                */
+        /*                                                                                                                      */
+        /*      Returns:                                                                                                        */
+        /*          A float between 0 and 1 that indicates a point t's percentage between the upper and lower scale bound       */
+        /*                                                                                                                      */
+        /************************************************************************************************************************/
+        #endregion
+        public float LerpScaleMod(float t)
 		{
 			return (t - lowerBoundScale) / (upperBoundScale - lowerBoundScale);
 		}
@@ -51,9 +166,10 @@ public class PlayerScaling : MonoBehaviour
 	public float nextTimeToSearch = 0;
 
 	public float faceLeft = 1.0f;
-	public string currentScene;
 	public float currentPlayerPosY;
-	public float newPlayerPosY;
+    public float newPlayerPosY;
+    public string currentScene;
+
 	public Scene<TransitionData> thisScene;
 	public Transform player;
 	public GameObject root;
@@ -64,8 +180,20 @@ public class PlayerScaling : MonoBehaviour
 
 	ScalePlayer currentScaleCurve;
 
-	// Use this for initialization
-	void Start () 
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
 		root = GameObject.Find ("Root");
 
@@ -85,7 +213,21 @@ public class PlayerScaling : MonoBehaviour
 		currentScaleCurve = DefaultScalingCurve;
 	}
 
-	void PopulateScaleBounds()
+    #region Overview private void PopulateScaleBounds()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Adding all scaling points for all scenes to the dictionary                        				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void PopulateScaleBounds()
 	{
 		scalingReference [CAMPSITE] [0] = new ScaleBound (-21f, -13f, 1.5f, 1f);
 		scalingReference [CAMPSITE] [1] = new ScaleBound (-12f, -5.8f, 1f, 0.7f);
@@ -128,7 +270,21 @@ public class PlayerScaling : MonoBehaviour
 		scalingReference [ROCK] [0] = new ScaleBound (-3.23f, -3.23f, 0.43f, 0.43f);
 	}
 
-	void FindPlayer()
+    #region Overview private void FindPlayer()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the player if the player reference is null                                 				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindPlayer()
 	{
 		if (nextTimeToSearch <= Time.time)
 		{
@@ -142,9 +298,21 @@ public class PlayerScaling : MonoBehaviour
 		}
 	}
 
-	
-	// Update is called once per frame
-	void Update () 
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update () 
 	{
 		if (player == null) 
 		{
@@ -163,51 +331,40 @@ public class PlayerScaling : MonoBehaviour
 
 		currentScene = root.transform.GetChild (0).tag;
 
-
 		if (currentScene.Contains (CAMPSITE) || currentScene.Contains("Untagged")) 
 		{
-			// campsite scaling
 			currentScaleCurve = CampsiteScalingCurve;
 		} 
 		else if (currentScene.Contains (FORK)) 
 		{
-
-			//	fork scaling
 			currentScaleCurve = ForkScalingCurve;
 		}
 		else if (currentScene.Contains(FARM))
 		{
-			// farm scaling
 			currentScaleCurve = FarmScalingCurve;
 		} 
 		else if (currentScene.Contains(HUNTER))
 		{
-			// hunter scaling
 			currentScaleCurve = HunterScalingCurve;
 		} 
 		else if (currentScene.Contains(MEADOW))
 		{
-			// meadow scaling
 			currentScaleCurve = MeadowScalingCurve;
 		} 
 		else if (currentScene.Contains(TOWER))
 		{
-			//	tower scaling
 			currentScaleCurve = TowerScalingCurve;
 		} 
 		else if (currentScene.Contains(ROAD))
 		{
-			//	road scaling
 			currentScaleCurve = RoadScalingCurve;
 		} 
 		else if (currentScene.Contains(ROCK))
 		{
-			// rock scaling
 			currentScaleCurve = RoadScalingCurve;
 		} 
 		else 
 		{
-			//	default scaling
 			currentScaleCurve = DefaultScalingCurve;
 		}
 
@@ -220,8 +377,23 @@ public class PlayerScaling : MonoBehaviour
 
 		newPlayerPosY = currentPlayerPosY;
 	}
-		
-	void CalculateScale(string currentScene, Transform player)
+
+    #region Overview private void CalculateScale(string currentScene, Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Perfroms the scaling calculations using Vector3's LERP function				                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          string currentScene: Tells us which scaling curve to use                                                    */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void CalculateScale(string currentScene, Transform player)
 	{
 		for (int i = 0; i < scalingReference [currentScene].Length; i++) 
 		{
@@ -232,7 +404,6 @@ public class PlayerScaling : MonoBehaviour
             }
 			else if (scalingReference [currentScene] [i].lowerBound < player.position.y && player.position.y < scalingReference [currentScene] [i].upperBound) 
 			{
-                // new Vector3(scalingReference[currentScene][i].loweBoundScale * faceLeft, scalingReference[currentScene][i].loweBoundScale ,scalingReference[currentScene][i].loweBoundScale);
                 player.localScale = Vector3.Lerp(new Vector3(scalingReference[currentScene][i].lowerBoundScale, scalingReference[currentScene][i].lowerBoundScale, scalingReference[currentScene][i].lowerBoundScale),
                                                  new Vector3(scalingReference[currentScene][i].upperBoundScale, scalingReference[currentScene][i].upperBoundScale, scalingReference[currentScene][i].upperBoundScale), 
 												 scalingReference[currentScene][i].LerpBoundsMod(player.position.y));
@@ -240,55 +411,174 @@ public class PlayerScaling : MonoBehaviour
 			else if (scalingReference [currentScene] [scalingReference[currentScene].Length - 1].upperBound < player.position.y)
 			{
                 player.localScale = new Vector3(scalingReference[currentScene][scalingReference[currentScene].Length - 1].upperBoundScale, scalingReference[currentScene][scalingReference[currentScene].Length - 1].upperBoundScale, scalingReference[currentScene][scalingReference[currentScene].Length - 1].upperBoundScale);
-
-                //player.localScale = ExtensionMethods.CreateVector3 (scalingReference [currentScene] [scalingReference[currentScene].Length - 1].upperBoundScale);
 			}
-
-			//player.localScale = new Vector3 (player.localScale.x * faceLeft, player.localScale.y, player.localScale.z);
 		}
 	}
 
-	void DefaultScalingCurve(Transform player)
-	{
-		
-	}
+    #region Overview private void DefaultScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the default scaling curve for the player				                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void DefaultScalingCurve(Transform player) {    }
 
-	void CampsiteScalingCurve(Transform player)
+    #region Overview private void CampsiteScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the campsite scaling curve for the player				                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void CampsiteScalingCurve(Transform player)
 	{
 		CalculateScale (CAMPSITE, player);
 	}
 
-	void ForkScalingCurve(Transform player)
+    #region Overview private void ForkScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the ForestFork scaling curve for the player				                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void ForkScalingCurve(Transform player)
 	{
 		CalculateScale (FORK, player);
 	}
 
-	void FarmScalingCurve(Transform player)
+    #region Overview private void FarmScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the Farm scaling curve for the player			      	                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FarmScalingCurve(Transform player)
 	{
 		CalculateScale (FARM, player);
 	}
-		
-	void HunterScalingCurve(Transform player)
+
+    #region Overview private void HunterScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the Huntercamp scaling curve for the player				                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void HunterScalingCurve(Transform player)
 	{
 		CalculateScale (HUNTER, player);
 	}
-		
-	void MeadowScalingCurve(Transform player)
+
+    #region Overview private void MeadowScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the Meadow scaling curve for the player				                                                */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void MeadowScalingCurve(Transform player)
 	{
 		CalculateScale (MEADOW, player);
 	}
 
-	void TowerScalingCurve(Transform player)
+    #region Overview private void TowerScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the radio tower scaling curve for the player				                                        */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void TowerScalingCurve(Transform player)
 	{
 		CalculateScale (TOWER, player);
 	}
 
-	void RoadScalingCurve(Transform player)
+    #region Overview private void RoadScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the road tower scaling curve for the player			    	                                        */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void RoadScalingCurve(Transform player)
 	{
 		CalculateScale (ROAD, player);
 	}
 
-	void RockScalingCurve(Transform player)
+    #region Overview private void RockScalingCurve(Transform player)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running the rock tower scaling curve for the player			    	                                        */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Transform player: Allows access to playuer's Y position and scale                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void RockScalingCurve(Transform player)
 	{
 		CalculateScale (ROCK, player);
 	}

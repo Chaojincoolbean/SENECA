@@ -1,18 +1,39 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SenecaEvents;
-using ChrsUtils.ChrsEventSystem.EventsManager;
 using ChrsUtils.ChrsEventSystem.GameEvents;
-using ChrsUtils.EasingEquations;
-using ChrsUtils;
-using UnityEngine.UI;
 
+#region HARTO_UI_Interface.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Responsible for all the icons on HARTO and removing and creating the menus using the RadialMenuSpawner            */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private void OnDestroy()                                                                             */
+/*                 private void ReloadMenu(Action[] newOptions)                                                         */
+/*                 private void OnRecordingFolderSelected(GameEvent e)                                                  */
+/*                 private void OnTopicSelected(GameEvent e)                                                            */
+/*                 private void OnBeginDialogueEvent(GameEvent e)                                                       */
+/*                 private void OnDialogueEnded(GameEvent e)                                                            */
+/*                 private void OnRecordingSelected(GameEvent e)                                                        */
+/*                 private void OnRecordingEnded(GameEvent e)                                                           */
+/*                 private void FindPlayer()                                                                            */
+/*                 private void FindRadialMenuSpawner()                                                                 */
+/*                 private void Update()                                                                                */
+/*                                                                                                                      */
+/*          public:                                                                                                     */
+/*                 public void ToggleDialogueMode()                                                                     */
+/*                 public IEnumerator WaitForExitScript()                                                               */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class HARTO_UI_Interface : MonoBehaviour 
 {
-
 	public static HARTO_UI_Interface HARTOSystem;
 
+    //This class shows the editable value of a Radial icon in the inspector
 	[System.Serializable]
 	public class Action
 	{
@@ -33,17 +54,18 @@ public class HARTO_UI_Interface : MonoBehaviour
 	public bool recordingFolderSelected;
 	public bool topicSelected;
 	public bool dialogueModeActive;
-	public float nextTimeToSearch = 0;				//	How long unitl the camera searches for the target again
+	public float nextTimeToSearch = 0;				 //	How long unitl the camera searches for the target again
     public float nextTimeToSearch2 = 0;              //	How long unitl the camera searches for the target again
-    private const string PLAYER_TAG = "Player";
+    public string currentNPC;
+
 	public KeyCode toggleHARTO = KeyCode.Tab;
+
 	public AudioClip clip;
 	public AudioSource audioSource;
 	public Player player;
 
 	public Action[] options;
 	public Action[] titleMenu;
-
 	public Action[] empty;
 	public Action[] topics;
 	public Action[] updatedTopics = new Action[4];
@@ -55,19 +77,31 @@ public class HARTO_UI_Interface : MonoBehaviour
 
     public RadialMenuSpawner menuSpawner;
 
-
-	//	If closing HARTO for the first time, wait until Exit dialouge event finishes.
 	private bool closingHARTOForFirstTime;
 	private bool closedTutorialUsingRecordingSwitch;
-	public string currentNPC;
-	private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
+    private const string PLAYER_TAG = "Player";
+
+    private RecordingFolderSelectedEvent.Handler onRecordingFolderSelecetd;
     private RecordingSelectedEvent.Handler onRecordingSelected;
 	private TopicSelectedEvent.Handler onTopicSelected;
 	private BeginDialogueEvent.Handler onBeginDialogueEvent;
 	private EndDialogueEvent.Handler onDialogueEnded;
 	private RecordingIsOverEvent.Handler onRecordingEnded;
 
-	void Start()
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start()
 	{
 		if(HARTOSystem == null)
 		{
@@ -95,6 +129,7 @@ public class HARTO_UI_Interface : MonoBehaviour
 			options = topics;
 		}
 
+        //  Setting delegates for these events
 		onRecordingFolderSelecetd = new RecordingFolderSelectedEvent.Handler(OnRecordingFolderSelected);
         onRecordingSelected = new RecordingSelectedEvent.Handler(OnRecordingSelected);
         onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
@@ -102,15 +137,28 @@ public class HARTO_UI_Interface : MonoBehaviour
 		onDialogueEnded = new EndDialogueEvent.Handler(OnDialogueEnded);
 		onRecordingEnded = new RecordingIsOverEvent.Handler(OnRecordingEnded);
 
+        //  Registering the events to excute when the event is fired
 		Services.Events.Register<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
         Services.Events.Register<RecordingSelectedEvent>(onRecordingSelected);
         Services.Events.Register<TopicSelectedEvent>(onTopicSelected);
 		Services.Events.Register<BeginDialogueEvent>(onBeginDialogueEvent);
 		Services.Events.Register<EndDialogueEvent>(onDialogueEnded);
 		Services.Events.Register<RecordingIsOverEvent>(onRecordingEnded);
-		
 	}
 
+    #region Overview private void OnDestroy()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Unregistering for events when being destroyed to stop any null reference errors                                 */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void OnDestroy()
     {
         Services.Events.Unregister<RecordingFolderSelectedEvent>(onRecordingFolderSelecetd);
@@ -121,36 +169,44 @@ public class HARTO_UI_Interface : MonoBehaviour
         Services.Events.Unregister<RecordingIsOverEvent>(onRecordingEnded);
     }
 
-    void ReloadMenu(Action[] newOptions)
+    #region Overview private void ReloadMenu(Action[] newOptions)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Reloading the HARTO screen by deleting the old one and making a new one in its place                            */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          Action[] newOptions: the icons on the reloaded HARTO screen                                                 */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void ReloadMenu(Action[] newOptions)
 	{
-
 		menuSpawner.DestroyMenu();
 		options = newOptions;
 		if(player.npcAstridIsTalkingTo == null)
 		{
 			newOptions = empty;
 		}
-		//menuSpawner.ResetMenu();
-
-
-
-		menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected, true);
-        
+		menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected, true);   
 	}
 
-	/*void ReloadMenuOpenFolder(Action[] newOptions){
-		options = newOptions;
-		if(player.npcAstridIsTalkingTo == null)
-		{
-			newOptions = empty;
-		}
-		//menuSpawner.ResetMenu();
-
-
-		menuSpawner.ReloadDestroyMenu();
-	}*/
-
-	public void ToggleDialogueMode()
+    #region Overview public void ToggleDialogueMode()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*          Visual changes when in toggling dialogue and recording modes.                                               */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public void ToggleDialogueMode()
 	{
 		if (isHARTOActive)
 		{
@@ -163,26 +219,21 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 			if(closingHARTOForFirstTime && !usingBeornsHARTO)
 			{
-				
 				Services.Events.Fire(new ClosingHARTOForTheFirstTimeEvent());
 				closingHARTOForFirstTime = false;
 				closedTutorialUsingRecordingSwitch = true;
-				// freeze mouse clicks here
 			}
 			dialogueModeActive = !dialogueModeActive;
 			if(dialogueModeActive)
 			{
 				if (!topicSelected)
 				{
-					Debug.Log ("reloading menu when not topicselected");
 					ReloadMenu(topics);
 				}
 				else
 				{
-					Debug.Log ("reloading menu when topicselected");
 					ReloadMenu(emotions);
-				}
-					
+				}	
 			}
 			else
 			{
@@ -194,12 +245,25 @@ public class HARTO_UI_Interface : MonoBehaviour
                 {
                     ReloadMenu(recordingFolders);
                 }
-				
 			}
 		}
 	}
 
-	void OnRecordingFolderSelected(GameEvent e)
+    #region Overview private void OnRecordingFolderSelected(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Reloading the HARTO screen with the appropriate recordings                                                     */
+    /*       OnRecordingelected event is fired in RadialMenu.cs in void DetermineEvent(RadialIcon icon)                     */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnRecordingFolderSelected(GameEvent e)
 	{
         menuSpawner.DestroyMenu();
         if (((RecordingFolderSelectedEvent)e).folder.Contains("Ruth"))
@@ -214,7 +278,21 @@ public class HARTO_UI_Interface : MonoBehaviour
 		recordingFolderSelected = true;
 	}
 
-	void OnTopicSelected(GameEvent e)
+    #region Overview private void OnTopicSelected(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Reloading the HARTO screen with emotion icons                                                                  */
+    /*       OnRecordingelected event is fired in RadialMenu.cs in void DetermineEvent(RadialIcon icon)                     */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTopicSelected(GameEvent e)
 	{	
 		if (currentNPC != ((TopicSelectedEvent)e).npcName)
 		{
@@ -225,7 +303,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 				topics[i].color = Color.white;
 			}
 			topicSelected = true;
-			Debug.Log ("reloading with emotions OnTopicSelected");
 			ReloadMenu(emotions);
 		}
 
@@ -245,7 +322,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 				{
 					updatedTopics[j] = topics[j];
 				}
-				Debug.Log ("reloading with emotions OnTopicSelected forloop");
 				ReloadMenu(emotions);
 				break;
 			}
@@ -255,16 +331,44 @@ public class HARTO_UI_Interface : MonoBehaviour
 		{
 			topics = updatedTopics;
 		}
-		
 	}
 
-	void OnBeginDialogueEvent(GameEvent e)
+    #region Overview private void OnBeginDialogueEvent(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Reloading the HARTO screen with topic icons                                                                    */
+    /*       BeginDialogueEvent event is fired in EventScript.cs in                                                         */
+    /*       void InitResponseScriptWith(string characterName, bool astridTalksFirst)                                       */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnBeginDialogueEvent(GameEvent e)
 	{
 		inConversation = true;
 		GameManager.instance.inConversation = inConversation;
 	}
 
-	void OnDialogueEnded(GameEvent e)
+    #region Overview private void OnDialogueEnded(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Reloading the HARTO screen with topic icons                                                                    */
+    /*       DialogueEnded event is fired in EventScript.cs in IEnumerator PlayEventDialogue(string characterName)          */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnDialogueEnded(GameEvent e)
 	{
 		if(((EndDialogueEvent)e).topicName.Contains("Exit") && !closedTutorialUsingRecordingSwitch)
 		{
@@ -301,12 +405,22 @@ public class HARTO_UI_Interface : MonoBehaviour
 		GameManager.instance.inConversation = inConversation;
 	}
 
-    void OnRecordingSelected(GameEvent e)
+    #region Overview private void OnRecordingSelected(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Contorlling which recording you can listen to                                                                  */
+    /*       OnRecordingelected event is fired in RadialMenu.cs in void DetermineEvent(RadialIcon icon)                     */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnRecordingSelected(GameEvent e)
     {
-        //canDisableHARTO = false;
-        //toggle movement here?
-    	//Services.Events.Fire(new DisablePlayerMovementEvent(true));
-
         if (!usingBeornsHARTO)
         {
             if (allRuthRecordingsPlayed)
@@ -432,20 +546,63 @@ public class HARTO_UI_Interface : MonoBehaviour
         }
     }
 
-    void OnRecordingEnded(GameEvent e)
+    #region Overview private void OnRecordingEnded(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Resetting the recording menu allowing the player to play another                                               */
+    /*       OnRecordingelected event is fired in RecordingManager.cs in                                                    */
+    /*       IEnumerator RecordingIsPlaying(float recordingLength)                                                          */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnRecordingEnded(GameEvent e)
 	{
 		recordingFolderSelected = false;
         canDisableHARTO = true;
 	}
 
-	public IEnumerator WaitForExitScript()
+    #region Overview IEnumerator WaitForExitScript()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Freezing player's the End conversation is played between Astrid and Priya				                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          The type of objects to enumerate.                                                                           */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    public IEnumerator WaitForExitScript()
 	{
 		yield return new WaitForSeconds(14.0f);
         menuSpawner.DestroyMenu();
         Services.Events.Fire(new DisablePlayerMovementEvent(false));
     }
 
-	void FindPlayer()
+    #region Overview private void FindPlayer()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the player if the player reference is null                                 				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindPlayer()
 	{
 		if (nextTimeToSearch <= Time.time)
 		{
@@ -458,7 +615,21 @@ public class HARTO_UI_Interface : MonoBehaviour
 		}
 	}
 
-    void FindRadialMenuSpawner()
+    #region Overview private void FindRadialMenuSpawner()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Finding the RadialMenuSpawner if the RadialMenuSpawner reference is null                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void FindRadialMenuSpawner()
     {
         if (nextTimeToSearch <= Time.time)
         {
@@ -471,12 +642,24 @@ public class HARTO_UI_Interface : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update () 
+    #region Overview private void Update()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running once per frame					                                                                    */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Update () 
 	{
         if(GameManager.instance.pickedUpBeornsHARTO == true)
         {
-			
             usingBeornsHARTO = true;
         }
 
@@ -494,7 +677,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 
 		if (Input.GetKeyDown(toggleHARTO) && !inConversation && (GameManager.instance.hasPriyaSpoken || GameManager.instance.isTestScene) && canDisableHARTO)
 		{
-			
 			Services.Events.Fire(new ToggleHARTOEvent());
 			isHARTOActive = !isHARTOActive;
 			if (!isHARTOActive && !GameManager.instance.completedOneTopic && !GameManager.instance.isTestScene)
@@ -505,7 +687,6 @@ public class HARTO_UI_Interface : MonoBehaviour
 			{
 				if(isHARTOActive)
 				{
-					
 					if(player.npcAstridIsTalkingTo == null)
 					{
 						topics = empty;
@@ -513,11 +694,8 @@ public class HARTO_UI_Interface : MonoBehaviour
                     menuSpawner.SpawnMenu(this, player,dialogueModeActive, topicSelected, false);
                     clip = Resources.Load("Audio/SFX/HARTO_SFX/OpenHARTO") as AudioClip;
 
-                    if (!audioSource.isPlaying && !clipHasBeenPlayed)
-                    {
-                        //audioSource.PlayOneShot(clip);
-                    }
                     Services.Events.Fire(new DisablePlayerMovementEvent(true));
+
                     if(!audioSource.isPlaying)
                     {
                         clipHasBeenPlayed = true;
@@ -541,8 +719,6 @@ public class HARTO_UI_Interface : MonoBehaviour
                         menuSpawner.DestroyMenu();
                         Services.Events.Fire(new DisablePlayerMovementEvent(false));
                     }
-
-
                 }
 			}
 		}

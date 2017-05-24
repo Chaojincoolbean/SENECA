@@ -1,20 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ChrsUtils.ChrsEventSystem.GameEvents;
-using ChrsUtils.ChrsEventSystem.EventsManager;
 using SenecaEvents;
 
+#region PuzzleWall.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    Logic for Puzzle wall animations and managing the solved state are controlled here                                */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          private:                                                                                                    */
+/*                 private void Start()                                                                                 */
+/*                 private void OnDestroy()                                                                             */
+/*                 private void OnPuzzleCompleted(GameEvent e)                                                          */
+/*                 private void OnTriggerEnter2D(Collider2D collider)                                                   */
+/*                 private void OnTriggerExit2D(Collider2D collider)                                                    */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class PuzzleWall : MonoBehaviour 
 {
 	public BoxCollider2D puzzleTrigger;
 	public UtanPuzzle utanPuzzle;
 	public PuzzleWallMover puzzleWall;
+
 	private const string PLAYER = "Player";
 	private BoxCollider2D[] colliders;
+
 	private PuzzleCompletedEvent.Handler onPuzzleCompleted;
-	// Use this for initialization
-	void Start () 
+
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
 		puzzleTrigger = GetComponent<BoxCollider2D>();
 
@@ -22,43 +49,90 @@ public class PuzzleWall : MonoBehaviour
 		puzzleWall = GameObject.Find("PuzzleWall").GetComponent<PuzzleWallMover>();
 		utanPuzzle.anim.SetBool("IsActive", false);
 		puzzleWall.anim.SetBool("Solved", false);
+
 		onPuzzleCompleted = new PuzzleCompletedEvent.Handler(OnPuzzleCompleted);
 		Services.Events.Register<PuzzleCompletedEvent>(onPuzzleCompleted);
 	}
 
-	void OnDestroy()
+    #region Overview private void OnDestroy()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Unregistering for events when being destroyed to stop any null reference errors                                 */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnDestroy()
 	{
 		Services.Events.Unregister<PuzzleCompletedEvent>(onPuzzleCompleted);
 	}
 
-	void OnPuzzleCompleted(GameEvent e)
+    #region Overview private void OnSceneChange(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Setting the appropriate variables for a solved puzzle                                                           */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The event that was fired                                                                       */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnPuzzleCompleted(GameEvent e)
 	{
-		Debug.Log("Nice job!");
 		puzzleWall.anim.SetBool("Solved", true);
 		utanPuzzle.anim.SetBool("IsActive", false);
 		GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 1);
 	}
 
-	void OnTriggerEnter2D(Collider2D collider)
+    #region Overview private void OnTriggerEnter2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Making the puzzle appear                                                        				            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTriggerEnter2D(Collider2D collider)
 	{
 		if (collider.tag == PLAYER)
 		{
-			//	Animation to make puzzle appear goes here
 			utanPuzzle.anim.SetBool("IsActive", true);
 		}
 	}
 
-	void OnTriggerExit2D(Collider2D collider)
+    #region Overview private void OnTriggerExit2D(Collider2D collider)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Making the puzzle disappear                                                 					            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          Collider2D collider: the object you collided with                                                           */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnTriggerExit2D(Collider2D collider)
 	{
 		if (collider.tag == PLAYER)
 		{
 			utanPuzzle.anim.SetBool("IsActive", false);
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
 	}
 }

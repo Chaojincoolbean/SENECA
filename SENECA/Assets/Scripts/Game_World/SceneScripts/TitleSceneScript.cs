@@ -1,11 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GameScenes;
+﻿using GameScenes;
 
+#region TitleSceneScript.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This is the Scene script attached to the title screen.                                                            */
+/*                                                                                                                      */
+/*    TitleSceneScript.cs is responsible  for:                                                                          */
+/*    Setting bools for the player visiting a scene to false                                                            */
+/*                                                                                                                      */
+/*    TitleScene logic is handled in Scripts -> HARTO -> HARTO_UI -> TitleMenu_HARTO.cs                                 */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*          internal:                                                                                                   */
+/*                 internal override void OnEnter(TransitionData data)                                                  */
+/*                 internal override void OnExit()                                                                      */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class TitleSceneScript : Scene<TransitionData> 
 {
-	internal override void OnEnter(TransitionData data)
+    #region Overview internal override void OnEnter(TransitionData data)
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when entering a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*          TradnsitionData data: A class with structs that represent data stored between each scene.                   */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    internal override void OnEnter(TransitionData data)
 	{
         TransitionData.Instance.SENECA_CAMPSITE.visitedScene = false;
         TransitionData.Instance.SENECA_FORK.visitedScene = false;
@@ -25,11 +53,21 @@ public class TitleSceneScript : Scene<TransitionData>
         TransitionData.Instance.UTAN_ROAD.visitedScene = false;
         TransitionData.Instance.UTAN_ROCKS.visitedScene = false;
 
-
-
     }
 
-	internal override void OnExit()
-	{
-	}
+    #region Overview internal override void OnExit()
+    /************************************************************************************************************************/
+    /*                                                                                                                      */
+    /*      Responsible for:                                                                                                */
+    /*          Running when exiting a scene					                                                            */
+    /*                                                                                                                      */
+    /*      Parameters:                                                                                                     */
+    /*           None                                                                                                       */
+    /*                                                                                                                      */
+    /*      Returns:                                                                                                        */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    internal override void OnExit() { }
 }

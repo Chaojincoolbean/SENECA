@@ -2,24 +2,35 @@
 using SenecaEvents;
 using ChrsUtils.ChrsEventSystem.GameEvents;
 
-#region DialogueManager Overview
-/*
-    This is a GameObject-Component based dialogue system where VO files are found based
-    the navigation of the Hierarchy tab of Unity. Think of each GameObject as a folder
-    that eventually leades to a file.
-
-    Where to Find in Unity:
-    In the Hierarchy Tab in Unity: SenecaSystem -> HARTO-> DialogueManager
-
-    Dialogue Manager contains teh list of scenes and each scene there is an event.
-    In the case of Seneca, an event is a conversation topic.
-
-    The Dialogue Manager serves the the starting point for any 2 person conversation in the game 
-    that is not a recording.
-  
- */ 
-#endregion 
-
+#region GameManager.cs Overview
+/************************************************************************************************************************/
+/*                                                                                                                      */
+/*    This is a GameObject-Component based dialogue system where VO files are found based                               */
+/*    the navigation of the Hierarchy tab of Unity. Think of each GameObject as a folder                                */
+/*    that eventually leades to a file.                                                                                 */
+/*                                                                                                                      */
+/*   Where to Find in Unity:                                                                                            */
+/*    In the Hierarchy Tab in Unity: SenecaSystem -> HARTO-> DialogueManager                                            */
+/*                                                                                                                      */
+/*    Dialogue Manager contains the list of scenes and each scene there is an event.                                    */
+/*    In the case of Seneca, an event is a conversation topic.                                                          */
+/*                                                                                                                      */
+/*    The Dialogue Manager serves the the starting point for any 2 person conversation in the game                      */
+/*    that is not a recording.                                                                                          */
+/*                                                                                                                      */
+/*    Function List as of 5/20/2017:                                                                                    */
+/*           private:                                                                                                   */
+/*                 private void Start()                                                                                 */
+/*                 private void OnDestroy()                                                                             */
+/*                 private void OnEndGame(GameEvent e)                                                                  */
+/*                 private void OnBeginGame(GameEvent e)                                                                */
+/*                 private void OnBeginTutorial(GameEvent e)                                                            */
+/*                 private void OnClosingHARTOForTheFirstTime(GameEvent e)                                              */
+/*                 private void OnTopicSelected(GameEvent e)                                                            */
+/*                 private void InitDialogueEvent(string topic, int sceneNumber, string npcName, bool astridTalksFirst) */
+/*                                                                                                                      */
+/************************************************************************************************************************/
+#endregion
 public class DialogueManager : MonoBehaviour 
 {
 	public EventScript[] Events;                                    //  List of events. Populates automatically
@@ -50,9 +61,20 @@ public class DialogueManager : MonoBehaviour
     private TopicSelectedEvent.Handler onTopicSelected;                                     //  A delegate connected to the Event System.
     private ClosingHARTOForTheFirstTimeEvent.Handler onClosingHARTOForTheFirstTime;         //  A delegate connected to the Event System.
 
-
-    // Use this for initialization
-    void Start () 
+    #region Overview private void Start()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Initalizing variables. Runs once at the beginning of the program                                                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void Start () 
 	{
 		SceneNumber = 1;
 
@@ -63,21 +85,6 @@ public class DialogueManager : MonoBehaviour
 		onTopicSelected = new TopicSelectedEvent.Handler(OnTopicSelected);
 		onClosingHARTOForTheFirstTime = new ClosingHARTOForTheFirstTimeEvent.Handler(OnClosingHARTOForTheFirstTime);
 
-        #region Quick Overview of Event System
-        /*
-                Event System is found in: ChrsUtils -> Events=Manager
-
-                Overview:
-                If we want a script to respond to a thing that happens in another script without coupling the scripts together,
-                We use the Events Manager.
-
-                How it works:
-                We register a delegate to a GameEvent  (GameEvents are found in SenecaEvent.cs). When we fire that event using the
-                Event Manager, the delegate is executed by the computer
-                
-         */
-        #endregion
-
         //  Registers delegates for events
         Services.Events.Register<EndGameEvent>(onEndGame);
         Services.Events.Register<BeginGameEvent>(onBeginGame);
@@ -86,6 +93,19 @@ public class DialogueManager : MonoBehaviour
 		Services.Events.Register<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
 	}
 
+    #region Overview private void OnDestroy()
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      Unregistering for events when being destroyed to stop any null reference errors                                 */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          None                                                                                                        */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
     private void OnDestroy()
     {
         Services.Events.Unregister<EndGameEvent>(onEndGame);
@@ -95,69 +115,122 @@ public class DialogueManager : MonoBehaviour
         Services.Events.Unregister<ClosingHARTOForTheFirstTimeEvent>(onClosingHARTOForTheFirstTime);
     }
 
-    void OnEndGame(GameEvent e)
+    #region Overview private void OnEndGame(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      This function is called when the EndGameEvent event is fired.                                                   */
+    /*      EndGame event is fired in BackToSeneca.cs in void OnTriggerEnter2D(Collider2D col)                              */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
+    #endregion
+    private void OnEndGame(GameEvent e)
     {
         SceneNumber = 2;
         InitDialogueEvent(EVENT_RUTH, SceneNumber, RUTH, GameManager.instance.whoTalksFirst["Event_Ruth2Ruth"]);
     }
 
-    #region OnBeginGame Overview
-    /*
-            This function is called when the BeginGame event is fired.
-
-            BeginGame event is fired in Mom.cs in void OnTriggerEnter2D(Collider2D col)
-     */
+    #region Overview private void OnBeginGame(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*      This function is called when the BeginGame event is fired.                                                      */
+    /*      BeginGame event is fired in Mom.cs in void OnTriggerEnter2D(Collider2D col)                                     */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
     #endregion
-    void OnBeginGame(GameEvent e)
+    private void OnBeginGame(GameEvent e)
 	{
 		InitDialogueEvent(EVENT_START_GAME, SceneNumber, PRIYA, GameManager.instance.whoTalksFirst["Event_Start_Game1Priya"]);
-	}
+    }
 
-    #region OnBeginTutorial Overview
-    /*
-            This function is called when the BeginTutorial event is fired.
-
-            BeginTutorial event is fired in Mom.cs in void OnToggleHARTO(GameEvent e)
-     */
+    #region Overview private void OnBeginTutorial(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       This function is called when the BeginTutorial event is fired.                                                 */
+    /*       BeginTutorial event is fired in Mom.cs in void OnToggleHARTO(GameEvent e)                                      */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
     #endregion
-    void OnBeginTutorial(GameEvent e)
+    private void OnBeginTutorial(GameEvent e)
 	{
 		InitDialogueEvent(EVENT_MEETING_TUTORIAL, SceneNumber, PRIYA, GameManager.instance.whoTalksFirst["Event_Tutorial1Priya"]);
 	}
 
-    #region OnClosingHARTOForTheFirstTime Overview
-    /*
-            This function is called when the OnClosingHARTOForTheFirstTime event is fired.
-
-            OnClosingHARTOForTheFirstTime event is fired in HARTO_UI_Interface.cs in void Update()
-     */
+    #region Overview private void OnClosingHARTOForTheFirstTim(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       This function is called when the OnClosingHARTOForTheFirstTime event is fired.                                 */
+    /*       OnClosingHARTOForTheFirstTime event is fired in HARTO_UI_Interface.cs in void Update()                         */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
     #endregion
-    void OnClosingHARTOForTheFirstTime(GameEvent e)
+    private void OnClosingHARTOForTheFirstTime(GameEvent e)
 	{
         Debug.Log("dialoguemanager");
 		InitDialogueEvent(EVENT_EXIT, SceneNumber, PRIYA, GameManager.instance.whoTalksFirst["Event_Exit1Priya"]);
 	}
 
-    #region OnTopicSelected Overview
-    /*
-            This function is called when the OnTopicSelected event is fired.
-
-            OnTopicSelected event is fired in RadialMenu.cs in void DetermineEvent(RadialIcon icon)
-     */
+    #region Overview private void OnTopicSelected(GameEvent e)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       This function is called when the OnTopicSelected event is fired.                                               */
+    /*       OnTopicSelected event is fired in RadialMenu.cs in void DetermineEvent(RadialIcon icon)                        */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          GameEvent e: The Event that called this delegate                                                            */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
     #endregion
-    void OnTopicSelected(GameEvent e)
+    private void OnTopicSelected(GameEvent e)
 	{
 		string selectedEvent = EVENT_PREFIX + ((TopicSelectedEvent)e).topicName.Replace(TOPIC_PREFIX, "");
 		bool astridTalksFirst =  GameManager.instance.whoTalksFirst[selectedEvent+SceneNumber +((TopicSelectedEvent)e).npcName];
 		InitDialogueEvent(selectedEvent, SceneNumber,((TopicSelectedEvent)e).npcName, astridTalksFirst);		
 	}
 
-    #region InitDialogueEvent Overview
-    /*
-            Initiates the dialogue based on the topic selected, scenenumber, NPC, and who should talk first
-     */
+    #region Overview private void InitDialogueEvent(string topic, int sceneNumber ,string npcName, bool astridTalksFirst)
+    /************************************************************************************************************************/
+    /*    Responsible for:                                                                                                  */
+    /*       Initiates the dialogue based on the topic selected, scenenumber, NPC, and who should talk first                */
+    /*                                                                                                                      */
+    /*    Parameters:                                                                                                       */
+    /*          string topic: The name of the topic                                                                         */
+    /*          int sceneNumber: The current scene number                                                                   */
+    /*          string npcName: Who Astrid is talking to                                                                    */
+    /*          bool astridTalksFirst: Whether or not Astrid talks first                                                    */
+    /*                                                                                                                      */
+    /*    Returns:                                                                                                          */
+    /*          Nothing                                                                                                     */
+    /*                                                                                                                      */
+    /************************************************************************************************************************/
     #endregion
-    void InitDialogueEvent(string topic, int sceneNumber ,string npcName, bool astridTralksFirst)
+    private void InitDialogueEvent(string topic, int sceneNumber ,string npcName, bool astridTalksFirst)
 	{
 		GameObject sceneFolder = GameObject.Find(SCENE + SceneNumber);
         
@@ -167,7 +240,7 @@ public class DialogueManager : MonoBehaviour
             EventScript thisEvent = sceneFolder.transform.FindChild(topic).GetComponent<EventScript>();
 			if (thisEvent != null)
 			{
-                thisEvent.InitResponseScriptWith(npcName, astridTralksFirst);
+                thisEvent.InitResponseScriptWith(npcName, astridTalksFirst);
 			}
 			else
 			{
